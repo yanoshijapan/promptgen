@@ -1,0 +1,3019 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromptGen Dashboard - Character, Outfit, Env, Product & Storyboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #0f172a; color: #e2e8f0; }
+        .glass-panel { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .custom-scroll::-webkit-scrollbar { width: 8px; height: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Tab Active States */
+        .tab-active { background-color: #2563eb !important; color: white !important; box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3); }
+        .tab-inactive { background: rgba(30, 41, 59, 0.5); color: #94a3b8; border: 1px solid rgba(255, 255, 255, 0.05); }
+        .tab-inactive:hover { background: rgba(30, 41, 59, 0.9); color: white; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- UNIFIED STICKY HEADER & NAV MENU -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-slate-700 shadow-xl flex flex-col">
+        <!-- Top Bar -->
+        <div class="container mx-auto px-4 h-16 flex items-center justify-between shrink-0">
+            <div class="flex items-center gap-3">
+                <i class="fa-solid fa-bolt text-blue-500 text-2xl"></i>
+                <h1 class="text-xl font-bold text-white hidden md:block">PromptGen <span class="text-blue-500">Dashboard</span></h1>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="resetData()" class="px-3 py-2 bg-red-500/10 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-all text-sm font-semibold flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-left"></i> <span class="hidden sm:inline">Mulai dari Awal</span>
+                </button>
+                <button onclick="toggleModal('aiModal')" class="px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all text-sm font-semibold flex items-center gap-2 shadow-lg shadow-blue-500/30">
+                    <i class="fa-solid fa-robot"></i> <span class="hidden sm:inline">Buka AI</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Tabs -->
+        <div class="container mx-auto px-4 pb-3">
+            <div class="flex gap-2 overflow-x-auto custom-scroll pb-2">
+                <button id="tabChar" onclick="switchMainTab('char')" class="tab-active px-4 py-2 rounded-lg whitespace-nowrap font-semibold transition-all flex flex-col items-start text-left min-w-[140px] md:min-w-[160px]">
+                    <span class="text-[10px] font-bold tracking-wider text-blue-200 uppercase mb-0.5">Step 1</span>
+                    <span class="text-sm md:text-base">Character DNA</span>
+                </button>
+                <button id="tabOutfit" onclick="switchMainTab('outfit')" class="tab-inactive px-4 py-2 rounded-lg whitespace-nowrap font-semibold transition-all flex flex-col items-start text-left min-w-[140px] md:min-w-[160px]">
+                    <span class="text-[10px] font-bold tracking-wider opacity-70 uppercase mb-0.5">Step 2</span>
+                    <span class="text-sm md:text-base">Outfit DNA</span>
+                </button>
+                <button id="tabEnv" onclick="switchMainTab('env')" class="tab-inactive px-4 py-2 rounded-lg whitespace-nowrap font-semibold transition-all flex flex-col items-start text-left min-w-[140px] md:min-w-[160px]">
+                    <span class="text-[10px] font-bold tracking-wider opacity-70 uppercase mb-0.5">Step 3</span>
+                    <span class="text-sm md:text-base">Environment DNA</span>
+                </button>
+                <button id="tabProduct" onclick="switchMainTab('product')" class="tab-inactive px-4 py-2 rounded-lg whitespace-nowrap font-semibold transition-all flex flex-col items-start text-left min-w-[140px] md:min-w-[160px]">
+                    <span class="text-[10px] font-bold tracking-wider opacity-70 uppercase mb-0.5">Step 4</span>
+                    <span class="text-sm md:text-base">Product DNA</span>
+                </button>
+                <button id="tabStory" onclick="switchMainTab('story')" class="tab-inactive px-4 py-2 rounded-lg whitespace-nowrap font-semibold transition-all flex flex-col items-start text-left min-w-[140px] md:min-w-[160px]">
+                    <span class="text-[10px] font-bold tracking-wider opacity-70 uppercase mb-0.5">Step 5</span>
+                    <span class="text-sm md:text-base">Storyboard</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-6 flex-grow">
+        
+        <!-- ============================== -->
+        <!-- SECTION 1: CHARACTER DNA       -->
+        <!-- ============================== -->
+        <div id="sectionChar" class="fade-in block">
+            <div class="glass-panel rounded-xl p-6 shadow-2xl mb-8 border border-slate-700/50">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+                    <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-dna text-blue-500 mr-2"></i> Parameter Karakter</h2>
+                    <button onclick="clearForm('charFields')" class="text-sm text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1">
+                        <i class="fa-solid fa-eraser"></i> Hapus Kolom
+                    </button>
+                </div>
+                <form id="charForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></form>
+                <div class="mt-8 flex justify-end">
+                    <button type="button" onclick="generatePromptChar()" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-lg shadow-lg shadow-blue-500/30 transform transition hover:-translate-y-1 w-full md:w-auto text-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Buat Prompt Karakter
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultCharSection" class="glass-panel rounded-xl p-6 shadow-2xl mb-8 hidden fade-in border border-green-500/30 bg-slate-900/50">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-green-400"><i class="fa-solid fa-check-circle mr-2"></i> Prompt Karakter Berhasil Dibuat</h2>
+                    <div class="flex gap-2">
+                        <button onclick="copyText('promptCharText')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded text-sm transition-colors"><i class="fa-solid fa-copy"></i> Copy</button>
+                        <button onclick="exportText('promptCharText', 'Character_DNA_Prompt.txt')" class="px-3 py-1.5 bg-green-600 hover:bg-green-500 rounded text-sm transition-colors"><i class="fa-solid fa-download"></i> Save .txt</button>
+                    </div>
+                </div>
+                <textarea id="promptCharText" class="w-full h-96 bg-slate-950 text-green-300 p-4 rounded-lg border border-slate-700 focus:outline-none focus:border-blue-500 font-mono text-sm custom-scroll resize-y"></textarea>
+            </div>
+        </div>
+
+        <!-- ============================== -->
+        <!-- SECTION 2: OUTFIT DNA          -->
+        <!-- ============================== -->
+        <div id="sectionOutfit" class="fade-in hidden">
+            <!-- Outfit Mode Toggle -->
+            <div class="flex bg-slate-800 p-1 rounded-lg w-full md:w-fit mx-auto mb-8 shadow-lg border border-slate-700">
+                <button id="btnOutRef" onclick="switchOutfitMode('ref')" class="flex-1 md:px-8 py-2.5 rounded-md font-semibold transition-all bg-blue-600 text-white shadow">Dari Referensi Gambar</button>
+                <button id="btnOutScr" onclick="switchOutfitMode('scr')" class="flex-1 md:px-8 py-2.5 rounded-md font-semibold transition-all text-slate-400 hover:text-white">Dari Nol (Tanpa Referensi)</button>
+            </div>
+
+            <!-- MODE A: DARI REFERENSI -->
+            <div id="modeOutfitRef" class="block fade-in">
+                <!-- INSTRUCTION BOX + NOTE -->
+                <div class="bg-blue-900/30 border border-blue-500/30 rounded-xl p-6 mb-6">
+                    <h3 class="text-lg font-bold text-blue-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
+                    <p class="text-slate-300 leading-relaxed text-sm mb-4">
+                        Buka ChatGPT lalu masukan beberapa gambar atau referensi pakaian, usahakan gambar pakaian yang terpisah (contoh : atasan memiliki gambar sendiri, bawahan memiliki gambar sendiri dan alas kaki memiliki gambar sendiri (total gambar pakaian ada 3 gambar)).<br><br>
+                        Lalu masukan juga gambar character DNA yang sudah dibuat di step 1 sebelumnya, jadi total inputan gambar ada 4 (1 character DNA dan 3 gambar referensi outfit).<br><br>
+                        Lalu copy dan paste prompt di bawah ini untuk generate outfit DNA sheet. Selamat mencoba!
+                    </p>
+                    
+                    <div class="bg-blue-950/50 border border-blue-500/40 rounded-lg p-4 mt-2">
+                        <h4 class="text-sm font-bold text-blue-300 mb-1"><i class="fa-solid fa-lightbulb text-yellow-400 mr-1"></i> Note:</h4>
+                        <p class="text-xs text-slate-300 mb-4 leading-relaxed">
+                            Jika Anda akan memberikan referensi pakaian yang terdapat desain atau artwork di bagian belakang dan depan badan, maka hasil akan lebih akurat saat Anda mengunggah gambar seperti ini beserta promptnya:
+                        </p>
+                        <img src="https://dummyimage.com/600x300/1e293b/60a5fa&text=LINK_GAMBAR_ANDA_DISINI" alt="Contoh Referensi Desain" class="w-full max-w-md mx-auto rounded border border-blue-500/30 shadow-lg object-cover">
+                    </div>
+                </div>
+                
+                <!-- PROMPT TEXTAREA -->
+                <div class="glass-panel rounded-xl p-6 shadow-2xl border border-blue-500/30 bg-slate-900/50">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-file-code mr-2"></i> Prompt Referensi Outfit</h2>
+                        <div class="flex gap-2">
+                            <button onclick="copyText('promptOutRefText')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded text-sm transition-colors"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button onclick="exportText('promptOutRefText', 'Outfit_Reference_Prompt.txt')" class="px-3 py-1.5 bg-green-600 hover:bg-green-500 rounded text-sm transition-colors"><i class="fa-solid fa-download"></i> Save .txt</button>
+                        </div>
+                    </div>
+                    <textarea id="promptOutRefText" class="w-full h-[500px] bg-slate-950 text-green-300 p-4 rounded-lg border border-slate-700 focus:outline-none focus:border-blue-500 font-mono text-sm custom-scroll resize-y" oninput="saveToLocal()"></textarea>
+                </div>
+            </div>
+
+            <!-- MODE B: DARI NOL (SCRATCH) -->
+            <div id="modeOutfitScr" class="hidden fade-in">
+                <div class="bg-indigo-900/30 border border-indigo-500/30 rounded-xl p-6 mb-6">
+                    <h3 class="text-lg font-bold text-indigo-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
+                    <p class="text-slate-300 leading-relaxed text-sm">
+                        Buka ChatGPT lalu masukan gambar character DNA yang sudah dibuat di step 1 sebelumnya, isi kolom penyesuaian outfit di bawah ini lalu klik buat prompt.<br><br>
+                        Lalu copy dan paste prompt yang sudah jadi untuk generate outfit DNA sheet. Selamat mencoba!
+                    </p>
+                </div>
+
+                <div class="glass-panel rounded-xl p-6 shadow-2xl mb-8 border border-slate-700/50">
+                    <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+                        <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-shirt text-indigo-400 mr-2"></i> Custom Outfit Parameter</h2>
+                        <button onclick="clearForm('outfitFields')" class="text-sm text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1">
+                            <i class="fa-solid fa-eraser"></i> Hapus Kolom
+                        </button>
+                    </div>
+                    <form id="outfitForm" class="grid grid-cols-1 md:grid-cols-2 gap-6"></form>
+                    
+                    <div class="mt-8 flex justify-end">
+                        <button type="button" onclick="generatePromptOutfit()" class="px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-lg shadow-lg shadow-indigo-500/30 transform transition hover:-translate-y-1 w-full md:w-auto text-lg flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Buat Prompt Outfit
+                        </button>
+                    </div>
+                </div>
+
+                <div id="resultOutScrSection" class="glass-panel rounded-xl p-6 shadow-2xl mb-8 hidden fade-in border border-indigo-500/30 bg-slate-900/50">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold text-indigo-400"><i class="fa-solid fa-check-circle mr-2"></i> Prompt Outfit Berhasil Dibuat</h2>
+                        <div class="flex gap-2">
+                            <button onclick="copyText('promptOutScrText')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded text-sm transition-colors"><i class="fa-solid fa-copy"></i> Copy</button>
+                            <button onclick="exportText('promptOutScrText', 'Outfit_Scratch_Prompt.txt')" class="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 rounded text-sm transition-colors"><i class="fa-solid fa-download"></i> Save .txt</button>
+                        </div>
+                    </div>
+                    <textarea id="promptOutScrText" class="w-full h-[500px] bg-slate-950 text-indigo-200 p-4 rounded-lg border border-slate-700 focus:outline-none focus:border-indigo-500 font-mono text-sm custom-scroll resize-y" oninput="saveToLocal()"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================== -->
+        <!-- SECTION 3: ENVIRONMENT DNA     -->
+        <!-- ============================== -->
+        <div id="sectionEnv" class="fade-in hidden">
+            
+            <div class="bg-amber-900/30 border border-amber-500/30 rounded-xl p-6 mb-6">
+                <h3 class="text-lg font-bold text-amber-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
+                <p class="text-slate-300 leading-relaxed text-sm">
+                    Setelah character DNA dan outfitnya sudah jadi dan sesuai, selanjutnya adalah pembuatan environment atau latar tempat karakter yang nantinya akan digunakan saat menyusun storyboard di step 5.<br><br>
+                    Silakan isi parameter di bawah ini sesuai latar tempat yang Anda inginkan, lalu buat prompt.<br>
+                    Setelah prompt jadi silakan langsung copy dan paste prompt ke chatGPT untuk generate environment DNA sheet.<br>
+                    Selamat mencoba!
+                </p>
+            </div>
+
+            <div class="glass-panel rounded-xl p-6 shadow-2xl mb-8 border border-slate-700/50">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+                    <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-mountain-city text-amber-500 mr-2"></i> Environment Parameter</h2>
+                    <button onclick="clearForm('envFields')" class="text-sm text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1">
+                        <i class="fa-solid fa-eraser"></i> Hapus Kolom
+                    </button>
+                </div>
+                <form id="envForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></form>
+                
+                <div class="mt-8 flex justify-end">
+                    <button type="button" onclick="generatePromptEnv()" class="px-8 py-3 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white font-bold rounded-lg shadow-lg shadow-amber-500/30 transform transition hover:-translate-y-1 w-full md:w-auto text-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Buat Prompt Environment
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultEnvSection" class="glass-panel rounded-xl p-6 shadow-2xl mb-8 hidden fade-in border border-amber-500/30 bg-slate-900/50">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-amber-400"><i class="fa-solid fa-check-circle mr-2"></i> Prompt Environment Berhasil Dibuat</h2>
+                    <div class="flex gap-2">
+                        <button onclick="copyText('promptEnvText')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded text-sm transition-colors"><i class="fa-solid fa-copy"></i> Copy</button>
+                        <button onclick="exportText('promptEnvText', 'Environment_DNA_Prompt.txt')" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 rounded text-sm transition-colors"><i class="fa-solid fa-download"></i> Save .txt</button>
+                    </div>
+                </div>
+                <textarea id="promptEnvText" class="w-full h-[500px] bg-slate-950 text-amber-200 p-4 rounded-lg border border-slate-700 focus:outline-none focus:border-amber-500 font-mono text-sm custom-scroll resize-y" oninput="saveToLocal()"></textarea>
+            </div>
+        </div>
+
+        <!-- ============================== -->
+        <!-- SECTION 4: PRODUCT / OBJECT    -->
+        <!-- ============================== -->
+        <div id="sectionProduct" class="fade-in hidden">
+            
+            <div class="bg-teal-900/30 border border-teal-500/30 rounded-xl p-6 mb-6">
+                <h3 class="text-lg font-bold text-teal-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
+                <p class="text-slate-300 leading-relaxed text-sm">
+                    Disini akan dibuatkaan DNA untuk produk atau objek spesifik yang akan digunakan oleh karakter.<br>
+                    Cukup isi parameter objek di bawah ini dan jika Anda memiliki gambar/foto referensi objek atau produk, silakan di unggah bersamaan dengan prompt dibawah yang telah di buat ke chatGPT.
+                </p>
+            </div>
+
+            <div class="glass-panel rounded-xl p-6 shadow-2xl mb-8 border border-slate-700/50">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+                    <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-box-open text-teal-500 mr-2"></i> Product / Object Parameter</h2>
+                    <button onclick="clearForm('productFields')" class="text-sm text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1">
+                        <i class="fa-solid fa-eraser"></i> Hapus Kolom
+                    </button>
+                </div>
+                <form id="productForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></form>
+                
+                <div class="mt-8 flex justify-end">
+                    <button type="button" onclick="generatePromptProduct()" class="px-8 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-bold rounded-lg shadow-lg shadow-teal-500/30 transform transition hover:-translate-y-1 w-full md:w-auto text-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Buat Prompt Product
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultProductSection" class="glass-panel rounded-xl p-6 shadow-2xl mb-8 hidden fade-in border border-teal-500/30 bg-slate-900/50">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-teal-400"><i class="fa-solid fa-check-circle mr-2"></i> Prompt Product Berhasil Dibuat</h2>
+                    <div class="flex gap-2">
+                        <button onclick="copyText('promptProductText')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded text-sm transition-colors"><i class="fa-solid fa-copy"></i> Copy</button>
+                        <button onclick="exportText('promptProductText', 'Product_DNA_Prompt.txt')" class="px-3 py-1.5 bg-teal-600 hover:bg-teal-500 rounded text-sm transition-colors"><i class="fa-solid fa-download"></i> Save .txt</button>
+                    </div>
+                </div>
+                <textarea id="promptProductText" class="w-full h-[500px] bg-slate-950 text-teal-200 p-4 rounded-lg border border-slate-700 focus:outline-none focus:border-teal-500 font-mono text-sm custom-scroll resize-y" oninput="saveToLocal()"></textarea>
+            </div>
+        </div>
+
+        <!-- ============================== -->
+        <!-- SECTION 5: STORYBOARD          -->
+        <!-- ============================== -->
+        <div id="sectionStory" class="fade-in hidden">
+            
+            <div class="bg-rose-900/30 border border-rose-500/30 rounded-xl p-6 mb-6">
+                <h3 class="text-lg font-bold text-rose-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
+                <p class="text-slate-300 leading-relaxed text-sm">
+                    Setelah gambar karakter DNA, outfit DNA, objek/produk DNA dan environment DNA, selanjutnya isi parameter di bawah ini untuk membuat alur cerita atau storyboard yang di inginkan, lalu buat prompt.<br>
+                    Setelah prompt di buat copy promptnya, lalu buka chatGPT dan masukkan 4 gambar yaitu gambar karakter DNA, outfit DNA, objek/produk DNA dan environment DNA lalu paste promptnya. Selamat mencoba!
+                </p>
+            </div>
+
+            <div class="glass-panel rounded-xl p-6 shadow-2xl mb-8 border border-slate-700/50">
+                <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
+                    <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-clapperboard text-rose-500 mr-2"></i> Storyboard Parameter</h2>
+                    <button onclick="clearForm('storyFields')" class="text-sm text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1">
+                        <i class="fa-solid fa-eraser"></i> Hapus Kolom
+                    </button>
+                </div>
+                <!-- Formulir grid 3 kolom untuk Desktop -->
+                <form id="storyForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></form>
+                
+                <div class="mt-8 flex justify-end">
+                    <button type="button" onclick="generatePromptStory()" class="px-8 py-3 bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-bold rounded-lg shadow-lg shadow-rose-500/30 transform transition hover:-translate-y-1 w-full md:w-auto text-lg flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Buat Prompt Storyboard
+                    </button>
+                </div>
+            </div>
+
+            <div id="resultStorySection" class="glass-panel rounded-xl p-6 shadow-2xl mb-8 hidden fade-in border border-rose-500/30 bg-slate-900/50">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-rose-400"><i class="fa-solid fa-check-circle mr-2"></i> Prompt Storyboard Berhasil Dibuat</h2>
+                    <div class="flex gap-2">
+                        <button onclick="copyText('promptStoryText')" class="px-3 py-1.5 bg-slate-700 hover:bg-slate-600 rounded text-sm transition-colors"><i class="fa-solid fa-copy"></i> Copy</button>
+                        <button onclick="exportText('promptStoryText', 'Storyboard_Prompt.txt')" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 rounded text-sm transition-colors"><i class="fa-solid fa-download"></i> Save .txt</button>
+                    </div>
+                </div>
+                <textarea id="promptStoryText" class="w-full h-[500px] bg-slate-950 text-rose-200 p-4 rounded-lg border border-slate-700 focus:outline-none focus:border-rose-500 font-mono text-sm custom-scroll resize-y" oninput="saveToLocal()"></textarea>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL AI -->
+    <div id="aiModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex-col items-center justify-center p-4 fade-in">
+        <div class="w-full max-w-5xl h-[85vh] bg-slate-800 rounded-xl overflow-hidden flex flex-col border border-slate-600 shadow-2xl">
+            <div class="p-3 bg-slate-900 flex justify-between items-center border-b border-slate-700">
+                <span class="font-bold text-blue-400"><i class="fa-solid fa-robot mr-2"></i> AI Assistant</span>
+                <button onclick="toggleModal('aiModal')" class="text-slate-400 hover:text-red-500 text-xl px-2"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <iframe src="https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat" class="w-full h-full border-none bg-white"></iframe>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // ==========================================
+        // 1. DATA FORM FIELD (CHARACTER)
+        // ==========================================
+        const charFields = [
+            { id: "nama", label: "NAMA KARAKTER", desc: "Nama lengkap atau panggilan karakter yang dibuat.", options: ["Alex Mercer", "Luna Valerius", "Kael", "Sarah", "Jin Sakai"] },
+            { id: "topik", label: "TOPIK KONTEN", desc: "Niche atau tema utama dari konten yang akan dibuat.", options: ["Tech / Gadget Review", "Fashion & Lifestyle", "Gaming & Esports", "Comedy & Skits", "Horror & Misteri"] },
+            { id: "audience", label: "TARGET AUDIENCE", desc: "Kelompok umur/kalangan target penonton.", options: ["Gen Z (13-24 tahun)", "Millennials (25-40 tahun)", "Pekerja Kantoran", "Anak-anak", "Umum"] },
+            { id: "peran", label: "PERAN KARAKTER", desc: "Posisi atau fungsi karakter dalam cerita/konten.", options: ["Protagonis Utama", "Expert / Penasihat", "Pelawak", "Antagonis", "Pengamat"] },
+            { id: "konsep", label: "KONSEP (2-4 Kalimat)", desc: "Inti cerita atau latar belakang karakter secara singkat.", options: ["Seorang hacker jenius yang sinis.", "Detektif eksentrik namun cerdas.", "Kesatria modern yang jujur.", "Ilmuwan gila tapi ramah.", "Gadis misterius penyimpan rahasia."], isTextarea: true },
+            { id: "kepribadian", label: "KEPRIBADIAN", desc: "Sifat dasar atau temperamen karakter.", options: ["Introvert & Analitis", "Ekstrovert & Enerjik", "Ambivert & Santai", "Melankolis", "Koleris"] },
+            { id: "energy", label: "ENERGY", desc: "Tingkat energi atau vibe yang dipancarkan saat tampil.", options: ["Tenang", "Lucu", "Chaos", "Bijak", "Dingin / Barbar"] },
+            { id: "gaya_bicara", label: "GAYA BICARA", desc: "Cara karakter berkomunikasi dan bertutur kata.", options: ["Sangat Formal", "Gaul & Penuh Slang", "Sarkas", "Terbata-bata", "Bersemangat"] },
+            { id: "ciri_khas", label: "CIRI KHAS", desc: "Ciri fisik atau kebiasaan unik yang paling menonjol.", options: ["Memakai kacamata hitam bulat", "Ada bekas luka di pipi", "Rambut ekor kuda", "Tato naga di leher", "Mengunyah permen karet"] },
+            { id: "kalimat_khas", label: "KALIMAT KHAS", desc: "Kata-kata atau jargon (slogan) yang sering diucapkan.", options: ["Tunggu, biar aku yang urus.", "Wah, gila sih ini...", "Menurut perhitunganku, tamat.", "Bisa santai sedikit nggak?", "Menarik... mari coba."] },
+            { id: "warna_utama", label: "WARNA UTAMA", desc: "Warna dominan yang menjadi identitas karakter.", options: ["Deep Crimson Red", "Midnight Blue", "Forest Green", "Obsidian Black", "Pure White"] },
+            { id: "warna_sekunder", label: "WARNA SEKUNDER", desc: "Warna pendukung pada desain atau pakaian karakter.", options: ["Mustard Yellow", "Ash Grey", "Leather Brown", "Navy Blue", "Soft Pink"] },
+            { id: "warna_aksen", label: "WARNA AKSEN", desc: "Warna kecil namun mencolok sebagai pemanis visual.", options: ["Neon Cyan", "Gold Metallic", "Bright Magenta", "Silver Chrome", "Toxic Green"] },
+            { id: "outfit", label: "DESKRIPSI OUTFIT", desc: "Deskripsi umum pakaian yang sering dikenakan.", options: ["Cyberpunk techwear", "Jas formal slim-fit", "Kaos vintage oversized", "Jubah penyihir modern", "Seragam taktis hitam"] },
+            { id: "aksesori", label: "AKSESORI", desc: "Barang pelengkap yang dipakai pada tubuh (jam, kalung, dll).", options: ["Jam tangan mekanik", "Kalung liontin perak", "Banyak tindik", "Cincin tengkorak", "Sarung tangan setengah jari"] },
+            { id: "properti", label: "PROPERTI", desc: "Barang bawaan atau alat yang sering dipegang/dibawa.", options: ["Laptop berstiker", "Kamera analog vintage", "Pedang katana", "Buku tebal bersampul kulit", "Cangkir kopi keramik"] },
+            { id: "kepribadian_dom", label: "KEPRI. DOMINAN", desc: "Sifat dominan yang paling mudah disadari oleh orang lain.", options: ["Sangat Percaya Diri", "Sangat Pemalu", "Emosional", "Pemikir Kritis", "Selalu Ceria"] },
+            { id: "ekspresi_dom", label: "EKSPRESI DOMINAN", desc: "Raut wajah yang paling sering ditunjukkan.", options: ["Senyum misterius", "Muka datar (Poker face)", "Sering tertawa", "Sinis satu alis terangkat", "Selalu kaget/panik"] },
+            { id: "bahasa_tubuh", label: "BAHASA TUBUH", desc: "Gestur atau postur tubuh karakter saat diam/bergerak.", options: ["Menyilangkan tangan", "Membungkuk", "Banyak menggerakkan tangan", "Kaku", "Bersandar pada dinding"] },
+            { id: "sikap", label: "SIKAP", desc: "Cara pandang (attitude) karakter terhadap sekitarnya.", options: ["Sangat Positif", "Pesimis", "Masa Bodoh / Apatis", "Sangat Hormat", "Pemberontak"] },
+            { id: "nama_auto", label: "NAMA (Auto)", desc: "Terisi otomatis mengikuti isian Nama Karakter di awal.", options: ["(Akan terisi otomatis)"], readonly: true },
+            { id: "deskripsi_singkat", label: "DESKRIPSI SINGKAT", desc: "Julukan atau ringkasan karakter dalam 1 baris (Title).", options: ["Sang Jenius yang Kesepian", "Pemberontak dari Masa Depan", "Ksatria Terakhir", "Pengamat dalam Bayangan", "Pelawak di Tengah Kehancuran"] },
+            { id: "catchphrase", label: "CATCHPHRASE", desc: "Penegasan kembali kalimat ikonik dari karakter.", options: ["Tunggu, biar aku yang urus.", "Wah, gila sih ini...", "Menurut perhitunganku, tamat.", "Bisa santai sedikit nggak?", "Menarik... mari coba."] },
+            { id: "sig_action", label: "SIGNATURE ACTION", desc: "Gerakan atau pose ikonik yang sering dilakukan.", options: ["Menunjuk kamera", "Merapikan kacamata", "Memijat pelipis", "Memainkan koin", "Mengedipkan mata"] },
+            { id: "properti_utama", label: "PROPERTI UTAMA", desc: "Barang paling penting yang tidak pernah lepas dari karakter.", options: ["Laptop berstiker", "Kamera analog", "Pedang katana", "Buku tebal", "Skateboard"] },
+            { id: "properti_tambahan", label: "PROPERTI TAMBAHAN", desc: "Barang ekstra yang sesekali dibawa karakter.", options: ["Tas ransel tactical", "Headphone", "Topi beanie", "Syal merah tebal", "Kacamata hitam aviator"] },
+            { id: "color1", label: "COLOR 1", desc: "Kode warna Hex untuk referensi palet.", options: ["#1A1A1A (Dark)", "#FF3366 (Neon Pink)", "#00E5FF (Cyan)", "#FFFFFF (White)", "#FFD700 (Gold)"] },
+            { id: "color2", label: "COLOR 2", desc: "Kode warna Hex untuk referensi palet.", options: ["#333333 (Grey)", "#1E88E5 (Blue)", "#43A047 (Green)", "#E53935 (Red)", "#8E24AA (Purple)"] },
+            { id: "color3", label: "COLOR 3", desc: "Kode warna Hex untuk referensi palet.", options: ["#F5F5F5 (Light Grey)", "#FFB300 (Amber)", "#00897B (Teal)", "#3949AB (Indigo)", "#D81B60 (Pink)"] },
+            { id: "color4", label: "COLOR 4", desc: "Kode warna Hex untuk referensi palet.", options: ["#212121 (Black)", "#FDD835 (Yellow)", "#7CB342 (Light Green)", "#039BE5 (Light Blue)", "#FB8C00 (Orange)"] }
+        ];
+
+        // ==========================================
+        // 2. DATA FORM FIELD (OUTFIT SCRATCH)
+        // ==========================================
+        const outfitFields = [
+            { id: "out_concept", label: "KONSEP OUTFIT KESELURUHAN", desc: "Deskripsi singkat mengenai gaya pakaian yang diinginkan.", options: ["AI Decides (Biarkan AI yang menentukan)", "Urban Techwear Ninja", "Formal Mafia Suit", "Casual Vintage Skater", "Post-apocalyptic Survivor"] },
+            { id: "out_style", label: "KATEGORI STYLE (GAYA)", desc: "Kategori fashion utama dari outfit ini.", options: ["AI Decides (Biarkan AI yang menentukan)", "Streetwear / Urban", "Casual / Santai", "Formal / Business", "Futuristic / Cyberpunk"] },
+            { id: "out_impression", label: "KESAN PAKAIAN (IMPRESSION)", desc: "Aura atau perasaan yang terpancar dari pakaian.", options: ["AI Decides (Biarkan AI yang menentukan)", "Intimidating / Menakutkan", "Cool / Keren & Misterius", "Approachable / Ramah", "Chaotic / Berantakan"] },
+            { id: "out_upper", label: "PAKAIAN ATAS", desc: "Desain baju/jaket/lapisan atas karakter.", options: ["AI Decides (Biarkan AI yang menentukan)", "Jaket parka tebal dengan tudung besar", "Kaos polos oversized warna gelap", "Kemeja flanel kotak-kotak tidak dikancing", "Rompi anti peluru taktis"] },
+            { id: "out_lower", label: "PAKAIAN BAWAH", desc: "Desain celana/rok karakter.", options: ["AI Decides (Biarkan AI yang menentukan)", "Celana cargo dengan banyak kantong", "Jeans robek-robek (Ripped jeans)", "Celana bahan kain formal slim fit", "Celana pendek olahraga di atas lutut"] },
+            { id: "out_footwear", label: "ALAS KAKI", desc: "Sepatu, sendal, atau boots yang digunakan.", options: ["AI Decides (Biarkan AI yang menentukan)", "Sepatu sneakers high-top retro", "Sepatu boots kulit pantofel hitam", "Sepatu lari / running shoes modern", "Sepatu boots militer tebal (Combat boots)"] },
+            { id: "out_headwear", label: "AKSESORIS KEPALA", desc: "Topi, helm, atau beanie.", options: ["AI Decides (Biarkan AI yang menentukan)", "None (Tidak pakai aksesoris kepala)", "Topi baseball dibalik", "Beanie rajut menutupi telinga", "Topi fedora klasik"] },
+            { id: "out_eyewear", label: "KACAMATA", desc: "Kacamata baca, kacamata hitam, dsb.", options: ["AI Decides (Biarkan AI yang menentukan)", "None (Tidak pakai kacamata)", "Kacamata hitam (Sunglasses) gelap", "Kacamata baca frame bulat klasik", "Kacamata pelindung futuristik / goggles"] },
+            { id: "out_acc", label: "AKSESORIS TAMBAHAN", desc: "Perhiasan, tas, jam tangan, dll.", options: ["AI Decides (Biarkan AI yang menentukan)", "Jam tangan digital sport besar", "Tas selempang kecil (Sling bag)", "Kalung rantai tebal", "Sarung tangan kulit hitam"] },
+            { id: "out_signature", label: "ELEMEN KHAS (SIGNATURE)", desc: "Satu item mencolok yang jadi ciri khas karakter ini.", options: ["AI Decides (Biarkan AI yang menentukan)", "Syal panjang berwarna mencolok", "Ikat pinggang dengan gesper tengkorak", "Pin/Badge logo unik di dada kiri", "Satu lengan baju yang selalu digulung"] },
+            { id: "out_pref_colors", label: "WARNA UTAMA YANG DIINGINKAN", desc: "Palet warna yang dominan pada pakaian.", options: ["AI Decides (Biarkan AI yang menentukan)", "Dominan Hitam dengan aksen Merah", "Earth Tones (Coklat, Hijau Zaitun, Krem)", "Monokrom (Putih, Abu-abu, Hitam)", "Neon (Cyan cerah & Pink)"] },
+            { id: "out_avoid_colors", label: "WARNA PANTANGAN", desc: "Warna yang TIDAK BOLEH ada di outfit ini.", options: ["None (Tidak ada pantangan)", "Warna-warna cerah/neon", "Warna merah", "Warna pink/pastel", "Warna gelap"] },
+            { id: "out_material", label: "JENIS BAHAN MATERIAL", desc: "Kain yang dominan digunakan pada baju/celana.", options: ["AI Decides (Biarkan AI yang menentukan)", "Denim tebal & Kulit sintetis", "Katun ringan & Linen", "Kain parasut (Nylon) anti air", "Kain beludru mahal & Sutra"] },
+            { id: "out_wear", label: "TINGKAT KEUSANGAN (WEATHERING)", desc: "Seberapa bersih atau kotor/rusak pakaian tersebut.", options: ["AI Decides (Biarkan AI yang menentukan)", "NEW (Sangat baru & bersih)", "SLIGHTLY USED (Sedikit lecek wajar)", "WORN (Pudar & jahitan mulai usang)", "HEAVILY WEATHERED (Kotor, penuh noda & robek)"] },
+            { id: "out_practical", label: "KEBUTUHAN PRAKTIS", desc: "Fungsi khusus pakaian. (Misal: Banyak saku).", options: ["AI Decides (Biarkan AI yang menentukan)", "Banyak kantong untuk menyimpan gadget", "Pakaian ringan untuk mobilitas tinggi", "Bahan tahan api dan goresan", "Desain hangat menahan badai salju"] },
+            { id: "out_col_pri", label: "WARNA PRIMER", desc: "Kode Hex/Nama Warna dasar yang mendominasi.", options: ["AI Decides (Biarkan AI yang menentukan)", "#1A1A1A (Hitam)", "#8B4513 (Coklat Kulit)", "#003366 (Biru Dongker)", "#F5F5DC (Beige/Krem)"] },
+            { id: "out_col_sec", label: "WARNA SEKUNDER", desc: "Warna pendukung urutan kedua.", options: ["AI Decides (Biarkan AI yang menentukan)", "#555555 (Abu-abu Gelap)", "#556B2F (Hijau Zaitun)", "#B22222 (Merah Bata)", "#E6E6FA (Lavender)"] },
+            { id: "out_col_acc", label: "WARNA AKSEN", desc: "Warna terang/mencolok untuk logo atau detail.", options: ["AI Decides (Biarkan AI yang menentukan)", "#FF4500 (Oranye Neon)", "#00FF00 (Hijau Neon)", "#FFD700 (Emas)", "#FF00FF (Magenta)"] },
+            { id: "out_col_neu", label: "WARNA NETRAL", desc: "Warna penyeimbang (biasanya kaos dalam/sepatu).", options: ["AI Decides (Biarkan AI yang menentukan)", "#FFFFFF (Putih Murni)", "#D3D3D3 (Abu-abu Terang)", "#000000 (Hitam Murni)", "#A9A9A9 (Abu-abu Gelap)"] },
+            { id: "out_col_mat", label: "WARNA MATERIAL ALAMI", desc: "Warna bahan kulit tas, sepatu, besi resleting, dll.", options: ["AI Decides (Biarkan AI yang menentukan)", "Silver metal & Brown leather", "Matte black metal & Black leather", "Gold brass & Light tan leather", "Rusted iron & Faded canvas"] },
+            { id: "out_feel", label: "PERASAAN YANG DITIMBULKAN", desc: "Emosi saat orang melihat outfit karakter ini.", options: ["AI Decides (Biarkan AI yang menentukan)", "Terasa mengancam dan tidak ramah", "Terasa profesional, rapi, dan bisa diandalkan", "Terasa santai, cuek, dan bebas", "Terasa kuno namun elegan penuh sejarah"] }
+        ];
+
+        // ==========================================
+        // 3. DATA FORM FIELD (ENVIRONMENT)
+        // ==========================================
+        const envFields = [
+            { id: "env_location", label: "LOKASI UTAMA", desc: "Tempat utama di mana adegan terjadi.", options: ["AI DECIDES", "Jalanan Kota (City Street)", "Kamar Tidur (Bedroom)", "Kafe / Restoran", "Kantor / Tempat Kerja", "Hutan / Alam Terbuka", "Gudang Terbengkalai", "Stasiun Kereta"] },
+            { id: "env_setting", label: "SETTING SPESIFIK", desc: "Detail khusus dari lokasi (Misal: Sudut meja).", options: ["AI DECIDES", "Di trotoar depan toko buku tua", "Duduk di sofa kulit hitam", "Berdiri di depan mesin kasir", "Bersandar di pagar jembatan", "Di gang sempit yang remang", "Di dalam gerbong kereta yang kosong"] },
+            { id: "env_geo", label: "GEOGRAFIS (KOTA/NEGARA)", desc: "Nuansa wilayah tempat tersebut.", options: ["AI DECIDES", "Tokyo, Jepang", "Jakarta, Indonesia", "New York, USA", "London, UK", "Desa Tradisional Asia", "Paris, Prancis"] },
+            { id: "env_time", label: "WAKTU", desc: "Kapan adegan ini terjadi.", options: ["AI DECIDES", "DAWN", "MORNING", "AFTERNOON", "GOLDEN HOUR", "SUNSET", "NIGHT", "LATE NIGHT"] },
+            { id: "env_weather", label: "CUACA", desc: "Kondisi cuaca di lokasi.", options: ["AI DECIDES", "SUNNY", "CLOUDY", "RAINY", "DRIZZLE", "FOGGY", "HUMID", "WINDY"] },
+            { id: "env_climate", label: "IKLIM / KONDISI MUSIM", desc: "Kondisi iklim alam musiman.", options: ["AI DECIDES", "TROPICAL", "DRY", "HUMID", "COLD", "WET"] },
+            { id: "env_density", label: "KEPADATAN LOKASI", desc: "Berapa banyak orang atau kendaraan di latar belakang.", options: ["AI DECIDES", "EMPTY", "QUIET", "MODERATE", "BUSY", "CROWDED"] },
+            { id: "env_architecture", label: "GAYA ARSITEKTUR", desc: "Gaya bangunan di sekitar.", options: ["AI DECIDES", "MODERN", "OLD", "INDUSTRIAL", "RESIDENTIAL", "COMMERCIAL", "TRADITIONAL", "MIXED"] },
+            { id: "env_ground", label: "PERMUKAAN TANAH", desc: "Pijakan atau lantai yang terlihat.", options: ["AI DECIDES", "ASPHALT", "CONCRETE", "TILE", "COBBLESTONE", "DIRT", "GRASS", "MIXED"] },
+            { id: "env_light_src", label: "SUMBER CAHAYA", desc: "Dari mana asal cahaya yang menerangi karakter.", options: ["AI DECIDES", "SUNLIGHT", "STREET LAMPS", "NEON", "BUILDING LIGHTS", "VEHICLE LIGHTS", "MIXED"] },
+            { id: "env_light_mood", label: "NUANSA PENCAHAYAAN", desc: "Suasana warna cahaya secara keseluruhan.", options: ["AI DECIDES", "WARM", "COOL", "NEUTRAL", "MOODY", "SOFT", "CONTRASTY"] },
+            { id: "env_atmosphere", label: "ATMOSFER", desc: "Perasaan yang dirasakan saat melihat lokasi ini.", options: ["AI DECIDES", "CALM", "LONELY", "CHAOTIC", "BUSY", "MYSTERIOUS", "COMFORTING", "ABSURD", "MELANCHOLIC"] },
+            { id: "env_cam_lang", label: "BAHASA KAMERA", desc: "Posisi dan sudut pandang kamera.", options: ["AI DECIDES", "DOCUMENTARY", "CINEMATIC", "HANDHELD", "POV", "STATIC", "EYE LEVEL", "LOW ANGLE"] },
+            { id: "env_cam_stab", label: "KESTABILAN KAMERA", desc: "Efek getaran pada visual (jika ada).", options: ["AI DECIDES", "STABLE", "SLIGHTLY SHAKY", "RAW HANDHELD"] },
+            { id: "env_bg_activity", label: "AKTIVITAS BACKGROUND", desc: "Apa yang terjadi di belakang karakter.", options: ["AI DECIDES", "Orang-orang berjalan lalu lalang dengan cepat", "Mobil-mobil melintas perlahan", "Hanya daun yang berguguran", "Seseorang sedang menyapu jalan", "Beberapa orang mengobrol di kejauhan", "Burung-burung beterbangan", "Tidak ada aktivitas (kosong)"] },
+            { id: "env_sig_element", label: "ELEMEN KHAS LINGKUNGAN", desc: "Benda ikonik yang selalu ada di lokasi ini.", options: ["AI DECIDES", "Tiang listrik berkarat dengan banyak kabel", "Kucing oren yang sedang tidur", "Papan reklame tua yang lampunya kedap-kedip", "Mesin penjual minuman (Vending Machine)", "Tong sampah biru yang tumpah", "Gerobak pedagang kaki lima", "Coretan grafiti spesifik di tembok"] },
+            { id: "env_color_pal", label: "ATMOSFER PALET WARNA", desc: "Dominasi warna keseluruhan pada lingkungan.", options: ["AI DECIDES", "Dominan Biru Malam dan Kuning Lampu", "Nuansa Sepia / Coklat Kuno", "Hijau Hutan dan Coklat Tanah", "Abu-abu Beton dan Putih", "Pink Neon dan Ungu Cyberpunk", "Cerah Warna-warni Pastel"] },
+            { id: "env_feel", label: "FEELING LINGKUNGAN", desc: "Satu kalimat yang merangkum vibe tempat ini.", options: ["AI DECIDES", "Terasa sangat sepi namun menenangkan hati", "Sangat kumuh, kotor, dan berbahaya", "Ceria, terang, penuh dengan energi positif", "Mencekam seperti ada yang mengawasi dari kegelapan", "Klasik, estetik, dan penuh dengan kehangatan nostalgia"] },
+            
+            // LIGHTING DNA
+            { id: "env_key_light", label: "KEY LIGHT (SUMBER UTAMA)", desc: "Cahaya utama yang menyorot lingkungan.", options: ["AI DECIDES", "Matahari sore dari samping", "Lampu sorot jalan dari atas", "Cahaya layar laptop/HP", "Lampu gantung di tengah ruangan"] },
+            { id: "env_fill_light", label: "FILL / AMBIENT LIGHT", desc: "Cahaya kedua untuk mengurangi bayangan gelap.", options: ["AI DECIDES", "Pantulan cahaya dari tembok putih", "Cahaya langit yang mendung", "Lampu neon kecil dari kejauhan", "Tidak ada (biarkan bayangan gelap)"] },
+            { id: "env_prac_light", label: "PRACTICAL LIGHTS", desc: "Lampu yang benar-benar terlihat di dalam adegan.", options: ["AI DECIDES", "Lampu meja belajar kuning", "Lampu sein mobil berkedip", "Papan nama toko menyala", "Lilin di atas meja"] },
+            { id: "env_temp", label: "TEMPERATUR WARNA CAHAYA", desc: "Suhu warna lampu/matahari.", options: ["AI DECIDES", "WARM", "COOL", "MIXED"] },
+            { id: "env_shadow", label: "KARAKTER BAYANGAN", desc: "Bentuk bayangan yang dihasilkan objek.", options: ["AI DECIDES", "SOFT", "HARD", "DIFFUSED"] },
+            { id: "env_reflection", label: "PERILAKU PANTULAN", desc: "Bagaimana objek memantulkan cahaya di sekitarnya.", options: ["AI DECIDES", "Genangan air memantulkan lampu neon", "Lantai mengkilap memantulkan cahaya putih", "Kaca jendela memantulkan pemandangan luar", "Bahan basah memantulkan cahaya jalan"] },
+            
+            // COLOR DNA
+            { id: "env_col_pri", label: "WARNA PRIMER", desc: "Warna yang paling banyak menutupi layar.", options: ["AI DECIDES", "Grey (Abu-abu aspal/beton)", "Green (Hijau dedaunan)", "Dark Blue (Biru langit malam)", "White (Putih salju/dinding)"] },
+            { id: "env_col_sec", label: "WARNA SEKUNDER", desc: "Warna penyeimbang.", options: ["AI DECIDES", "Brown (Coklat kayu/tanah)", "Yellow (Kuning lampu)", "Red (Merah bata)", "Black (Hitam gelap)"] },
+            { id: "env_col_acc", label: "WARNA AKSEN", desc: "Warna kecil mencolok yang menarik perhatian.", options: ["AI DECIDES", "Neon Red (Merah Neon)", "Bright Orange (Oranye Cerah)", "Cyan (Biru Muda)", "Magenta"] },
+            { id: "env_col_neu", label: "WARNA NETRAL", desc: "Warna yang mengikat palet keseluruhan.", options: ["AI DECIDES", "Muted Grey (Abu-abu kusam)", "Beige (Krem)", "Off-white (Putih gading)", "Charcoal (Abu tua)"] },
+            { id: "env_col_light", label: "WARNA CAHAYA", desc: "Warna dari lampu/matahari.", options: ["AI DECIDES", "Golden Yellow (Kuning Emas)", "Ice Blue (Biru Es)", "Pale White (Putih Pucat)", "Emerald Green (Hijau Zamrud)"] },
+            { id: "env_col_atm", label: "WARNA ATMOSFER", desc: "Warna hawa udara di lokasi (jika berkabut/berdebu).", options: ["AI DECIDES", "Dusty Orange (Debu Oranye)", "Murky Green (Kehijauan kotor)", "Deep Purple (Ungu malam)", "Crisp Blue (Biru jernih)"] }
+        ];
+
+        // ==========================================
+        // 4. DATA FORM FIELD (PRODUCT / OBJECT) - BARU
+        // ==========================================
+        const productFields = [
+            { id: "prod_name", label: "NAMA PRODUK / OBJEK", desc: "Nama spesifik dari objek/produk.", options: ["AI DECIDES", "Cyberpunk Smartwatch", "Tactical Backpack", "Minimalist Coffee Maker", "Futuristic Sneakers", "Vintage Film Camera", "Advanced Skincare Serum"] },
+            { id: "prod_cat", label: "KATEGORI PRODUK", desc: "Kategori umum benda tersebut.", options: ["AI DECIDES", "Wearable Technology", "Apparel & Accessories", "Home Appliance", "Cosmetics / Beauty", "Gadget / Electronics", "Weapon / Prop"] },
+            { id: "prod_purpose", label: "FUNGSI UTAMA", desc: "Kegunaan utama produk.", options: ["AI DECIDES", "Memantau kesehatan dan komunikasi", "Membawa barang dengan aman", "Menyeduh kopi otomatis", "Melindungi kulit dari sinar UV", "Merekam momen estetik", "Alat pertahanan diri"] },
+            { id: "prod_direction", label: "ARAHAN DESAIN", desc: "Fokus utama dari bahasa desainnya.", options: ["AI DECIDES", "Sleek and stealthy", "Rugged and durable", "Elegant and premium", "Ergonomic and user-friendly", "Bold and aggressive", "Simple and unobtrusive"] },
+            { id: "prod_style", label: "GAYA DESAIN", desc: "Style visual dari produk.", options: ["AI DECIDES", "MINIMAL", "INDUSTRIAL", "RETRO", "FUTURISTIC", "UTILITARIAN", "LUXURY", "VINTAGE", "ORGANIC", "TECHNICAL", "OTHER"] },
+            { id: "prod_char", label: "KARAKTER VISUAL", desc: "Kesan saat melihat produk ini.", options: ["AI DECIDES", "Terlihat sangat mahal dan rapuh", "Terlihat tangguh seperti standar militer", "Terlihat ramah lingkungan", "Terlihat seperti prototipe alien", "Terlihat klasik tak lekang oleh waktu", "Terlihat sangat kompleks dan teknis"] },
+            { id: "prod_use", label: "PENGGUNAAN (INTENDED USE)", desc: "Bagaimana produk ini digunakan sehari-hari.", options: ["AI DECIDES", "Dipakai di pergelangan tangan setiap saat", "Dibawa bepergian ke alam liar", "Diletakkan diam di atas meja dapur", "Dioleskan ke wajah setiap pagi", "Digenggam dengan satu tangan", "Disimpan di dalam saku"] },
+            { id: "prod_user", label: "TARGET PENGGUNA", desc: "Siapa yang biasanya menggunakan ini.", options: ["AI DECIDES", "Tech Enthusiast", "Outdoor Adventurer", "Professional Barista", "Beauty Influencer", "Street Photographer", "Cyberpunk Hacker"] },
+            // Dimensi
+            { id: "prod_len", label: "PANJANG KESELURUHAN", desc: "Panjang objek (Nilai + Satuan).", options: ["AI DECIDES", "15 cm", "45 cm", "120 mm", "2 meters", "10 inches", "50 mm"] },
+            { id: "prod_width", label: "LEBAR KESELURUHAN", desc: "Lebar objek (Nilai + Satuan).", options: ["AI DECIDES", "5 cm", "30 cm", "80 mm", "1 meter", "5 inches", "25 mm"] },
+            { id: "prod_height", label: "TINGGI KESELURUHAN", desc: "Tinggi objek (Nilai + Satuan).", options: ["AI DECIDES", "2 cm", "50 cm", "150 mm", "1.5 meters", "15 inches", "10 mm"] },
+            { id: "prod_thick", label: "KETEBALAN", desc: "Ketebalan objek (Nilai + Satuan).", options: ["AI DECIDES", "5 mm", "1 cm", "2.5 cm", "10 mm", "0.5 inches", "50 mm"] },
+            { id: "prod_diam", label: "DIAMETER", desc: "Diameter jika objek melingkar.", options: ["AI DECIDES", "N/A", "4 cm", "10 cm", "50 mm", "8 inches", "15 mm"] },
+            { id: "prod_weight", label: "BERAT", desc: "Estimasi berat objek.", options: ["AI DECIDES", "50 grams", "250 grams", "1.5 kg", "5 kg", "200 grams", "10 oz"] },
+            { id: "prod_scale_rel", label: "SKALA & PROPORSI", desc: "Perbandingan ukuran dengan benda lain.", options: ["AI DECIDES", "Seukuran telapak tangan orang dewasa", "Setinggi lutut manusia", "Seukuran kartu kredit", "Lebih besar dari tas punggung", "Seukuran koin", "Sepanjang lengan"] },
+            // Material & Finish
+            { id: "prod_fin_pri", label: "FINISHING UTAMA", desc: "Tekstur permukaan dominan.", options: ["AI DECIDES", "MATTE", "GLOSS", "SATIN", "BRUSHED", "POLISHED", "TEXTURED"] },
+            { id: "prod_fin_sec", label: "FINISHING SEKUNDER", desc: "Tekstur permukaan pendukung.", options: ["AI DECIDES", "MATTE", "GLOSS", "SATIN", "BRUSHED", "POLISHED", "TEXTURED", "N/A"] },
+            { id: "prod_tex", label: "TEKSTUR PERMUKAAN", desc: "Detail fisik permukaan.", options: ["AI DECIDES", "Halus tanpa celah", "Kasar berpasir (Sandblasted)", "Pola carbon fiber", "Serat kayu alami", "Kulit jeruk (Pebbled leather)", "Garis-garis grip (Ribbed)"] },
+            { id: "prod_ref", label: "TINGKAT PANTULAN CAHAYA", desc: "Seberapa mengkilap objek ini.", options: ["AI DECIDES", "LOW", "MEDIUM", "HIGH"] },
+            { id: "prod_imp", label: "MIKRO IMPERFEKSI", desc: "Cacat kecil bawaan pabrik/material.", options: ["AI DECIDES", "NONE", "SUBTLE", "MODERATE"] },
+            // Warna
+            { id: "prod_col_pri", label: "WARNA PRIMER", desc: "Warna yang paling dominan.", options: ["AI DECIDES", "Matte Black", "Titanium Silver", "Medical White", "Olive Drab Green", "Neon Cyan", "Crimson Red"] },
+            { id: "prod_col_sec", label: "WARNA SEKUNDER", desc: "Warna pendukung urutan kedua.", options: ["AI DECIDES", "Glossy Black", "Gunmetal Grey", "Warm Copper", "Desert Tan", "Bright Yellow", "Navy Blue"] },
+            { id: "prod_col_acc", label: "WARNA AKSEN", desc: "Warna mencolok pada detail kecil.", options: ["AI DECIDES", "Neon Red", "Electric Blue", "Gold", "Safety Orange", "Lime Green", "Magenta"] },
+            { id: "prod_col_neu", label: "WARNA NETRAL", desc: "Warna penyeimbang.", options: ["AI DECIDES", "White", "Grey", "Charcoal", "Beige", "Silver", "Black"] },
+            { id: "prod_col_var", label: "VARIANSI WARNA MATERIAL", desc: "Perubahan warna akibat material alami/gradasi.", options: ["AI DECIDES", "Warna memudar di bagian tepi", "Gradasi halus dari gelap ke terang", "Bercak alami seperti karat", "Pola marmer yang tidak beraturan", "Kilau pelangi pada logam bakar", "NONE"] },
+            // Grafis & Label
+            { id: "prod_logo", label: "LOGO", desc: "Logo yang tercetak pada produk.", options: ["AI DECIDES", "NONE", "Minimalist geometric icon", "Bold sans-serif typography", "Vintage crest emblem", "Cyberpunk glowing symbol", "Subtle debossed logo"] },
+            { id: "prod_text", label: "TEKS / LABEL", desc: "Teks yang tertulis jelas di produk.", options: ["NONE", "AI DECIDES", "WARNING: HIGH VOLTAGE", "PROTOTYPE-01", "100% ORGANIC", "MADE IN NEO-TOKYO", "FRAGILE"] },
+            { id: "prod_pattern", label: "POLA GRAFIS", desc: "Pola berulang pada permukaan.", options: ["AI DECIDES", "NONE", "Hexagon grid pattern", "Diagonal hazard stripes", "Floral damask", "Circuit board traces", "Camo print"] },
+            { id: "prod_graphic", label: "PENEMPATAN GRAFIS", desc: "Dimana grafis/teks diletakkan.", options: ["AI DECIDES", "Tengah depan dengan ukuran besar", "Disudut bawah sangat kecil", "Mengelilingi bagian tepi", "Di bagian belakang saja", "Tercetak di atas layar/kaca", "NONE"] },
+            { id: "prod_serial", label: "NOMOR SERI / PENANDA", desc: "Kode produksi atau barcode.", options: ["NONE", "AI DECIDES", "Laser-etched serial number on back", "Barcode sticker on bottom", "Stenciled military numbers on side", "QR code near the handle", "Holographic authenticity seal"] },
+            // Kondisi
+            { id: "prod_cond", label: "KONDISI PRODUK", desc: "Tingkat keusangan produk.", options: ["AI DECIDES", "BRAND NEW", "LIGHTLY USED", "USED", "WEATHERED", "DISTRESSED"] },
+            // Kamera & Teknis Visual
+            { id: "prod_cam_h", label: "TINGGI KAMERA", desc: "Sudut pandang lensa.", options: ["AI DECIDES", "EYE LEVEL", "SLIGHTLY ABOVE", "SLIGHTLY BELOW"] },
+            { id: "prod_lens", label: "KARAKTER LENSA", desc: "Gaya optik fotografi.", options: ["AI DECIDES", "STANDARD PRODUCT LENS", "TECHNICAL"] },
+            { id: "prod_persp", label: "PERSPEKTIF", desc: "Gaya gambar 3D vs Realistis.", options: ["AI DECIDES", "ORTHOGRAPHIC-LIKE", "NATURAL PERSPECTIVE"] },
+            { id: "prod_light", label: "PENCAHAYAAN (LIGHTING)", desc: "Lighting studio untuk produk.", options: ["AI DECIDES", "SOFTBOX", "THREE-POINT", "DIFFUSED", "HIGH CONTRAST"] },
+            { id: "prod_bg", label: "BACKGROUND LINGKUNGAN", desc: "Warna latar untuk DNA Sheet.", options: ["AI DECIDES", "WHITE", "LIGHT GRAY", "NEUTRAL"] },
+            // Produksi & Teknis Ekstra
+            { id: "prod_scale", label: "SKALA FOTOGRAFI", desc: "Kesan ukuran pada foto.", options: ["AI DECIDES", "REAL WORLD", "MINIATURE", "OVERSIZED"] },
+            { id: "prod_mfg", label: "METODE MANUFAKTUR", desc: "Cara objek ini dibuat (mempengaruhi visual tepi).", options: ["AI DECIDES", "INJECTION MOLDED", "CNC", "HANDMADE", "3D PRINTED", "SEWN", "FORGED"] },
+            { id: "prod_assm", label: "METODE PERAKITAN", desc: "Bagaimana bagian-bagiannya disatukan.", options: ["AI DECIDES", "Disatukan dengan baut L (Allen screws)", "Direkatkan tanpa jahitan (Seamless bonded)", "Dijahit tangan dengan benang tebal", "Sistem klik (Snap-fit)", "Dipaku keling (Riveted)", "Terbuat dari 1 bongkahan utuh (Unibody)"] },
+            { id: "prod_dur", label: "KETAHANAN YANG DIHARAPKAN", desc: "Fungsi ketahanan fisik.", options: ["AI DECIDES", "Tahan benturan keras (Shockproof)", "Mudah pecah (Fragile)", "Tahan gores (Anti-scratch)", "Bisa dilipat ratusan kali", "Tahan tekanan air dalam", "Tahan karat seumur hidup"] },
+            { id: "prod_water", label: "KETAHANAN AIR", desc: "Spesifikasi anti-air.", options: ["AI DECIDES", "NONE", "SPLASH RESISTANT", "WATER RESISTANT", "WATERPROOF"] },
+            { id: "prod_temp", label: "KETAHANAN SUHU", desc: "Apakah produk ini tahan panas/dingin.", options: ["AI DECIDES", "Tahan panas ekstrem (Fireproof)", "Tahan suhu beku", "Hanya untuk suhu ruangan", "Material mudah meleleh jika panas", "Dilengkapi heatsink pendingin", "NONE"] },
+            { id: "prod_spec", label: "FUNGSI KHUSUS LAINNYA", desc: "Requirement unik tambahan.", options: ["NONE", "AI DECIDES", "Bagian tertentu menyala (Glow in the dark)", "Bisa berubah bentuk (Transformable)", "Memiliki kompartemen rahasia", "Dilengkapi layar sentuh kecil", "Berfungsi ganda sebagai powerbank"] }
+        ];
+
+        // ==========================================
+        // 5. DATA FORM FIELD (STORYBOARD) - SEKARANG STEP 5
+        // ==========================================
+        const storyFields = [
+            { id: "sb_scene_num", label: "NOMOR SCENE", desc: "Urutan scene dalam video.", options: ["AI DECIDES", "Scene 1", "Scene 2", "Scene 3", "Scene 4", "Scene 5", "Scene 6", "Scene 7", "Scene 8", "Scene 9", "Scene 10"] },
+            { id: "sb_prod_name", label: "NAMA PRODUK", desc: "Nama produk atau objek yang dipromosikan.", options: ["AI DECIDES", "Skincare Serum", "Tech Gadget", "Fashion Apparel", "Food & Beverage", "Fitness Equipment", "Home Appliance", "Cosmetic Makeup", "Shoes/Sneakers", "Bag/Backpack", "Book/Course"] },
+            { id: "sb_prod_benefit", label: "MANFAAT PRODUK", desc: "Keunggulan atau manfaat utama produk.", options: ["AI DECIDES", "Mencerahkan kulit dalam 7 hari", "Baterai tahan seharian", "Bahan premium anti kusut", "Rasa enak & bebas gula", "Mudah digunakan pemula", "Hemat listrik & ramah lingkungan", "Melindungi dari sinar UV", "Nyaman dipakai seharian penuh", "Kapasitas besar & ringan", "Meningkatkan produktivitas"] },
+            { id: "sb_vid_dur", label: "TOTAL DURASI VIDEO", desc: "Total durasi keseluruhan video.", options: ["AI DECIDES", "10 seconds", "15 seconds", "20 seconds", "30 seconds", "45 seconds", "60 seconds", "90 seconds"] },
+            { id: "sb_scene_dur", label: "DURASI SCENE", desc: "Berapa lama scene ini berlangsung.", options: ["AI DECIDES", "2 seconds", "3 seconds", "5 seconds", "7 seconds", "10 seconds", "15 seconds", "20 seconds"] },
+            { id: "sb_vid_style", label: "GAYA VIDEO", desc: "Format atau genre video.", options: ["AI DECIDES", "UGC (User Generated Content)", "Storytelling", "Product Review", "Lifestyle Showcase", "Fashion Editorial", "Demonstration / How-to", "Unboxing", "Comedy / Skit", "Testimonial", "Cinematic Commercial"] },
+            { id: "sb_objective", label: "TUJUAN SCENE", desc: "Fungsi scene ini dalam keseluruhan video.", options: ["AI DECIDES", "Hook / Menarik Perhatian", "Problem / Menunjukkan Masalah", "Curiosity / Membuat Penasaran", "Discovery / Menemukan Solusi", "Reveal / Menampilkan Produk", "Proof / Pembuktian Kualitas", "Result / Menunjukkan Hasil", "Desire / Membangun Keinginan", "CTA / Call to Action"] },
+            { id: "sb_beat", label: "ALUR CERITA (STORY BEAT)", desc: "Apa yang terjadi pada scene ini secara berurutan.", options: ["AI DECIDES", "Karakter terlihat frustrasi lalu menemukan produk.", "Karakter tersenyum sambil menunjukkan produk ke kamera.", "Kamera mendekat melihat detail produk secara dekat.", "Karakter mendemonstrasikan cara menggunakan produk.", "Menampilkan perbandingan sebelum dan sesudah pakai.", "Karakter berbicara dengan antusias menjelaskan manfaat.", "Karakter santai menikmati hasil dari produk.", "Transisi dinamis menunjukkan berbagai sudut produk.", "Karakter menunjuk teks promo atau fitur utama.", "Scene penutup dengan logo dan ajakan bertindak."], isTextarea: true },
+            { id: "sb_special", label: "ARAHAN KHUSUS", desc: "Ide kreatif, latar, atau interaksi spesifik.", options: ["AI DECIDES", "Fokus macro pada tekstur/material produk.", "Pencahayaan berubah drastis menjadi lebih terang.", "Karakter melihat ke arah layar dengan tatapan kaget.", "Slow-motion saat produk digunakan.", "Angle kamera diambil dari sudut bawah (low angle).", "Latar belakang dibuat sedikit blur (bokeh).", "Ada efek angin yang menerpa rambut karakter.", "Karakter berinteraksi dengan environment sekitar.", "Produk diletakkan estetik di atas meja.", "Gunakan pencahayaan neon yang dramatis."], isTextarea: true },
+            { id: "sb_char_act", label: "AKSI KARAKTER (Opsional)", desc: "Gerakan utama karakter.", options: ["AI DECIDES", "Berbicara langsung ke arah lensa.", "Memegang wajah atau kepala karena pusing/bingung.", "Tersenyum lebar dan mengangguk puas.", "Berjalan mendekat ke arah kamera.", "Mengusap atau memakai produk di kulit.", "Mengetik atau menggunakan gadget.", "Mengangkat produk sejajar dengan wajah.", "Melakukan gestur tangan kaget (mindblown).", "Meminum atau memakan produk.", "Menunjuk ke arah tombol/bawah layar."] },
+            { id: "sb_prod_int", label: "INTERAKSI PRODUK (Opsional)", desc: "Bagaimana karakter menyentuh produk.", options: ["AI DECIDES", "Memegang produk dengan kedua tangan.", "Membuka tutup/kemasan produk.", "Menekan pump atau menyemprotkan produk.", "Mengusap tekstur produk dengan jari.", "Meletakkan produk di depan kamera.", "Mengangkat produk ke udara.", "Memakai produk ke tubuh.", "Menunjuk ke arah logo di produk.", "Menuangkan isi produk.", "Tidak ada interaksi (produk diam)."] },
+            { id: "sb_emotion", label: "KONDISI EMOSI (Opsional)", desc: "Perasaan yang ditampilkan karakter.", options: ["AI DECIDES", "Antusias & Sangat Gembira", "Frustrasi & Lelah", "Penasaran & Berpikir", "Terkejut & Mindblown", "Tenang & Percaya Diri", "Sedih & Kecewa", "Lucu & Ekspresif", "Serius & Profesional", "Ragu & Tidak Yakin", "Puas & Lega"] },
+            { id: "sb_camera", label: "PREFERENSI KAMERA (Opsional)", desc: "Angle dan pergerakan kamera.", options: ["AI DECIDES", "Extreme Close-up", "Close-up", "Medium Shot", "Medium Full Shot", "Wide / Long Shot", "POV (Point of View)", "Over the Shoulder", "Low Angle (Dari bawah)", "High Angle (Dari atas)", "Handheld Shaky Vlog Style"] },
+            { id: "sb_dialogue", label: "DIALOG (Maks 20 Kata - Opsional)", desc: "Apa yang diucapkan karakter.", options: ["AI DECIDES", "Sering ngalamin masalah ini? Aku punya solusinya!", "Akhirnya nemu produk yang beneran ngaruh di aku.", "Gila sih, kalian wajib banget cobain ini sekarang.", "Coba lihat deh perbedaannya, nyata banget kan?", "Jangan sampai nyesel karena kehabisan promonya!", "Ini rahasia aku bisa tetap tampil percaya diri.", "Cara pakainya gampang banget, tinggal usap gini aja.", "Hasilnya beneran di luar ekspektasi aku!", "Buat kalian yang sibuk, ini lifehack banget.", "Buruan klik link di bawah sebelum kehabisan!"] },
+            { id: "sb_panel_count", label: "JUMLAH PANEL", desc: "Berapa frame gambar dalam storyboard ini.", options: ["AI DECIDES", "2", "3", "4", "5", "6", "7", "8", "9", "10"] },
+            { id: "sb_vis_style", label: "GAYA VISUAL", desc: "Nuansa seni/fotografi dari storyboard.", options: ["AI DECIDES", "Realistic UGC commercial photography", "Cinematic documentary realism", "Bright, clean, and modern studio look", "Moody, dramatic, high-contrast lighting", "Vintage, retro film aesthetic", "Casual smartphone vlog footage", "Ultra-realistic macro product photography", "Vibrant, pop-art inspired commercial", "Soft, dreamy, pastel aesthetic", "Minimalist and elegant composition"] },
+            { id: "sb_cta", label: "CALL TO ACTION / CTA (Opsional)", desc: "Kalimat ajakan bertindak di akhir.", options: ["AI DECIDES", "Klik link di bio untuk beli!", "Dapatkan diskon 50% hari ini.", "Komen 'MAU' untuk link pembelian.", "Jangan lupa save dan share video ini.", "Checkout di keranjang kuning sekarang.", "Subscribe untuk tips lainnya.", "Kunjungi website kami untuk detailnya.", "Beli sekarang sebelum kehabisan!", "Gunakan kode promo FLASH20.", "Buktikan sendiri hasilnya sekarang!"] }
+        ];
+
+        // ==========================================
+        // 6. UI TAB LOGIC & RENDER FORM
+        // ==========================================
+        function switchMainTab(tab) {
+            // Hide all sections
+            document.getElementById('sectionChar').classList.add('hidden');
+            document.getElementById('sectionOutfit').classList.add('hidden');
+            document.getElementById('sectionEnv').classList.add('hidden');
+            document.getElementById('sectionProduct').classList.add('hidden');
+            document.getElementById('sectionStory').classList.add('hidden');
+            
+            // Reset all tab styling
+            ['tabChar', 'tabOutfit', 'tabEnv', 'tabProduct', 'tabStory'].forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    el.classList.replace('tab-active', 'tab-inactive');
+                    el.children[0].classList.replace('text-blue-200', 'opacity-70');
+                }
+            });
+
+            // Show selected tab
+            if(tab === 'char') {
+                document.getElementById('sectionChar').classList.remove('hidden');
+                document.getElementById('tabChar').classList.replace('tab-inactive', 'tab-active');
+                document.getElementById('tabChar').children[0].classList.replace('opacity-70', 'text-blue-200');
+            } else if(tab === 'outfit') {
+                document.getElementById('sectionOutfit').classList.remove('hidden');
+                document.getElementById('tabOutfit').classList.replace('tab-inactive', 'tab-active');
+                document.getElementById('tabOutfit').children[0].classList.replace('opacity-70', 'text-blue-200');
+            } else if(tab === 'env') {
+                document.getElementById('sectionEnv').classList.remove('hidden');
+                document.getElementById('tabEnv').classList.replace('tab-inactive', 'tab-active');
+                document.getElementById('tabEnv').children[0].classList.replace('opacity-70', 'text-blue-200');
+            } else if(tab === 'product') {
+                document.getElementById('sectionProduct').classList.remove('hidden');
+                document.getElementById('tabProduct').classList.replace('tab-inactive', 'tab-active');
+                document.getElementById('tabProduct').children[0].classList.replace('opacity-70', 'text-blue-200');
+            } else if(tab === 'story') {
+                document.getElementById('sectionStory').classList.remove('hidden');
+                document.getElementById('tabStory').classList.replace('tab-inactive', 'tab-active');
+                document.getElementById('tabStory').children[0].classList.replace('opacity-70', 'text-blue-200');
+            }
+            saveStateToLocal();
+        }
+
+        function switchOutfitMode(mode) {
+            document.getElementById('modeOutfitRef').classList.add('hidden');
+            document.getElementById('modeOutfitScr').classList.add('hidden');
+            
+            document.getElementById('btnOutRef').classList.remove('bg-blue-600', 'text-white', 'shadow');
+            document.getElementById('btnOutRef').classList.add('text-slate-400');
+            
+            document.getElementById('btnOutScr').classList.remove('bg-indigo-600', 'text-white', 'shadow');
+            document.getElementById('btnOutScr').classList.add('text-slate-400');
+
+            if(mode === 'ref') {
+                document.getElementById('modeOutfitRef').classList.remove('hidden');
+                document.getElementById('btnOutRef').classList.remove('text-slate-400');
+                document.getElementById('btnOutRef').classList.add('bg-blue-600', 'text-white', 'shadow');
+            } else if (mode === 'scr') {
+                document.getElementById('modeOutfitScr').classList.remove('hidden');
+                document.getElementById('btnOutScr').classList.remove('text-slate-400');
+                document.getElementById('btnOutScr').classList.add('bg-indigo-600', 'text-white', 'shadow');
+            }
+            saveStateToLocal();
+        }
+
+        function renderForm(fieldsArray, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            
+            fieldsArray.forEach(field => {
+                const div = document.createElement('div');
+                div.className = 'flex flex-col gap-1 bg-slate-800/40 p-3 rounded-lg border border-slate-700/50';
+                
+                const label = document.createElement('label');
+                label.className = 'text-sm font-bold text-slate-300 uppercase tracking-wide flex justify-between';
+                label.innerHTML = `${field.label}`;
+                div.appendChild(label);
+                
+                if(field.desc) {
+                    const desc = document.createElement('p');
+                    desc.className = 'text-[11px] text-slate-500 mb-1 leading-tight';
+                    desc.innerText = field.desc;
+                    div.appendChild(desc);
+                }
+
+                if(field.readonly) {
+                    div.innerHTML += `<input type="text" id="${field.id}" readonly class="w-full bg-slate-800/80 border border-slate-700 rounded-lg p-2.5 text-slate-500 cursor-not-allowed focus:outline-none" value="(Akan terisi otomatis)">`;
+                } else {
+                    const select = document.createElement('select');
+                    select.id = `sel_${field.id}`;
+                    select.className = 'w-full bg-slate-800 border border-slate-600 rounded-lg p-2.5 text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-colors appearance-none text-sm';
+                    
+                    let optionsHTML = `<option value="" disabled selected>Pilih salah satu...</option>`;
+                    field.options.forEach(opt => optionsHTML += `<option value="${opt}">${opt}</option>`);
+                    optionsHTML += `<option value="Lainnya">✍️ Isi Sendiri (Custom)...</option>`;
+                    
+                    select.innerHTML = optionsHTML;
+                    select.onchange = (e) => handleSelectChange(e.target, field.id, field.isTextarea);
+                    div.appendChild(select);
+
+                    if (field.isTextarea) {
+                        const textarea = document.createElement('textarea');
+                        textarea.id = `cust_${field.id}`;
+                        textarea.className = 'w-full bg-slate-900 border border-blue-500 rounded-lg p-2.5 text-white mt-2 hidden focus:outline-none text-sm h-20 custom-scroll';
+                        textarea.placeholder = "Ketik di sini...";
+                        textarea.oninput = saveToLocal;
+                        div.appendChild(textarea);
+                    } else {
+                        const input = document.createElement('input');
+                        input.type = 'text';
+                        input.id = `cust_${field.id}`;
+                        input.className = 'w-full bg-slate-900 border border-blue-500 rounded-lg p-2.5 text-white mt-2 hidden focus:outline-none text-sm';
+                        input.placeholder = "Ketik di sini...";
+                        input.oninput = () => {
+                            if(field.id === 'nama') syncAutoName();
+                            saveToLocal();
+                        };
+                        div.appendChild(input);
+                    }
+                }
+                container.appendChild(div);
+            });
+            
+            if(containerId === 'charForm') {
+                document.getElementById('sel_nama').addEventListener('change', () => { syncAutoName(); saveToLocal(); });
+            }
+        }
+
+        function handleSelectChange(selectElem, fieldId, isTextarea) {
+            const customInput = document.getElementById(`cust_${fieldId}`);
+            if (selectElem.value === 'Lainnya') {
+                customInput.classList.remove('hidden');
+                customInput.focus();
+            } else {
+                customInput.classList.add('hidden');
+                customInput.value = ''; 
+            }
+            if(fieldId === 'nama') syncAutoName();
+            saveToLocal();
+        }
+
+        function syncAutoName() {
+            const selVal = document.getElementById('sel_nama')?.value;
+            const custVal = document.getElementById('cust_nama')?.value;
+            const autoInput = document.getElementById('nama_auto');
+            if(!autoInput) return;
+            
+            if (selVal === 'Lainnya' && custVal) autoInput.value = custVal;
+            else if (selVal !== 'Lainnya' && selVal !== '') autoInput.value = selVal;
+            else autoInput.value = '(Akan terisi otomatis)';
+        }
+
+        // ==========================================
+        // 7. PROMPT GENERATORS
+        // ==========================================
+        function getVal(fieldId) {
+            if(fieldId === 'nama_auto') return document.getElementById('nama_auto')?.value;
+            const sel = document.getElementById(`sel_${fieldId}`);
+            if(!sel) return '';
+            return (sel.value === 'Lainnya') ? document.getElementById(`cust_${fieldId}`).value : sel.value;
+        }
+
+        function generatePromptChar() {
+            if(!getVal('nama')) { alert("Isi NAMA KARAKTER terlebih dahulu."); return; }
+            const template = `MASTER PROMPT — PROFESSIONAL CHARACTER SHEET 9:16
+Create a professional 9:16 vertical character sheet for a recurring social-media character. The character must be designed as a strong, memorable, reusable character brand with extremely consistent identity across every view, pose, expression, and reference image.
+
+CHARACTER INFORMATION
+Character Name: ${getVal('nama') || '[KOSONG]'}
+Content/Niche: ${getVal('topik') || '[KOSONG]'}
+Target Audience: ${getVal('audience') || '[KOSONG]'}
+Character Role: ${getVal('peran') || '[KOSONG]'}
+Core Concept:
+${getVal('konsep') || '[KOSONG]'}
+Personality:
+${getVal('kepribadian') || '[KOSONG]'}
+Energy:
+${getVal('energy') || '[KOSONG]'}
+Speaking Style:
+${getVal('gaya_bicara') || '[KOSONG]'}
+Signature Traits:
+${getVal('ciri_khas') || '[KOSONG]'}
+Signature Catchphrase:
+"${getVal('kalimat_khas') || '[KOSONG]'}"
+
+IDENTITY LOCK
+Create one definitive character identity and maintain it throughout the entire sheet.
+Automatically establish and lock:
+age, gender presentation, ethnicity / regional appearance, facial structure, jaw shape, nose shape, eye shape, eyebrow shape, lip shape, skin tone, natural skin texture, hair style, hair color, facial hair if applicable, body proportions, body build, height impression, distinctive facial characteristics
+
+The character must look like the exact same person in every image panel.
+Do not create multiple interpretations of the character.
+Do not change facial proportions between panels.
+Do not change hairstyle, skin tone, age, body proportions, signature accessories.
+Do not change outfit design unless explicitly requested.
+
+VISUAL IDENTITY
+Primary Identity Color: ${getVal('warna_utama') || '[KOSONG]'}
+Secondary Colors: ${getVal('warna_sekunder') || '[KOSONG]'}
+Accent Color: ${getVal('warna_aksen') || '[KOSONG]'}
+Signature Outfit: ${getVal('outfit') || '[KOSONG]'}
+Signature Accessories: ${getVal('aksesori') || '[KOSONG]'}
+Signature Props: ${getVal('properti') || '[KOSONG]'}
+
+CHARACTER PERSONALITY VISUALIZATION
+Dominant personality: ${getVal('kepribadian_dom') || '[KOSONG]'}
+Dominant expression: ${getVal('ekspresi_dom') || '[KOSONG]'}
+Body language: ${getVal('bahasa_tubuh') || '[KOSONG]'}
+Typical attitude: ${getVal('sikap') || '[KOSONG]'}
+
+CHARACTER SHEET LAYOUT
+Create a professional character design sheet in a 9:16 vertical composition on a clean white studio background.
+
+SECTION 1 — CHARACTER TITLE
+Display: ${getVal('nama_auto') || '[KOSONG]'}
+Include a short descriptor: ${getVal('deskripsi_singkat') || '[KOSONG]'}
+Include the signature catchphrase: "${getVal('catchphrase') || '[KOSONG]'}"
+
+SECTION 2 — FULL BODY REFERENCE
+Show the exact same character in: Full front view, Side profile, Back view, 3/4 view
+
+SECTION 3 — FACIAL EXPRESSION SHEET
+smiling expression, sad expression, angry expression, thinking expression, calm expression
+
+SECTION 4 — SIGNATURE POSE
+Signature action: ${getVal('sig_action') || '[KOSONG]'}
+
+SECTION 5 — OUTFIT & ACCESSORY DETAILS
+Show close-up reference panels of: headwear, hairstyle, eyewear, clothing, accessories, footwear, distinctive character details.
+
+SECTION 6 — SIGNATURE PROPS
+Main Prop: ${getVal('properti_utama') || '[KOSONG]'}
+Secondary Props: ${getVal('properti_tambahan') || '[KOSONG]'}
+
+SECTION 7 — COLOR PALETTE
+- ${getVal('color1') || '[KOSONG]'}
+- ${getVal('color2') || '[KOSONG]'}
+- ${getVal('color3') || '[KOSONG]'}
+- ${getVal('color4') || '[KOSONG]'}
+
+PHOTOGRAPHY & RENDERING STYLE
+Ultra-realistic professional character photography. Realistic human anatomy. Professional studio photoshoot. White background.
+
+CONSISTENCY RULE
+ALL PANELS MUST REPRESENT ONE IDENTICAL CHARACTER. Never redesign the character between panels.
+
+FINAL QUALITY TARGET
+Professional Character Sheet, Vertical 9:16, Ultra realistic, High detail, High identity consistency.`;
+
+            document.getElementById('promptCharText').value = template;
+            document.getElementById('resultCharSection').classList.remove('hidden');
+            document.getElementById('resultCharSection').scrollIntoView({ behavior: 'smooth' });
+            saveToLocal();
+        }
+
+        function generatePromptOutfit() {
+            const template = `# MASTER PROMPT — OUTFIT DNA GENERATOR FROM SCRATCH 9:16
+
+Create a professional, ultra-realistic **OUTFIT DNA SHEET** for an established recurring character.
+There are **NO outfit reference images**.
+The entire outfit must be designed from scratch based on the user's written outfit brief and the established Character Sheet.
+
+---
+# ESTABLISHED CHARACTER — IDENTITY LOCK
+Use the previously established Character Sheet as the MASTER CHARACTER IDENTITY REFERENCE.
+Preserve exactly: face, facial structure, skin tone, age, ethnicity, body proportions, height impression, hairstyle, hair color, facial hair, body type, recognizable physical characteristics.
+Do NOT redesign the character. The purpose of this generation is to design the CHARACTER'S OUTFIT, not a new character.
+
+---
+# USER OUTFIT BRIEF
+Design the outfit from scratch based on the following user instructions:
+
+**Overall outfit concept:** ${getVal('out_concept') || '[KOSONG]'}
+**Desired style:** ${getVal('out_style') || '[KOSONG]'}
+**Desired impression:** ${getVal('out_impression') || '[KOSONG]'}
+
+**Upper-body direction:** ${getVal('out_upper') || '[KOSONG]'}
+**Lower-body direction:** ${getVal('out_lower') || '[KOSONG]'}
+**Footwear direction:** ${getVal('out_footwear') || '[KOSONG]'}
+**Headwear direction:** ${getVal('out_headwear') || '[KOSONG]'}
+**Eyewear direction:** ${getVal('out_eyewear') || '[KOSONG]'}
+**Accessory direction:** ${getVal('out_acc') || '[KOSONG]'}
+
+**Signature clothing element:** ${getVal('out_signature') || '[KOSONG]'}
+
+**Preferred colors:** ${getVal('out_pref_colors') || '[KOSONG]'}
+**Colors to avoid:** ${getVal('out_avoid_colors') || 'NONE'}
+**Material preference:** ${getVal('out_material') || '[KOSONG]'}
+**Level of wear/weathering:** ${getVal('out_wear') || '[KOSONG]'}
+**Practical requirements:** ${getVal('out_practical') || '[KOSONG]'}
+
+---
+# COLOR DNA
+**Primary Color:** ${getVal('out_col_pri') || 'AI decides'}
+**Secondary Color:** ${getVal('out_col_sec') || 'AI decides'}
+**Accent Color:** ${getVal('out_col_acc') || 'AI decides'}
+**Neutral Color:** ${getVal('out_col_neu') || 'AI decides'}
+**Material/Wear Color:** ${getVal('out_col_mat') || 'AI decides'}
+
+---
+# DESIGN LANGUAGE
+The final outfit should feel: **${getVal('out_feel') || 'AI decides'}**
+The final wardrobe should feel like it naturally evolved from the character's life rather than being randomly selected fashion pieces.
+
+---
+# OUTFIT CONSISTENCY LOCK
+Once the outfit is designed, permanently lock: headwear, eyewear, inner top, outer top, pants, footwear, accessories, signature element, colors, materials, silhouette, proportions, weathering style.
+
+---
+# OUTFIT DNA SHEET COMPOSITION
+Create ONE professional **9:16 vertical Outfit DNA Sheet**. Use a clean white or light neutral studio background. Include:
+A. FULL OUTFIT — FRONT VIEW
+B. FULL OUTFIT — 3/4 VIEW
+C. FULL OUTFIT — SIDE VIEW
+D. OUTFIT COMPONENT BOARD
+E. MATERIAL DETAIL BOARD
+F. COLOR DNA BOARD
+G. ACCESSORY BOARD
+H. SIGNATURE DETAIL
+
+---
+# FINAL OUTPUT
+Generate ONE cohesive professional **9:16 OUTFIT DNA SHEET**.
+The resulting Outfit DNA Sheet becomes the permanent MASTER WARDROBE REFERENCE for this character.`;
+
+            document.getElementById('promptOutScrText').value = template;
+            document.getElementById('resultOutScrSection').classList.remove('hidden');
+            document.getElementById('resultOutScrSection').scrollIntoView({ behavior: 'smooth' });
+            saveToLocal();
+        }
+
+        function generatePromptEnv() {
+            const template = `MASTER PROMPT — ENVIRONMENT DNA SHEET 9:16
+Create a professional, ultra-realistic ENVIRONMENT DNA SHEET for a recurring character, content universe, or visual brand.
+The purpose of this generation is to establish a distinctive, believable, reusable, and highly consistent environment identity that can be reproduced across future visual generations.
+The Environment DNA must function as a permanent visual reference for the character's world.
+INPUT SYSTEM
+The user may provide any combination of:
+
+Written environment brief
+Character DNA Sheet
+Outfit DNA Sheet
+Environment reference images
+All inputs are optional except the written environment brief, which may contain the minimum required environmental direction.
+Adapt automatically to the available inputs.
+REFERENCE PRIORITY SYSTEM
+If reference images are provided, determine their role based on the user's description.
+
+CHARACTER DNA REFERENCE
+If a Character DNA Sheet is provided:
+Use it ONLY to understand:
+
+character identity
+physical appearance
+personality
+niche
+occupation
+visual identity
+scale relative to environment
+Do NOT redesign the character.
+Do NOT change the character.
+The character is not the primary subject of this Environment DNA Sheet.
+OUTFIT DNA REFERENCE
+If an Outfit DNA Sheet is provided:
+Use it ONLY to understand:
+
+established wardrobe
+outfit colors
+outfit materials
+visual silhouette
+visual contrast
+character-environment compatibility
+Do NOT redesign the outfit.
+Do NOT change the outfit.
+The outfit is not the primary subject of this Environment DNA Sheet.
+ENVIRONMENT REFERENCE IMAGES
+If environment reference images are provided:
+Analyze them for:
+
+location
+architecture
+spatial composition
+materials
+lighting
+weather
+atmosphere
+color palette
+environmental objects
+visual style
+geographic characteristics
+Use them as visual inspiration and environmental design references.
+Synthesize compatible elements into ONE coherent Environment DNA.
+Do not blindly combine unrelated locations.
+Do not reproduce incompatible elements from different references.
+NO REFERENCE IMAGES
+If no reference images are provided:
+Create the entire Environment DNA from the user's written environment brief.
+Do not require or invent visual references.
+Use intelligent environmental design decisions based on the provided parameters.
+ENVIRONMENT BRIEF
+Design the environment according to these user-controlled parameters:
+Primary Location:
+${getVal('env_location') || 'AI DECIDES'}
+Specific Setting:
+${getVal('env_setting') || 'AI DECIDES'}
+Geographical Context:
+${getVal('env_geo') || 'AI DECIDES'}
+Time of Day:
+${getVal('env_time') || 'AI DECIDES'}
+Weather:
+${getVal('env_weather') || 'AI DECIDES'}
+Climate / Seasonal Condition:
+${getVal('env_climate') || 'AI DECIDES'}
+Environment Density:
+${getVal('env_density') || 'AI DECIDES'}
+Architecture Style:
+${getVal('env_architecture') || 'AI DECIDES'}
+Ground Surface:
+${getVal('env_ground') || 'AI DECIDES'}
+Lighting Source:
+${getVal('env_light_src') || 'AI DECIDES'}
+Lighting Mood:
+${getVal('env_light_mood') || 'AI DECIDES'}
+Atmosphere:
+${getVal('env_atmosphere') || 'AI DECIDES'}
+Camera Language:
+${getVal('env_cam_lang') || 'AI DECIDES'}
+Camera Stability:
+${getVal('env_cam_stab') || 'AI DECIDES'}
+Background Activity:
+${getVal('env_bg_activity') || 'AI DECIDES'}
+Environmental Signature:
+${getVal('env_sig_element') || 'AI DECIDES'}
+Preferred Color Atmosphere:
+${getVal('env_color_pal') || 'AI DECIDES'}
+Environmental Feeling:
+${getVal('env_feel') || 'AI DECIDES'}
+DESIGN FROM SCRATCH
+When a parameter is marked:
+AI DECIDES
+automatically determine the most appropriate choice.
+Base the decision on:
+
+written environment brief
+character niche
+character occupation
+character personality
+character energy
+geographical context
+time of day
+weather
+architectural context
+overall visual coherence
+Do not make arbitrary choices.
+Every design decision must support the same environmental world.
+ENVIRONMENT DNA
+Design and permanently define:
+
+1. LOCATION DNA
+Define the exact nature of the location.
+Do not use generic descriptions such as:
+"urban street"
+Instead create a specific environmental identity such as:
+
+roadside coffee-vendor area beside office towers
+narrow residential alley
+late-night commercial sidewalk
+industrial roadside
+traditional neighborhood street
+underground station entrance
+suburban roadside
+rooftop urban settlement
+The location must be recognizable.
+2. ARCHITECTURE DNA
+Define:
+
+building forms
+building height
+façade materials
+windows
+doors
+signage
+poles
+street infrastructure
+sidewalks
+road layout
+surrounding structures
+Architecture must be geographically believable.
+Avoid generic globalized architecture when a specific geographical context is provided.
+3. GROUND & SURFACE DNA
+Define:
+
+asphalt
+concrete
+tiles
+dirt
+grass
+drainage
+road markings
+cracks
+stains
+puddles
+surface reflections
+Surface details must support the chosen location and weather.
+4. OBJECT & PROP DNA
+Define recurring environmental objects such as:
+
+street lamps
+utility poles
+electrical wires
+traffic signs
+benches
+fences
+garbage bins
+parked motorcycles
+parked cars
+storefronts
+vending areas
+advertisements
+road barriers
+drainage channels
+public infrastructure
+Only include objects that naturally belong in the environment.
+5. VEGETATION DNA
+If appropriate, define:
+
+trees
+shrubs
+grass
+potted plants
+tropical vegetation
+street vegetation
+Vegetation must match the geography and climate.
+6. WEATHER DNA
+Define how the selected weather physically affects the environment.
+For rain:
+
+wet asphalt
+puddles
+reflections
+droplets
+umbrellas
+damp surfaces
+darker materials
+For hot and humid conditions:
+
+atmospheric haze
+warm surfaces
+humid air
+subtle moisture
+strong daylight
+For fog:
+
+diffused light
+reduced visibility
+atmospheric depth
+soft background
+Weather must affect the entire environment consistently.
+7. TIME-OF-DAY DNA
+The selected time must influence:
+
+sky
+ambient light
+shadows
+artificial lighting
+building illumination
+vehicle headlights
+reflections
+color temperature
+atmosphere
+Avoid contradictory lighting.
+LIGHTING DNA
+Create a repeatable environmental lighting system.
+Define:
+Key Light: ${getVal('env_key_light') || 'AI DECIDES'}
+Fill / Ambient Light: ${getVal('env_fill_light') || 'AI DECIDES'}
+Practical Lights: ${getVal('env_prac_light') || 'AI DECIDES'}
+Color Temperature: ${getVal('env_temp') || 'AI DECIDES'}
+Shadow Character: ${getVal('env_shadow') || 'AI DECIDES'}
+Reflection Behavior: ${getVal('env_reflection') || 'AI DECIDES'}
+The lighting must physically interact with all environmental surfaces.
+ATMOSPHERE DNA
+Define the emotional and visual atmosphere:
+${getVal('env_feel') || 'AI DECIDES'}
+The atmosphere should emerge naturally from:
+
+location
+weather
+time
+lighting
+density
+architecture
+background activity
+Avoid artificial cinematic exaggeration.
+The environment should feel like a real place that naturally exists.
+ENVIRONMENT SIGNATURE
+Create 1–3 distinctive recurring environmental elements.
+These elements become permanent visual identifiers of the Environment DNA.
+Examples:
+
+distinctive street lamp
+unusual storefront
+recurring wall texture
+recognizable building façade
+specific tree
+distinctive sidewalk pattern
+unique signage style
+recognizable street corner
+recurring vending area
+particular lighting arrangement
+The Environment Signature must be:
+
+visually distinctive
+believable
+repeatable
+easy to recognize
+compatible with the character's world
+SPATIAL DNA
+Establish a consistent spatial relationship between:
+
+foreground
+character zone
+midground
+background
+environmental landmark
+Define:
+
+approximate depth
+visual hierarchy
+dominant perspective
+open space
+environmental framing
+The environment must have enough space for the character to naturally exist without making the scene feel empty.
+CHARACTER-ENVIRONMENT COMPATIBILITY
+If Character DNA is available:
+Place the character naturally within the environment.
+Preserve:
+
+exact character identity
+body proportions
+scale
+visual identity
+If Outfit DNA is available:
+Preserve the exact established outfit.
+The character must interact naturally with:
+
+ground
+lighting
+shadows
+reflections
+weather
+surrounding objects
+The character must never look pasted into the environment.
+ENVIRONMENT COLOR DNA
+Create a coherent environment palette.
+Primary Color: ${getVal('env_col_pri') || 'AI DECIDES'}
+Secondary Color: ${getVal('env_col_sec') || 'AI DECIDES'}
+Accent Color: ${getVal('env_col_acc') || 'AI DECIDES'}
+Neutral Color: ${getVal('env_col_neu') || 'AI DECIDES'}
+Lighting Color: ${getVal('env_col_light') || 'AI DECIDES'}
+Atmospheric Color: ${getVal('env_col_atm') || 'AI DECIDES'}
+The environment palette should complement the character and outfit without simply copying their colors.
+MATERIAL DNA
+Define the dominant environmental materials:
+
+concrete
+asphalt
+glass
+metal
+wood
+brick
+plastic
+fabric
+vegetation
+water
+For each material establish:
+
+texture
+roughness
+reflectivity
+aging
+weathering
+imperfections
+Materials must respond realistically to the selected lighting and weather.
+ENVIRONMENT CONSISTENCY LOCK
+Once established, permanently lock:
+
+location identity
+architectural language
+ground material
+recurring environmental objects
+dominant materials
+environmental color language
+lighting language
+spatial identity
+atmosphere
+Environment Signature
+Future generations should preserve the same environmental world.
+VARIABLE PARAMETERS
+The following may change when explicitly requested:
+
+time of day
+weather
+crowd density
+temporary background activity
+camera position
+camera angle
+character position
+temporary vehicles
+temporary pedestrians
+These changes must not destroy the underlying Environment DNA.
+The location must remain recognizable as the same environment.
+ENVIRONMENT DNA SHEET COMPOSITION
+Create ONE professional 9:16 vertical Environment DNA Sheet.
+Include:
+
+A. MASTER ESTABLISHING VIEW
+A wide view showing the complete environment.
+Clearly communicate:
+
+location
+architecture
+ground
+lighting
+atmosphere
+environmental signature
+B. SECONDARY ANGLE
+Show the same environment from another logical viewpoint.
+Maintain the same:
+
+architecture
+materials
+lighting language
+environmental signature
+C. SPATIAL / CHARACTER CONTEXT
+If Character DNA is available, show the established character naturally positioned within the environment.
+If no character reference is available, show the environment without inventing a specific character.
+D. ARCHITECTURE DETAIL BOARD
+Show:
+
+buildings
+façades
+sidewalks
+road structures
+signage
+infrastructure
+E. MATERIAL DETAIL BOARD
+Show close-ups of:
+
+ground
+walls
+concrete
+asphalt
+metal
+glass
+vegetation
+weather effects
+F. LIGHTING BOARD
+Show the environmental lighting system and its interaction with surfaces.
+G. ENVIRONMENT COLOR PALETTE
+Display approximately 5–7 environment colors.
+H. ENVIRONMENT SIGNATURE BOARD
+Clearly show the 1–3 permanent visual elements that define the environment.
+PHOTOGRAPHY & VISUAL STYLE
+Use:
+
+ultra-realistic photography
+realistic environmental materials
+realistic atmospheric depth
+physically accurate lighting
+natural shadows
+realistic reflections
+documentary realism
+cinematic realism
+high detail
+realistic perspective
+natural imperfections
+Avoid:
+
+generic stock-photo appearance
+fantasy environments
+artificial CGI appearance
+random objects
+inconsistent architecture
+contradictory lighting
+excessive cinematic effects
+unrealistic perspective
+over-stylization
+TYPOGRAPHY & PRESENTATION
+Present the Environment DNA Sheet as a premium professional visual-development document.
+Use:
+
+clean grid
+balanced spacing
+clear section hierarchy
+restrained graphic design
+professional labels
+subtle dividers
+clean typography
+Do not allow graphic elements to overpower the environment visuals.
+FINAL QUALITY CONTROL
+Before generating the final sheet, verify:
+
+Is the environment clearly identifiable?
+Is the location specific rather than generic?
+Is the architecture geographically believable?
+Are weather and lighting physically consistent?
+Are materials realistic?
+Is there a clear Environment Signature?
+Can the environment be recreated consistently?
+Are Character DNA and Outfit DNA preserved if provided?
+Does the environment feel naturally inhabited?
+Can temporary parameters change without destroying the world identity?
+Correct any inconsistency before final generation.
+FINAL OUTPUT
+Generate ONE cohesive, professional 9:16 ENVIRONMENT DNA SHEET.
+The final sheet must establish:
+CHARACTER DNA = WHO
+OUTFIT DNA = WHAT THEY WEAR
+ENVIRONMENT DNA = WHERE THEY EXIST
+Environment DNA must remain independently reusable.
+Future visual generations should be able to combine:
+CHARACTER DNA + OUTFIT DNA + ENVIRONMENT DNA
+while allowing controlled changes to:
+POSE + ACTION + CAMERA + TIME + WEATHER + CROWD + BACKGROUND ACTIVITY
+without losing visual consistency.`;
+
+            document.getElementById('promptEnvText').value = template;
+            document.getElementById('resultEnvSection').classList.remove('hidden');
+            document.getElementById('resultEnvSection').scrollIntoView({ behavior: 'smooth' });
+            saveToLocal();
+        }
+
+        function generatePromptProduct() {
+            const template = `MASTER PROMPT — OBJECT / PRODUCT DNA SHEET 9:16
+Create a professional, ultra-realistic OBJECT / PRODUCT DNA SHEET for a reusable visual asset.
+The final image must contain ONLY THE OBJECT OR PRODUCT AND ITS DESIGN REFERENCE PRESENTATION.
+Do NOT include:
+
+character
+human
+model
+mannequin
+hands
+body parts
+environment scene
+room
+landscape
+lifestyle scene
+unrelated props
+advertising scene
+product usage scene
+The object/product itself is the ONLY primary subject.
+INPUT SYSTEM
+The user may provide:
+
+An optional object/product reference image
+A written object/product brief
+Specific physical parameters
+Material requirements
+Color requirements
+Functional requirements
+Design requirements
+Adapt automatically to the available inputs.
+REFERENCE IMAGE MODE
+If an object/product reference image is provided:
+Treat the uploaded image as the PRIMARY VISUAL REFERENCE for the object's existing design.
+Analyze:
+
+overall silhouette
+proportions
+dimensions
+geometry
+construction
+component arrangement
+materials
+textures
+colors
+patterns
+seams
+stitching
+fasteners
+buttons
+zippers
+handles
+hinges
+connectors
+logos or markings
+surface finish
+wear
+manufacturing details
+Preserve the recognizable design language of the reference.
+However, do NOT blindly reproduce the reference when the user explicitly specifies changes.
+NO REFERENCE IMAGE MODE
+If no object/product reference image is provided:
+Create the object/product entirely from the user's written brief and parameters.
+If important technical details are not specified, make coherent design decisions automatically.
+The result must still look like a professionally designed, physically plausible, manufacturable object/product.
+REFERENCE VS USER PARAMETER PRIORITY
+When reference images and written instructions conflict, follow this hierarchy:
+
+Explicit user specifications
+Explicit dimensional requirements
+Explicit functional requirements
+Explicit material requirements
+Explicit color requirements
+Reference image structure and design language
+AI interpretation of unspecified details
+Never override an explicit user parameter merely because the reference image shows something different.
+OBJECT / PRODUCT BRIEF
+Object / Product Name:
+${getVal('prod_name') || 'AI DECIDES'}
+Object / Product Category:
+${getVal('prod_cat') || 'AI DECIDES'}
+Primary Purpose:
+${getVal('prod_purpose') || 'AI DECIDES'}
+Design Direction:
+${getVal('prod_direction') || 'AI DECIDES'}
+Design Style:
+${getVal('prod_style') || 'AI DECIDES'}
+Visual Character:
+${getVal('prod_char') || 'AI DECIDES'}
+Intended Use:
+${getVal('prod_use') || 'AI DECIDES'}
+Target User:
+${getVal('prod_user') || 'AI DECIDES'}
+PHYSICAL DIMENSIONS
+Define the physical dimensions precisely when provided.
+Overall Length:
+${getVal('prod_len') || 'AI DECIDES'}
+Overall Width:
+${getVal('prod_width') || 'AI DECIDES'}
+Overall Height:
+${getVal('prod_height') || 'AI DECIDES'}
+Thickness:
+${getVal('prod_thick') || 'AI DECIDES'}
+Diameter:
+${getVal('prod_diam') || 'AI DECIDES'}
+Weight:
+${getVal('prod_weight') || 'AI DECIDES'}
+Scale Relationship:
+${getVal('prod_scale_rel') || 'AI DECIDES'}
+If the user provides only some dimensions, preserve those dimensions exactly and intelligently infer the remaining proportions.
+Do NOT alter explicitly specified measurements.
+GEOMETRY DNA
+Define and lock:
+
+overall silhouette
+primary geometric form
+secondary geometric forms
+curves
+edges
+corners
+thickness
+proportions
+component placement
+symmetry
+asymmetry
+articulation
+folding
+moving parts
+The object must have internally consistent geometry.
+COMPONENT DNA
+Identify and lock every important component.
+Examples:
+
+main body
+lid
+handle
+frame
+buttons
+switches
+hinges
+wheels
+straps
+pockets
+compartments
+connectors
+fasteners
+clips
+buckles
+panels
+protective elements
+functional mechanisms
+Every component must remain consistent across all views.
+MATERIAL DNA
+Define the exact material of each major component.
+Possible materials include:
+
+metal
+aluminum
+stainless steel
+titanium
+plastic
+ABS
+polycarbonate
+rubber
+silicone
+glass
+wood
+leather
+canvas
+denim
+ceramic
+carbon fiber
+composite
+fabric
+For each material define:
+
+surface texture
+roughness
+reflectivity
+hardness
+transparency
+translucency
+finish
+grain
+imperfections
+manufacturing characteristics
+Materials must behave realistically under studio lighting.
+SURFACE FINISH DNA
+Define:
+Primary Finish:
+${getVal('prod_fin_pri') || 'AI DECIDES'}
+Secondary Finish:
+${getVal('prod_fin_sec') || 'AI DECIDES'}
+Surface Texture:
+${getVal('prod_tex') || 'AI DECIDES'}
+Reflectivity:
+${getVal('prod_ref') || 'AI DECIDES'}
+Micro Imperfections:
+${getVal('prod_imp') || 'AI DECIDES'}
+The surface should look physically manufactured rather than digitally generated.
+COLOR DNA
+Primary Color:
+${getVal('prod_col_pri') || 'AI DECIDES'}
+Secondary Color:
+${getVal('prod_col_sec') || 'AI DECIDES'}
+Accent Color:
+${getVal('prod_col_acc') || 'AI DECIDES'}
+Neutral Color:
+${getVal('prod_col_neu') || 'AI DECIDES'}
+Material Color Variation:
+${getVal('prod_col_var') || 'AI DECIDES'}
+If a reference image is provided, derive unspecified colors from the reference.
+If the user explicitly specifies a color, that color takes priority.
+GRAPHIC / MARKING DNA
+Define:
+Logo:
+${getVal('prod_logo') || 'AI DECIDES'}
+Text / Label:
+${getVal('prod_text') || 'NONE'}
+Pattern:
+${getVal('prod_pattern') || 'AI DECIDES'}
+Graphic Placement:
+${getVal('prod_graphic') || 'AI DECIDES'}
+Serial / Identification Marking:
+${getVal('prod_serial') || 'NONE'}
+Do not invent random logos, brand names, labels, or text.
+If text is specified, reproduce it accurately and consistently.
+FUNCTIONAL DNA
+Define how the object physically works.
+Specify:
+
+moving parts
+opening mechanism
+closing mechanism
+adjustment mechanism
+attachment points
+controls
+switches
+hinges
+locking mechanisms
+storage compartments
+functional surfaces
+The design must remain mechanically plausible.
+Do not add functionality that contradicts the user's brief.
+ERGONOMIC DNA
+If applicable, define:
+
+grip
+handle position
+control placement
+carrying method
+user contact areas
+opening access
+adjustment points
+ergonomic proportions
+The object must look realistically usable.
+CONDITION DNA
+Object Condition:
+${getVal('prod_cond') || 'AI DECIDES'}
+Define realistic:
+
+scratches
+scuffs
+fingerprints
+small abrasions
+fading
+edge wear
+dust
+patina
+surface imperfections
+Do not add damage unless requested or appropriate.
+The object should look:
+PHYSICALLY REAL + MANUFACTURED + BELIEVABLE
+SCALE & PROPORTION LOCK
+All views must maintain exactly the same:
+
+dimensions
+proportions
+component scale
+component placement
+thickness
+geometry
+Do not stretch, compress, enlarge, or shrink individual components between views.
+OBJECT CONSISTENCY LOCK
+Once the Object / Product DNA has been established, permanently lock:
+
+silhouette
+geometry
+dimensions
+proportions
+components
+component placement
+materials
+colors
+finishes
+textures
+markings
+functional mechanisms
+condition
+signature details
+Every view must depict the exact same physical object.
+Do not generate multiple variants.
+Do not redesign the object between views.
+SIGNATURE OBJECT DETAIL
+Identify the most visually distinctive feature of the object.
+This becomes the:
+OBJECT SIGNATURE ELEMENT
+It may be:
+
+unique handle
+unusual geometry
+distinctive color combination
+recognizable mechanism
+special texture
+unique pattern
+unusual connector
+signature surface detail
+Make this feature clearly visible in the DNA Sheet.
+OBJECT DNA SHEET COMPOSITION
+Create ONE professional 9:16 vertical Object / Product DNA Sheet.
+The entire sheet must contain ONLY the object/product.
+Use a clean white, light gray, or neutral studio background.
+No environment.
+No lifestyle scene.
+No human.
+No character.
+No hands.
+A. HERO FRONT VIEW
+Show the complete object from the primary front-facing angle.
+Full object visible.
+Centered.
+No cropping.
+Neutral studio presentation.
+B. BACK VIEW
+Show the exact same object from the rear.
+All components must remain consistent.
+C. SIDE VIEW
+Show the exact same object from the side.
+Preserve exact proportions and dimensions.
+D. 3/4 VIEW
+Show the exact same object from a 3/4 perspective.
+This view should clearly communicate depth and overall form.
+E. TOP / BOTTOM VIEW
+Show the top view and, if relevant, bottom view.
+Reveal important structural details.
+F. COMPONENT BREAKDOWN
+Display important components separately.
+Examples:
+
+main body
+lid
+handle
+buttons
+straps
+wheels
+connectors
+accessories
+internal components if appropriate
+Every component must match the complete object.
+G. DETAIL CLOSE-UPS
+Show high-resolution close-ups of:
+
+signature feature
+material
+texture
+stitching
+hardware
+mechanism
+surface finish
+markings
+connection points
+H. DIMENSION & PROPORTION REFERENCE
+Show clean technical-style dimension indicators when dimensions are explicitly provided.
+Include:
+
+length
+width
+height
+diameter
+thickness
+important component measurements
+Do not invent numerical measurements if the user did not provide them.
+When measurements are not provided, omit numerical dimension labels.
+I. MATERIAL BOARD
+Display the primary materials used in the object.
+Show representative texture samples.
+J. COLOR PALETTE
+Display approximately 4–6 approved colors.
+K. SIGNATURE ELEMENT
+Show a large detailed close-up of the object's most recognizable design feature.
+TECHNICAL PRESENTATION
+The sheet should resemble a professional:
+
+industrial design reference
+product design specification
+prop design sheet
+manufacturing concept sheet
+commercial product development sheet
+Use clean visual organization.
+Use restrained professional labels.
+Use balanced spacing.
+Use clear separation between views.
+Do not clutter the sheet.
+PHOTOGRAPHY STYLE
+Use:
+
+ultra-realistic product photography
+professional studio lighting
+physically accurate shadows
+realistic reflections
+realistic materials
+high-resolution surface detail
+accurate perspective
+sharp edges
+realistic manufacturing details
+subtle natural imperfections
+premium industrial design photography
+Avoid:
+
+cartoon
+anime
+illustration
+fantasy object
+floating random components
+distorted geometry
+inconsistent proportions
+excessive reflections
+unrealistic materials
+lifestyle photography
+CAMERA & PRESENTATION
+Camera Height:
+${getVal('prod_cam_h') || 'AI DECIDES'}
+Lens Character:
+${getVal('prod_lens') || 'AI DECIDES'}
+Perspective:
+${getVal('prod_persp') || 'AI DECIDES'}
+Lighting:
+${getVal('prod_light') || 'AI DECIDES'}
+Background:
+${getVal('prod_bg') || 'AI DECIDES'}
+Maintain consistent camera logic across all object views.
+OPTIONAL TECHNICAL PARAMETERS
+Scale:
+${getVal('prod_scale') || 'AI DECIDES'}
+Manufacturing Method:
+${getVal('prod_mfg') || 'AI DECIDES'}
+Assembly Method:
+${getVal('prod_assm') || 'AI DECIDES'}
+Intended Durability:
+${getVal('prod_dur') || 'AI DECIDES'}
+Water Resistance:
+${getVal('prod_water') || 'AI DECIDES'}
+Temperature Resistance:
+${getVal('prod_temp') || 'AI DECIDES'}
+Special Functional Requirement:
+${getVal('prod_spec') || 'NONE'}
+Only visualize technical properties that are compatible with the object's actual design.
+USER PARAMETER PRIORITY
+Explicit user parameters always override AI assumptions.
+If the user specifies:
+
+exact dimensions
+exact color
+exact material
+exact component
+exact shape
+exact mechanism
+exact quantity
+exact placement
+preserve those specifications.
+If a parameter is unspecified:
+AI may intelligently determine it.
+Do not alter explicit requirements simply to make the design more aesthetically pleasing.
+REFERENCE IMAGE ADAPTATION
+If a reference image is provided:
+Preserve the reference's essential identity:
+
+silhouette
+geometry
+proportions
+major components
+recognizable details
+Then apply the user's explicit modifications.
+The result should feel like:
+THE SAME DESIGN FAMILY + USER-SPECIFIED MODIFICATIONS
+not a completely unrelated redesign.
+If the user explicitly requests a major redesign, follow the user's request.
+FINAL QUALITY CONTROL
+Before generating the final sheet, internally verify:
+
+Is the object/product the only subject?
+Is there no character or human?
+Is there no environment scene?
+Is the silhouette consistent?
+Are dimensions consistent?
+Are all components consistent?
+Are materials physically believable?
+Are colors consistent?
+Are reference-derived elements preserved when applicable?
+Are explicit user parameters followed exactly?
+Is the signature element clearly defined?
+Are all views showing the same physical object?
+Is the sheet suitable as a permanent Object/Product DNA reference?
+Correct any inconsistency before final generation.
+FINAL OUTPUT
+Generate ONE cohesive, professional 9:16 vertical OBJECT / PRODUCT DNA SHEET.
+The result must function as the permanent:
+MASTER OBJECT / PRODUCT VISUAL REFERENCE
+The final image must contain ONLY:
+THE OBJECT / PRODUCT + ITS DNA REFERENCE PRESENTATION
+No character.
+No outfit.
+No environment.
+No lifestyle scene.
+No human.
+No unrelated props.
+All future generations using this Object/Product DNA must reproduce:
+SAME OBJECT + SAME GEOMETRY + SAME DIMENSIONS + SAME MATERIALS + SAME COLORS + SAME COMPONENTS + SAME SIGNATURE DETAILS
+unless the user explicitly requests a modification.`;
+
+            document.getElementById('promptProductText').value = template;
+            document.getElementById('resultProductSection').classList.remove('hidden');
+            document.getElementById('resultProductSection').scrollIntoView({ behavior: 'smooth' });
+            saveToLocal();
+        }
+
+        function generatePromptStory() {
+            const template = `MASTER PROMPT — AI AFFILIATE STORYBOARD SCENE COMPILER
+
+ROLE
+
+You are an AI Affiliate Storyboard Director, Visual Storyboard Compiler, and Production Storyboard Designer.
+
+Your task is to transform:
+
+1. Character DNA Reference
+2. Outfit DNA Reference
+3. Product / Object DNA Reference
+4. Environment DNA Reference
+5. User Scene Parameters
+6. User Special Scene Direction
+
+into ONE professional visual storyboard image for ONE specific scene.
+
+The storyboard must be suitable as a visual blueprint for downstream AI Image and AI Video production.
+
+DO NOT generate a video.
+DO NOT generate a video prompt.
+DO NOT generate multiple scenes.
+DO NOT continue to another scene.
+
+FINAL OUTPUT:
+Generate EXACTLY ONE vertical 9:16 storyboard page for the requested scene.
+
+
+==================================================
+REFERENCE INPUTS
+==================================================
+
+REFERENCE 01 — CHARACTER DNA
+
+Use the uploaded Character DNA image as the primary visual source for the character's identity.
+
+Preserve consistently:
+
+- facial identity
+- face shape
+- apparent age
+- skin tone
+- hairstyle
+- hair color
+- body proportions
+- physical characteristics
+- facial structure
+- recognizable accessories
+- overall character appearance
+
+The character must remain visually recognizable as the same person throughout every storyboard panel.
+
+DO NOT redesign the character.
+DO NOT replace the character.
+DO NOT introduce a different identity.
+
+
+REFERENCE 02 — OUTFIT DNA
+
+Use the uploaded Outfit DNA image as the primary visual source for the character's clothing and accessories.
+
+Preserve:
+
+- clothing type
+- colors
+- silhouette
+- cut
+- fit
+- relative proportions
+- visible material characteristics
+- layering
+- accessories
+- footwear
+- visible outfit details
+
+DO NOT redesign the outfit.
+DO NOT randomly change clothing between panels.
+DO NOT introduce fashion variations unless explicitly requested by the user.
+
+
+REFERENCE 03 — PRODUCT / OBJECT DNA
+
+Use the uploaded Product / Object DNA image as the primary source of truth for the promoted product or object.
+
+Preserve consistently:
+
+- brand
+- product name if visible
+- shape
+- color
+- packaging
+- logo
+- label
+- typography
+- visible text
+- icons
+- symbols
+- badges
+- graphic elements
+- layout
+- proportions
+- visible material characteristics
+- relative scale
+- distinctive visual details
+
+The product must remain recognizable as the SAME physical product or object across every storyboard panel.
+
+DO NOT redesign the product.
+DO NOT invent a new logo.
+DO NOT invent new packaging.
+DO NOT rewrite visible product text.
+DO NOT alter the product's distinctive visual identity.
+
+
+REFERENCE 04 — ENVIRONMENT DNA
+
+Use the uploaded Environment DNA image as the primary visual source for the scene location and environment.
+
+Preserve:
+
+- location type
+- background structure
+- architectural characteristics
+- lighting
+- atmosphere
+- mood
+- dominant colors
+- spatial characteristics
+- environmental identity
+
+DO NOT change the location without a story-driven reason.
+
+
+==================================================
+REFERENCE PRIORITY
+==================================================
+
+If conflicts occur between references or instructions, use the following priority hierarchy:
+
+1. User Intent
+2. Product Preservation
+3. Product Recognition
+4. Product Visibility
+5. Character Consistency
+6. Outfit Consistency
+7. Environment Consistency
+8. Story Progression
+9. Realism
+10. Affiliate Conversion
+11. Cinematic Creativity
+
+For PRODUCT IDENTITY:
+Product Reference is the primary source of truth.
+
+For CHARACTER IDENTITY:
+Character Reference is the primary source of truth.
+
+For OUTFIT:
+Outfit Reference is the primary source of truth.
+
+For ENVIRONMENT:
+Environment Reference is the primary source of truth.
+
+Never merge conflicting visual identities.
+
+If creativity conflicts with product accuracy, prioritize product accuracy.
+
+If cinematic beauty conflicts with product recognition, prioritize product recognition.
+
+
+==================================================
+USER SCENE PARAMETERS
+==================================================
+
+SCENE NUMBER:
+${getVal('sb_scene_num') || '[Enter scene number]'}
+
+PRODUCT NAME:
+${getVal('sb_prod_name') || '[Enter product name]'}
+
+PRODUCT BENEFIT:
+${getVal('sb_prod_benefit') || '[Enter the main product advantage]'}
+
+TOTAL VIDEO DURATION:
+${getVal('sb_vid_dur') || '[10 / 20 / 30 seconds]'}
+
+SCENE DURATION:
+${getVal('sb_scene_dur') || '[Default: approximately 10 seconds]'}
+
+VIDEO STYLE:
+${getVal('sb_vid_style') || '[UGC / Storytelling / Review / Lifestyle / Fashion / Demonstration / Other]'}
+
+SCENE OBJECTIVE:
+${getVal('sb_objective') || '[Hook / Problem / Curiosity / Discovery / Reveal / Proof / Result / Desire / CTA / Other]'}
+
+STORY BEAT:
+${getVal('sb_beat') || '[Describe what happens in this scene and how it progresses the overall story]'}
+
+SPECIAL SCENE DIRECTION:
+${getVal('sb_special') || '[Describe any specific scene, action, situation, location, interaction, or creative idea you want]'}
+
+CHARACTER ACTION:
+${getVal('sb_char_act') || '[Optional]'}
+
+PRODUCT INTERACTION:
+${getVal('sb_prod_int') || '[Optional]'}
+
+EMOTIONAL STATE:
+${getVal('sb_emotion') || '[Optional]'}
+
+CAMERA PREFERENCE:
+${getVal('sb_camera') || '[Optional]'}
+
+DIALOGUE:
+${getVal('sb_dialogue') || '[Optional — maximum 18–20 words]'}
+
+PANEL COUNT:
+${getVal('sb_panel_count') || '[Default: 5]'}
+
+VISUAL STYLE:
+${getVal('sb_vis_style') || '[Default: realistic UGC commercial photography]'}
+
+CTA:
+${getVal('sb_cta') || '[Optional]'}
+
+
+==================================================
+SPECIAL SCENE DIRECTION RULE
+==================================================
+
+SPECIAL SCENE DIRECTION is the user's primary creative instruction for the scene.
+
+If the user provides a specific scene direction, translate it faithfully into the storyboard.
+
+DO NOT replace the core idea with a generic scene.
+
+Preserve the user's intended:
+
+- action
+- sequence
+- character behavior
+- product interaction
+- emotional intent
+- setting
+- storytelling purpose
+
+However, if the requested direction creates a production risk such as:
+
+- product deformation
+- label distortion
+- character identity drift
+- outfit drift
+- scale inconsistency
+- environment inconsistency
+- unsupported product content
+- excessive visual complexity
+- physically confusing interaction
+
+simplify the execution while preserving the user's intended story.
+
+Prioritize:
+
+CLARITY > COMPLEXITY
+CONSISTENCY > CREATIVITY
+PRODUCT > CINEMATIC SPECTACLE
+DEMONSTRATION > CLAIM
+
+
+==================================================
+PRODUCT PRESERVATION
+==================================================
+
+The product is a primary visual priority.
+
+The product must NOT:
+
+- change shape
+- change color
+- change logo
+- change label
+- change visible text
+- change packaging
+- change proportions
+- change graphic design
+- change relative scale
+- change distinctive details
+
+DO NOT redesign the product.
+
+DO NOT create a new logo.
+
+DO NOT create new packaging.
+
+DO NOT invent product claims on the packaging.
+
+If text is visible on the product reference, preserve its visual arrangement and identity.
+
+For product hero shots, macro shots, close-ups, and packaging shots:
+
+- prefer frontal or near-frontal views
+- keep the label facing the camera whenever possible
+- avoid excessive occlusion
+- avoid cropping important product details
+- avoid motion blur
+- avoid extreme perspective
+- avoid excessive distortion
+- avoid depth of field that makes important product details unreadable
+
+LABEL ACCURACY > CINEMATIC BEAUTY
+
+
+==================================================
+PRODUCT CONTENT EVIDENCE
+==================================================
+
+NEVER invent unknown product contents.
+
+If the reference only shows the outside of the product or packaging and the internal contents are not visible:
+
+DO NOT invent:
+
+- internal color
+- internal texture
+- internal shape
+- liquid
+- foam
+- steam
+- particles
+- filling
+- internal material
+- internal visual effects
+
+DO NOT open the package unless the reference or explicit user instruction supports the action.
+
+When product contents are unknown:
+
+Prefer:
+
+- closed packaging
+- product held by the character
+- product displayed
+- product hero shot
+- product interaction that does not reveal unsupported contents
+
+Evidence > Assumption.
+
+If product contents are explicitly visible in the reference, preserve their:
+
+- color
+- shape
+- texture
+- density
+- appearance
+- consistency
+
+throughout the scene.
+
+
+==================================================
+CHARACTER CONSISTENCY
+==================================================
+
+Use the SAME character throughout all storyboard panels.
+
+Preserve:
+
+- facial identity
+- face shape
+- hairstyle
+- apparent age
+- skin tone
+- body proportions
+- outfit
+- accessories
+- physical characteristics
+
+Facial expressions may change according to the story.
+
+IDENTITY MUST NOT CHANGE.
+
+Character movement should be:
+
+- natural
+- simple
+- believable
+- easy to understand
+- physically plausible
+- production-safe
+
+Avoid overly complicated body actions.
+
+
+==================================================
+OUTFIT CONSISTENCY
+==================================================
+
+The character's outfit must remain consistent throughout the scene.
+
+Preserve:
+
+- clothing type
+- color
+- silhouette
+- fit
+- visible details
+- accessories
+- footwear
+- layering
+
+Do not randomly change clothing between panels.
+
+If the PRODUCT ITSELF is part of the outfit, the product must remain visually identical to the Product DNA reference.
+
+
+==================================================
+ENVIRONMENT CONSISTENCY
+==================================================
+
+Maintain the same environment throughout the scene unless a transition is explicitly required by the story.
+
+Preserve:
+
+- location
+- architecture
+- background structure
+- lighting
+- atmosphere
+- mood
+- dominant color palette
+- environmental identity
+
+Do not add unnecessary locations.
+
+Do not add cinematic backgrounds that contradict the Environment DNA.
+
+
+==================================================
+STORYBOARD STRUCTURE
+==================================================
+
+Create ONE storyboard scene.
+
+The storyboard contains PANEL COUNT panels.
+
+DEFAULT:
+5 PANELS.
+
+Each panel must create meaningful progression.
+
+If no specific SPECIAL SCENE DIRECTION overrides the structure, use:
+
+PANEL 1:
+HOOK / ATTENTION
+
+PANEL 2:
+CURIOSITY / PROBLEM / INFORMATION
+
+PANEL 3:
+DISCOVERY / REVEAL
+
+PANEL 4:
+PROOF / DEMONSTRATION / BENEFIT
+
+PANEL 5:
+RESULT / DESIRE / CTA
+
+Adapt the structure if the SCENE OBJECTIVE requires a different progression.
+
+Do NOT force a CTA into a scene where a CTA is not appropriate.
+
+
+==================================================
+ONE PANEL = ONE CORE IDEA
+==================================================
+
+Each panel must contain:
+
+1. One primary purpose
+2. One dominant action
+3. One primary visual focus
+4. One dominant emotional state
+5. One clear camera decision
+
+Do not overload a panel with multiple major actions.
+
+Every panel must introduce at least one meaningful change:
+
+- new information
+OR
+- new action
+OR
+- new emotion
+OR
+- new product evidence
+OR
+- story progression
+
+Do not create repetitive panels.
+
+
+==================================================
+SHOT DIVERSITY
+==================================================
+
+Use meaningful framing variation throughout the scene.
+
+Preferred visual rhythm may include:
+
+Panel 1:
+Medium Shot
+
+Panel 2:
+Medium Shot / Over-the-Shoulder
+
+Panel 3:
+Close-up / Product Hero
+
+Panel 4:
+Medium Close-up
+
+Panel 5:
+Hero Shot / 3/4 Shot
+
+Avoid repeating the exact same framing unnecessarily.
+
+Possible camera movements:
+
+- Static
+- Slow Push-In
+- Slow Pull-Out
+- Tracking
+- Pan
+- Tilt
+
+Use camera movement only when it supports the story.
+
+DO NOT add camera movement simply to make the scene look cinematic.
+
+
+==================================================
+VISUAL RHYTHM
+==================================================
+
+Create visual progression through:
+
+- action
+- facial expression
+- framing
+- product interaction
+- camera angle
+- information
+- emotional progression
+
+Do not make every panel visually identical.
+
+Do not change angles randomly.
+
+Every visual change must have a storytelling purpose.
+
+
+==================================================
+AFFILIATE CONVERSION
+==================================================
+
+Build the visual journey:
+
+ATTENTION
+↓
+INTEREST
+↓
+UNDERSTANDING
+↓
+TRUST
+↓
+DESIRE
+↓
+ACTION
+
+Show the product early when appropriate.
+
+Make product benefits visually understandable whenever possible.
+
+Prefer demonstration over unsupported verbal claims.
+
+Build desire through:
+
+- product visibility
+- product interaction
+- character reaction
+- believable usage
+- visual proof
+- clean presentation
+
+CTA should appear only when appropriate to the scene's story position.
+
+
+==================================================
+DIALOGUE
+==================================================
+
+Dialogue is optional.
+
+If dialogue is provided:
+
+- preserve the user's intended meaning
+- maximum 18–20 words
+- natural
+- conversational
+- concise
+- believable
+- not overly formal
+- not written like an article
+
+The visual storytelling must remain primary.
+
+DO NOT invent additional dialogue if the user did not provide it.
+
+
+==================================================
+STORYBOARD PAGE DESIGN
+==================================================
+
+FINAL OUTPUT MUST BE ONE PROFESSIONAL VERTICAL 9:16 STORYBOARD PAGE.
+
+TOP SECTION:
+
+SCENE [NUMBER]
+[PRODUCT NAME]
+[SCENE OBJECTIVE]
+
+Display concise information:
+
+- Scene Duration
+- Video Style
+- Scene Purpose
+
+MIDDLE SECTION:
+
+Display all storyboard panels sequentially.
+
+Each panel should contain:
+
+- Panel number
+- Time range
+- Visual frame
+- Shot / framing
+- Camera movement
+- Character action
+- Product interaction
+- Emotional state
+- Dialogue if applicable
+
+The storyboard must be visually clear and easy to understand.
+
+Make the visual panels large enough for:
+
+- character recognition
+- product recognition
+- action readability
+
+Do not make panels unnecessarily small.
+
+
+BOTTOM SECTION:
+
+PRODUCT DNA
+CHARACTER DNA
+OUTFIT DNA
+ENVIRONMENT DNA
+
+Provide a compact visual reference summary.
+
+Also display compact production indicators:
+
+PRODUCT CONSISTENCY
+CHARACTER CONSISTENCY
+OUTFIT CONSISTENCY
+ENVIRONMENT CONSISTENCY
+AI VIDEO READY
+
+
+==================================================
+VISUAL OUTPUT RULE
+==================================================
+
+The storyboard must look like a professional production storyboard.
+
+Use:
+
+- vertical 9:16 composition
+- clean layout
+- strong product visibility
+- realistic human anatomy
+- realistic product proportions
+- consistent lighting
+- consistent environment
+- consistent character
+- consistent outfit
+- production-safe framing
+- clear visual hierarchy
+
+Avoid unnecessary complexity.
+
+Do not introduce important new characters.
+
+Do not introduce unnecessary props.
+
+Do not create cinematic spectacle that reduces product recognition.
+
+PRODUCT FIRST.
+
+
+==================================================
+TEXT GENERATION RULE
+==================================================
+
+DO NOT add decorative text onto the product.
+
+DO NOT invent product label text.
+
+DO NOT rewrite product packaging text.
+
+Storyboard metadata may contain concise descriptive text.
+
+Keep storyboard labels short and readable.
+
+If the image generation model struggles with small text, prioritize:
+
+1. Visual panel quality
+2. Product accuracy
+3. Character accuracy
+4. Outfit accuracy
+5. Environment accuracy
+6. Story clarity
+7. Shot information
+
+Never sacrifice Product DNA for decorative storyboard text.
+
+
+==================================================
+CLEAN VISUAL OUTPUT
+==================================================
+
+The generated storyboard must contain:
+
+ZERO subtitles
+ZERO social media UI
+ZERO interface elements
+ZERO watermark
+ZERO random captions
+ZERO decorative overlays
+ZERO fake platform elements
+
+The ONLY product-related text allowed inside visual product representation is text that genuinely exists on the uploaded product reference.
+
+
+==================================================
+NEGATIVE VISUAL RULE
+==================================================
+
+Avoid:
+
+- face drift
+- identity drift
+- product drift
+- outfit drift
+- environment drift
+- scale drift
+- style drift
+- age drift
+- anatomy errors
+- extra fingers
+- malformed hands
+- duplicated objects
+- floating objects
+- product deformation
+- altered logo
+- altered label
+- random text
+- invented packaging
+- random watermark
+- subtitles
+- social media UI
+- unnecessary captions
+- unnecessary props
+- unnecessary characters
+- unrealistic interaction
+- excessive cinematic effects
+- excessive blur
+- extreme perspective
+- product hidden behind objects
+- product too small
+- character changing between panels
+- inconsistent lighting
+- inconsistent environment
+
+
+==================================================
+FINAL INTERNAL QUALITY CHECK
+==================================================
+
+Before generating the final storyboard image, silently perform an internal quality check.
+
+PRODUCT CHECK:
+
+Is the product still the exact same product?
+
+Are shape, color, logo, label, text, graphics, packaging and proportions consistent?
+
+Is the product clearly recognizable?
+
+CHARACTER CHECK:
+
+Is the character still visually identical?
+
+Are face, hair, body proportions, outfit and accessories consistent?
+
+ENVIRONMENT CHECK:
+
+Is the location consistent?
+
+Is lighting consistent?
+
+Is the atmosphere consistent?
+
+STORY CHECK:
+
+Does the scene have a clear purpose?
+
+Does every panel move the story forward?
+
+Does every panel introduce meaningful visual progression?
+
+VISUAL CHECK:
+
+Is the product clearly visible?
+
+Is the character natural?
+
+Can the visual story be understood quickly?
+
+Is the composition clean?
+
+AI PRODUCTION CHECK:
+
+Are the actions simple enough for AI image/video generation?
+
+Are the interactions physically plausible?
+
+Is there unnecessary complexity?
+
+Are there risks of product drift, character drift or environment drift?
+
+If any problem is detected:
+
+SIMPLIFY THE COMPOSITION.
+
+DO NOT ADD COMPLEXITY.
+
+
+==================================================
+FINAL OUTPUT
+==================================================
+
+After completing the internal quality check:
+
+GENERATE EXACTLY ONE PROFESSIONAL VERTICAL 9:16 STORYBOARD IMAGE FOR THE REQUESTED SCENE.
+
+DO NOT generate:
+
+- explanations
+- analysis
+- video prompts
+- master video prompts
+- another scene
+- multiple storyboard pages
+- additional scenes
+
+ONLY generate the requested storyboard scene.
+
+PRODUCT VISIBILITY IS A PRIMARY PRIORITY.
+
+Consistency > Creativity
+Clarity > Complexity
+Demonstration > Claim
+Product > Cinematic Beauty
+Product Preservation > Artistic Variation
+
+
+==================================================
+REFERENCE ORDER
+==================================================
+
+Upload the reference images in this exact order:
+
+IMAGE 1 = CHARACTER DNA
+IMAGE 2 = OUTFIT DNA
+IMAGE 3 = PRODUCT / OBJECT DNA
+IMAGE 4 = ENVIRONMENT DNA
+
+Treat these uploaded references as the primary visual sources.
+
+Do not ask the user to repeat information that is already clearly visible in the references.
+
+If the Product / Object DNA is only a single product photograph, treat that photograph as the Product DNA.
+
+If Environment DNA is unavailable, use the environment explicitly described in the user parameters and keep it visually simple.
+
+If Outfit DNA is unavailable, use the outfit visible in the Character DNA reference.
+
+If Product DNA is unavailable, DO NOT generate an affiliate product storyboard.
+
+If Character DNA is unavailable, DO NOT invent a character identity.
+
+If Environment DNA is unavailable and no environment is specified, use a minimal neutral environment that does not compete with the product.
+
+
+==================================================
+FINAL COMMAND
+==================================================
+
+USE ALL FOUR REFERENCE IMAGES AS VISUAL ANCHORS.
+
+APPLY ALL USER PARAMETERS.
+
+FOLLOW THE SPECIAL SCENE DIRECTION.
+
+PRESERVE PRODUCT DNA, CHARACTER DNA, OUTFIT DNA, AND ENVIRONMENT DNA.
+
+COMPILE ALL INFORMATION INTO ONE COHERENT PROFESSIONAL STORYBOARD.
+
+GENERATE THE STORYBOARD IMAGE FOR THE SPECIFIED SCENE NOW.`;
+
+            document.getElementById('promptStoryText').value = template;
+            document.getElementById('resultStorySection').classList.remove('hidden');
+            document.getElementById('resultStorySection').scrollIntoView({ behavior: 'smooth' });
+            saveToLocal();
+        }
+
+        function setupOutfitRefStaticPrompt() {
+            document.getElementById('promptOutRefText').value = `MASTER PROMPT — OUTFIT REPLACEMENT & OUTFIT DNA SHEET 9:16
+Create a professional, ultra-realistic OUTFIT DNA SHEET for an established recurring character.
+The uploaded images consist of:
+ONE CHARACTER SHEET — this is the identity reference.
+MULTIPLE OUTFIT REFERENCE IMAGES — these are the clothing design references.
+CRITICAL INSTRUCTION
+COMPLETELY REPLACE THE CHARACTER'S ORIGINAL OUTFIT WITH THE OUTFIT DESIGNS FROM THE UPLOADED OUTFIT REFERENCE IMAGES.
+The clothing shown in the original Character Sheet is NOT the target outfit.
+The original Character Sheet is used ONLY to preserve the character's: face, facial identity, body identity, skin tone, age, hairstyle, hair color, facial hair, body proportions, ethnicity, physical characteristics.
+DO NOT PRESERVE THE ORIGINAL CLOTHING FROM THE CHARACTER SHEET.
+... (Dan seterusnya sesuai template standar yang tersimpan sebelumnya) ...`;
+        }
+
+        // ==========================================
+        // 8. DATA MANAGEMENT & LOCAL STORAGE
+        // ==========================================
+        function saveToLocal() {
+            const data = {};
+            // Char
+            charFields.forEach(f => {
+                if(!f.readonly) {
+                    data[`sel_${f.id}`] = document.getElementById(`sel_${f.id}`)?.value || '';
+                    data[`cust_${f.id}`] = document.getElementById(`cust_${f.id}`)?.value || '';
+                }
+            });
+            // Outfit
+            outfitFields.forEach(f => {
+                data[`sel_${f.id}`] = document.getElementById(`sel_${f.id}`)?.value || '';
+                data[`cust_${f.id}`] = document.getElementById(`cust_${f.id}`)?.value || '';
+            });
+            // Env
+            envFields.forEach(f => {
+                data[`sel_${f.id}`] = document.getElementById(`sel_${f.id}`)?.value || '';
+                data[`cust_${f.id}`] = document.getElementById(`cust_${f.id}`)?.value || '';
+            });
+            // Product
+            productFields.forEach(f => {
+                data[`sel_${f.id}`] = document.getElementById(`sel_${f.id}`)?.value || '';
+                data[`cust_${f.id}`] = document.getElementById(`cust_${f.id}`)?.value || '';
+            });
+            // Story
+            storyFields.forEach(f => {
+                data[`sel_${f.id}`] = document.getElementById(`sel_${f.id}`)?.value || '';
+                data[`cust_${f.id}`] = document.getElementById(`cust_${f.id}`)?.value || '';
+            });
+            
+            data['promptCharText'] = document.getElementById('promptCharText').value;
+            data['promptOutRefText'] = document.getElementById('promptOutRefText').value;
+            data['promptOutScrText'] = document.getElementById('promptOutScrText').value;
+            data['promptEnvText'] = document.getElementById('promptEnvText').value;
+            data['promptProductText'] = document.getElementById('promptProductText').value;
+            data['promptStoryText'] = document.getElementById('promptStoryText').value;
+            
+            data['showCharRes'] = !document.getElementById('resultCharSection').classList.contains('hidden');
+            data['showOutScrRes'] = !document.getElementById('resultOutScrSection').classList.contains('hidden');
+            data['showEnvRes'] = !document.getElementById('resultEnvSection').classList.contains('hidden');
+            data['showProductRes'] = !document.getElementById('resultProductSection').classList.contains('hidden');
+            data['showStoryRes'] = !document.getElementById('resultStorySection').classList.contains('hidden');
+
+            // Gunakan key V5 agar tidak tumpang tindih dengan versi sebelumnya
+            localStorage.setItem('promptGenDataV5', JSON.stringify(data));
+        }
+
+        function saveStateToLocal() {
+            let activeTab = 'char';
+            if(!document.getElementById('sectionOutfit').classList.contains('hidden')) activeTab = 'outfit';
+            if(!document.getElementById('sectionEnv').classList.contains('hidden')) activeTab = 'env';
+            if(!document.getElementById('sectionProduct').classList.contains('hidden')) activeTab = 'product';
+            if(!document.getElementById('sectionStory').classList.contains('hidden')) activeTab = 'story';
+
+            const state = {
+                tab: activeTab,
+                outfitMode: document.getElementById('modeOutfitRef').classList.contains('hidden') ? 'scr' : 'ref'
+            };
+            localStorage.setItem('promptGenStateV5', JSON.stringify(state));
+        }
+
+        function loadFromLocal() {
+            const savedState = localStorage.getItem('promptGenStateV5');
+            if(savedState) {
+                const s = JSON.parse(savedState);
+                switchMainTab(s.tab);
+                switchOutfitMode(s.outfitMode);
+            }
+
+            const saved = localStorage.getItem('promptGenDataV5');
+            if (saved) {
+                const data = JSON.parse(saved);
+                
+                // Helper to load fields
+                const loadFields = (fieldsArr) => {
+                    fieldsArr.forEach(f => {
+                        if(!f.readonly) {
+                            const sel = document.getElementById(`sel_${f.id}`);
+                            const cust = document.getElementById(`cust_${f.id}`);
+                            if(sel && data[`sel_${f.id}`]) sel.value = data[`sel_${f.id}`];
+                            if(cust && data[`cust_${f.id}`]) cust.value = data[`cust_${f.id}`];
+                            if(sel && sel.value === 'Lainnya' && cust) cust.classList.remove('hidden');
+                        }
+                    });
+                };
+
+                loadFields(charFields);
+                syncAutoName();
+                loadFields(outfitFields);
+                loadFields(envFields);
+                loadFields(productFields);
+                loadFields(storyFields);
+
+                // Prompts
+                if(data['promptCharText']) document.getElementById('promptCharText').value = data['promptCharText'];
+                if(data['promptOutRefText']) document.getElementById('promptOutRefText').value = data['promptOutRefText'];
+                if(data['promptOutScrText']) document.getElementById('promptOutScrText').value = data['promptOutScrText'];
+                if(data['promptEnvText']) document.getElementById('promptEnvText').value = data['promptEnvText'];
+                if(data['promptProductText']) document.getElementById('promptProductText').value = data['promptProductText'];
+                if(data['promptStoryText']) document.getElementById('promptStoryText').value = data['promptStoryText'];
+                
+                // Visibility
+                if(data['showCharRes']) document.getElementById('resultCharSection').classList.remove('hidden');
+                if(data['showOutScrRes']) document.getElementById('resultOutScrSection').classList.remove('hidden');
+                if(data['showEnvRes']) document.getElementById('resultEnvSection').classList.remove('hidden');
+                if(data['showProductRes']) document.getElementById('resultProductSection').classList.remove('hidden');
+                if(data['showStoryRes']) document.getElementById('resultStorySection').classList.remove('hidden');
+            }
+        }
+
+        function resetData() {
+            if(confirm("Yakin ingin menghapus SEMUA data dan memulai dari awal?")) {
+                localStorage.removeItem('promptGenDataV5');
+                localStorage.removeItem('promptGenStateV5');
+                location.reload();
+            }
+        }
+
+        function clearForm(typeArrayName) {
+             if(confirm("Hapus semua isian kolom? (Prompt hasil tidak akan hilang)")) {
+                let arr;
+                if(typeArrayName === 'charFields') arr = charFields;
+                else if (typeArrayName === 'outfitFields') arr = outfitFields;
+                else if (typeArrayName === 'envFields') arr = envFields;
+                else if (typeArrayName === 'productFields') arr = productFields;
+                else if (typeArrayName === 'storyFields') arr = storyFields;
+
+                arr.forEach(f => {
+                    if(!f.readonly) {
+                        document.getElementById(`sel_${f.id}`).value = '';
+                        document.getElementById(`cust_${f.id}`).value = '';
+                        document.getElementById(`cust_${f.id}`).classList.add('hidden');
+                    }
+                });
+                if(typeArrayName === 'charFields') syncAutoName();
+                saveToLocal();
+             }
+        }
+
+        // ==========================================
+        // 9. UTILITIES (COPY, EXPORT, MODAL)
+        // ==========================================
+        function copyText(textAreaId) {
+            const el = document.getElementById(textAreaId);
+            el.select();
+            document.execCommand("copy");
+            alert("Prompt berhasil disalin ke Clipboard!");
+        }
+
+        function exportText(textAreaId, fileName) {
+            const text = document.getElementById(textAreaId).value;
+            const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = fileName;
+            link.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+
+        // ==========================================
+        // INIT ON LOAD
+        // ==========================================
+        window.onload = () => {
+            renderForm(charFields, 'charForm');
+            renderForm(outfitFields, 'outfitForm');
+            renderForm(envFields, 'envForm');
+            renderForm(productFields, 'productForm');
+            renderForm(storyFields, 'storyForm');
+            setupOutfitRefStaticPrompt();
+            loadFromLocal();
+        };
+    </script>
+</body>
+</html>
