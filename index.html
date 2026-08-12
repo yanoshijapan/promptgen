@@ -81,14 +81,23 @@
         <!-- SECTION 1: CHARACTER DNA       -->
         <!-- ============================== -->
         <div id="sectionChar" class="fade-in block">
+            
+            <div class="bg-blue-900/30 border border-blue-500/30 rounded-xl p-6 mb-6">
+                <h3 class="text-lg font-bold text-blue-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Info: Jika Kolom Kosong</h3>
+                <p class="text-slate-300 leading-relaxed text-sm">
+                    Jika Anda tidak memilih atau membiarkan sebuah kolom dropdown tetap kosong, sistem akan secara otomatis mengisi parameter tersebut dengan <strong>AI DECIDES</strong> pada saat prompt dibuat.
+                </p>
+            </div>
+
             <div class="glass-panel rounded-xl p-6 shadow-2xl mb-8 border border-slate-700/50">
                 <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
-                    <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-dna text-blue-500 mr-2"></i> Parameter Karakter</h2>
+                    <h2 class="text-2xl font-bold text-white"><i class="fa-solid fa-dna text-blue-500 mr-2"></i> Parameter Karakter Utama (1/2)</h2>
                     <button onclick="clearForm('charFields')" class="text-sm text-slate-400 hover:text-red-400 transition-colors flex items-center gap-1">
                         <i class="fa-solid fa-eraser"></i> Hapus Kolom
                     </button>
                 </div>
                 <form id="charForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></form>
+                
                 <div class="mt-8 flex justify-end">
                     <button type="button" onclick="generatePromptChar()" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-lg shadow-lg shadow-blue-500/30 transform transition hover:-translate-y-1 w-full md:w-auto text-lg flex items-center justify-center gap-2">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> Buat Prompt Karakter
@@ -118,27 +127,14 @@
                 <button id="btnOutScr" onclick="switchOutfitMode('scr')" class="flex-1 md:px-8 py-2.5 rounded-md font-semibold transition-all text-slate-400 hover:text-white">Dari Nol (Tanpa Referensi)</button>
             </div>
 
-            <!-- MODE A: DARI REFERENSI -->
             <div id="modeOutfitRef" class="block fade-in">
-                <!-- INSTRUCTION BOX + NOTE -->
                 <div class="bg-blue-900/30 border border-blue-500/30 rounded-xl p-6 mb-6">
                     <h3 class="text-lg font-bold text-blue-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
                     <p class="text-slate-300 leading-relaxed text-sm mb-4">
-                        Buka ChatGPT lalu masukan beberapa gambar atau referensi pakaian, usahakan gambar pakaian yang terpisah (contoh : atasan memiliki gambar sendiri, bawahan memiliki gambar sendiri dan alas kaki memiliki gambar sendiri (total gambar pakaian ada 3 gambar)).<br><br>
-                        Lalu masukan juga gambar character DNA yang sudah dibuat di step 1 sebelumnya, jadi total inputan gambar ada 4 (1 character DNA dan 3 gambar referensi outfit).<br><br>
-                        Lalu copy dan paste prompt di bawah ini untuk generate outfit DNA sheet. Selamat mencoba!
+                        Buka ChatGPT lalu masukan beberapa gambar atau referensi pakaian, usahakan gambar pakaian yang terpisah (contoh : atasan, bawahan, alas kaki memiliki gambar sendiri).<br><br>
+                        Lalu masukan juga gambar character DNA yang sudah dibuat di step 1 sebelumnya. Lalu copy dan paste prompt di bawah ini untuk generate outfit DNA sheet. Selamat mencoba!
                     </p>
-                    
-                    <div class="bg-blue-950/50 border border-blue-500/40 rounded-lg p-4 mt-2">
-                        <h4 class="text-sm font-bold text-blue-300 mb-1"><i class="fa-solid fa-lightbulb text-yellow-400 mr-1"></i> Note:</h4>
-                        <p class="text-xs text-slate-300 mb-4 leading-relaxed">
-                            Jika Anda akan memberikan referensi pakaian yang terdapat desain atau artwork di bagian belakang dan depan badan, maka hasil akan lebih akurat saat Anda mengunggah gambar seperti ini beserta promptnya:
-                        </p>
-                        <img src="https://yanoshijapan.github.io/asetonline/KAOSHITAM.png" alt="Contoh Referensi Desain" class="w-full max-w-md mx-auto rounded border border-blue-500/30 shadow-lg object-cover">
-                    </div>
                 </div>
-                
-                <!-- PROMPT TEXTAREA -->
                 <div class="glass-panel rounded-xl p-6 shadow-2xl border border-blue-500/30 bg-slate-900/50">
                     <div class="flex justify-between items-center mb-4">
                         <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-file-code mr-2"></i> Prompt Referensi Outfit</h2>
@@ -151,13 +147,12 @@
                 </div>
             </div>
 
-            <!-- MODE B: DARI NOL (SCRATCH) -->
             <div id="modeOutfitScr" class="hidden fade-in">
                 <div class="bg-indigo-900/30 border border-indigo-500/30 rounded-xl p-6 mb-6">
                     <h3 class="text-lg font-bold text-indigo-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
                     <p class="text-slate-300 leading-relaxed text-sm">
-                        Buka ChatGPT lalu masukan gambar character DNA yang sudah dibuat di step 1 sebelumnya, isi kolom penyesuaian outfit di bawah ini lalu klik buat prompt.<br><br>
-                        Lalu copy dan paste prompt yang sudah jadi untuk generate outfit DNA sheet. Selamat mencoba!
+                        Buka ChatGPT lalu masukan gambar character DNA yang sudah dibuat, isi kolom di bawah ini lalu klik buat prompt.<br><br>
+                        Lalu copy dan paste prompt yang sudah jadi untuk generate outfit DNA sheet.
                     </p>
                 </div>
 
@@ -194,17 +189,6 @@
         <!-- SECTION 3: ENVIRONMENT DNA     -->
         <!-- ============================== -->
         <div id="sectionEnv" class="fade-in hidden">
-            
-            <div class="bg-amber-900/30 border border-amber-500/30 rounded-xl p-6 mb-6">
-                <h3 class="text-lg font-bold text-amber-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
-                <p class="text-slate-300 leading-relaxed text-sm">
-                    Setelah character DNA dan outfitnya sudah jadi dan sesuai, selanjutnya adalah pembuatan environment atau latar tempat karakter yang nantinya akan digunakan saat menyusun storyboard di step 5.<br><br>
-                    Silakan isi parameter di bawah ini sesuai latar tempat yang Anda inginkan, lalu buat prompt.<br>
-                    Setelah prompt jadi silakan langsung copy dan paste prompt ke chatGPT untuk generate environment DNA sheet.<br>
-                    Selamat mencoba!
-                </p>
-            </div>
-
             <div class="glass-panel rounded-xl p-6 shadow-2xl mb-8 border border-slate-700/50">
                 <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
                     <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-mountain-city text-amber-500 mr-2"></i> Environment Parameter</h2>
@@ -220,7 +204,6 @@
                     </button>
                 </div>
             </div>
-
             <div id="resultEnvSection" class="glass-panel rounded-xl p-6 shadow-2xl mb-8 hidden fade-in border border-amber-500/30 bg-slate-900/50">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold text-amber-400"><i class="fa-solid fa-check-circle mr-2"></i> Prompt Environment Berhasil Dibuat</h2>
@@ -237,15 +220,6 @@
         <!-- SECTION 4: PRODUCT / OBJECT    -->
         <!-- ============================== -->
         <div id="sectionProduct" class="fade-in hidden">
-            
-            <div class="bg-teal-900/30 border border-teal-500/30 rounded-xl p-6 mb-6">
-                <h3 class="text-lg font-bold text-teal-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
-                <p class="text-slate-300 leading-relaxed text-sm">
-                    Disini akan dibuatkaan DNA untuk produk atau objek spesifik yang akan digunakan oleh karakter.<br>
-                    Cukup isi parameter objek di bawah ini dan jika Anda memiliki gambar/foto referensi objek atau produk, silakan di unggah bersamaan dengan prompt dibawah yang telah di buat ke chatGPT.
-                </p>
-            </div>
-
             <div class="glass-panel rounded-xl p-6 shadow-2xl mb-8 border border-slate-700/50">
                 <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
                     <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-box-open text-teal-500 mr-2"></i> Product / Object Parameter</h2>
@@ -254,14 +228,12 @@
                     </button>
                 </div>
                 <form id="productForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></form>
-                
                 <div class="mt-8 flex justify-end">
                     <button type="button" onclick="generatePromptProduct()" class="px-8 py-3 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white font-bold rounded-lg shadow-lg shadow-teal-500/30 transform transition hover:-translate-y-1 w-full md:w-auto text-lg flex items-center justify-center gap-2">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> Buat Prompt Product
                     </button>
                 </div>
             </div>
-
             <div id="resultProductSection" class="glass-panel rounded-xl p-6 shadow-2xl mb-8 hidden fade-in border border-teal-500/30 bg-slate-900/50">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold text-teal-400"><i class="fa-solid fa-check-circle mr-2"></i> Prompt Product Berhasil Dibuat</h2>
@@ -278,15 +250,6 @@
         <!-- SECTION 5: STORYBOARD          -->
         <!-- ============================== -->
         <div id="sectionStory" class="fade-in hidden">
-            
-            <div class="bg-rose-900/30 border border-rose-500/30 rounded-xl p-6 mb-6">
-                <h3 class="text-lg font-bold text-rose-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
-                <p class="text-slate-300 leading-relaxed text-sm">
-                    Setelah gambar karakter DNA, outfit DNA, objek/produk DNA dan environment DNA, selanjutnya isi parameter di bawah ini untuk membuat alur cerita atau storyboard yang di inginkan, lalu buat prompt.<br>
-                    Setelah prompt di buat copy promptnya, lalu buka chatGPT dan masukkan 4 gambar yaitu gambar karakter DNA, outfit DNA, objek/produk DNA dan environment DNA lalu paste promptnya. Selamat mencoba!
-                </p>
-            </div>
-
             <div class="glass-panel rounded-xl p-6 shadow-2xl mb-8 border border-slate-700/50">
                 <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
                     <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-clapperboard text-rose-500 mr-2"></i> Storyboard Parameter</h2>
@@ -294,16 +257,13 @@
                         <i class="fa-solid fa-eraser"></i> Hapus Kolom
                     </button>
                 </div>
-                <!-- Formulir grid 3 kolom untuk Desktop -->
                 <form id="storyForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></form>
-                
                 <div class="mt-8 flex justify-end">
                     <button type="button" onclick="generatePromptStory()" class="px-8 py-3 bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white font-bold rounded-lg shadow-lg shadow-rose-500/30 transform transition hover:-translate-y-1 w-full md:w-auto text-lg flex items-center justify-center gap-2">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> Buat Prompt Storyboard
                     </button>
                 </div>
             </div>
-
             <div id="resultStorySection" class="glass-panel rounded-xl p-6 shadow-2xl mb-8 hidden fade-in border border-rose-500/30 bg-slate-900/50">
                 <div class="flex justify-between items-center mb-4">
                     <h2 class="text-xl font-bold text-rose-400"><i class="fa-solid fa-check-circle mr-2"></i> Prompt Storyboard Berhasil Dibuat</h2>
@@ -332,66 +292,207 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         // ==========================================
-        // 1. DATA FORM FIELD (CHARACTER)
+        // 1. DATA FORM FIELD (CHARACTER - 140+ PARAMS)
         // ==========================================
         const charFields = [
-            { id: "nama", label: "NAMA KARAKTER", desc: "Nama lengkap atau panggilan karakter yang dibuat.", options: ["Alex Mercer", "Luna Valerius", "Kael", "Sarah", "Jin Sakai"] },
-            { id: "topik", label: "TOPIK KONTEN", desc: "Niche atau tema utama dari konten yang akan dibuat.", options: ["Tech / Gadget Review", "Fashion & Lifestyle", "Gaming & Esports", "Comedy & Skits", "Horror & Misteri"] },
-            { id: "audience", label: "TARGET AUDIENCE", desc: "Kelompok umur/kalangan target penonton.", options: ["Gen Z (13-24 tahun)", "Millennials (25-40 tahun)", "Pekerja Kantoran", "Anak-anak", "Umum"] },
-            { id: "peran", label: "PERAN KARAKTER", desc: "Posisi atau fungsi karakter dalam cerita/konten.", options: ["Protagonis Utama", "Expert / Penasihat", "Pelawak", "Antagonis", "Pengamat"] },
-            { id: "konsep", label: "KONSEP (2-4 Kalimat)", desc: "Inti cerita atau latar belakang karakter secara singkat.", options: ["Seorang hacker jenius yang sinis.", "Detektif eksentrik namun cerdas.", "Kesatria modern yang jujur.", "Ilmuwan gila tapi ramah.", "Gadis misterius penyimpan rahasia."], isTextarea: true },
-            { id: "kepribadian", label: "KEPRIBADIAN", desc: "Sifat dasar atau temperamen karakter.", options: ["Introvert & Analitis", "Ekstrovert & Enerjik", "Ambivert & Santai", "Melankolis", "Koleris"] },
-            { id: "energy", label: "ENERGY", desc: "Tingkat energi atau vibe yang dipancarkan saat tampil.", options: ["Tenang", "Lucu", "Chaos", "Bijak", "Dingin / Barbar"] },
-            { id: "gaya_bicara", label: "GAYA BICARA", desc: "Cara karakter berkomunikasi dan bertutur kata.", options: ["Sangat Formal", "Gaul & Penuh Slang", "Sarkas", "Terbata-bata", "Bersemangat"] },
-            { id: "ciri_khas", label: "CIRI KHAS", desc: "Ciri fisik atau kebiasaan unik yang paling menonjol.", options: ["Memakai kacamata hitam bulat", "Ada bekas luka di pipi", "Rambut ekor kuda", "Tato naga di leher", "Mengunyah permen karet"] },
-            { id: "kalimat_khas", label: "KALIMAT KHAS", desc: "Kata-kata atau jargon (slogan) yang sering diucapkan.", options: ["Tunggu, biar aku yang urus.", "Wah, gila sih ini...", "Menurut perhitunganku, tamat.", "Bisa santai sedikit nggak?", "Menarik... mari coba."] },
-            { id: "warna_utama", label: "WARNA UTAMA", desc: "Warna dominan yang menjadi identitas karakter.", options: ["Deep Crimson Red", "Midnight Blue", "Forest Green", "Obsidian Black", "Pure White"] },
-            { id: "warna_sekunder", label: "WARNA SEKUNDER", desc: "Warna pendukung pada desain atau pakaian karakter.", options: ["Mustard Yellow", "Ash Grey", "Leather Brown", "Navy Blue", "Soft Pink"] },
-            { id: "warna_aksen", label: "WARNA AKSEN", desc: "Warna kecil namun mencolok sebagai pemanis visual.", options: ["Neon Cyan", "Gold Metallic", "Bright Magenta", "Silver Chrome", "Toxic Green"] },
-            { id: "outfit", label: "DESKRIPSI OUTFIT", desc: "Deskripsi umum pakaian yang sering dikenakan.", options: ["Cyberpunk techwear", "Jas formal slim-fit", "Kaos vintage oversized", "Jubah penyihir modern", "Seragam taktis hitam"] },
-            { id: "aksesori", label: "AKSESORI", desc: "Barang pelengkap yang dipakai pada tubuh (jam, kalung, dll).", options: ["Jam tangan mekanik", "Kalung liontin perak", "Banyak tindik", "Cincin tengkorak", "Sarung tangan setengah jari"] },
-            { id: "properti", label: "PROPERTI", desc: "Barang bawaan atau alat yang sering dipegang/dibawa.", options: ["Laptop berstiker", "Kamera analog vintage", "Pedang katana", "Buku tebal bersampul kulit", "Cangkir kopi keramik"] },
-            { id: "kepribadian_dom", label: "KEPRI. DOMINAN", desc: "Sifat dominan yang paling mudah disadari oleh orang lain.", options: ["Sangat Percaya Diri", "Sangat Pemalu", "Emosional", "Pemikir Kritis", "Selalu Ceria"] },
-            { id: "ekspresi_dom", label: "EKSPRESI DOMINAN", desc: "Raut wajah yang paling sering ditunjukkan.", options: ["Senyum misterius", "Muka datar (Poker face)", "Sering tertawa", "Sinis satu alis terangkat", "Selalu kaget/panik"] },
-            { id: "bahasa_tubuh", label: "BAHASA TUBUH", desc: "Gestur atau postur tubuh karakter saat diam/bergerak.", options: ["Menyilangkan tangan", "Membungkuk", "Banyak menggerakkan tangan", "Kaku", "Bersandar pada dinding"] },
-            { id: "sikap", label: "SIKAP", desc: "Cara pandang (attitude) karakter terhadap sekitarnya.", options: ["Sangat Positif", "Pesimis", "Masa Bodoh / Apatis", "Sangat Hormat", "Pemberontak"] },
-            { id: "nama_auto", label: "NAMA (Auto)", desc: "Terisi otomatis mengikuti isian Nama Karakter di awal.", options: ["(Akan terisi otomatis)"], readonly: true },
-            { id: "deskripsi_singkat", label: "DESKRIPSI SINGKAT", desc: "Julukan atau ringkasan karakter dalam 1 baris (Title).", options: ["Sang Jenius yang Kesepian", "Pemberontak dari Masa Depan", "Ksatria Terakhir", "Pengamat dalam Bayangan", "Pelawak di Tengah Kehancuran"] },
-            { id: "catchphrase", label: "CATCHPHRASE", desc: "Penegasan kembali kalimat ikonik dari karakter.", options: ["Tunggu, biar aku yang urus.", "Wah, gila sih ini...", "Menurut perhitunganku, tamat.", "Bisa santai sedikit nggak?", "Menarik... mari coba."] },
-            { id: "sig_action", label: "SIGNATURE ACTION", desc: "Gerakan atau pose ikonik yang sering dilakukan.", options: ["Menunjuk kamera", "Merapikan kacamata", "Memijat pelipis", "Memainkan koin", "Mengedipkan mata"] },
-            { id: "properti_utama", label: "PROPERTI UTAMA", desc: "Barang paling penting yang tidak pernah lepas dari karakter.", options: ["Laptop berstiker", "Kamera analog", "Pedang katana", "Buku tebal", "Skateboard"] },
-            { id: "properti_tambahan", label: "PROPERTI TAMBAHAN", desc: "Barang ekstra yang sesekali dibawa karakter.", options: ["Tas ransel tactical", "Headphone", "Topi beanie", "Syal merah tebal", "Kacamata hitam aviator"] },
-            { id: "color1", label: "COLOR 1", desc: "Kode warna Hex untuk referensi palet.", options: ["#1A1A1A (Dark)", "#FF3366 (Neon Pink)", "#00E5FF (Cyan)", "#FFFFFF (White)", "#FFD700 (Gold)"] },
-            { id: "color2", label: "COLOR 2", desc: "Kode warna Hex untuk referensi palet.", options: ["#333333 (Grey)", "#1E88E5 (Blue)", "#43A047 (Green)", "#E53935 (Red)", "#8E24AA (Purple)"] },
-            { id: "color3", label: "COLOR 3", desc: "Kode warna Hex untuk referensi palet.", options: ["#F5F5F5 (Light Grey)", "#FFB300 (Amber)", "#00897B (Teal)", "#3949AB (Indigo)", "#D81B60 (Pink)"] },
-            { id: "color4", label: "COLOR 4", desc: "Kode warna Hex untuk referensi palet.", options: ["#212121 (Black)", "#FDD835 (Yellow)", "#7CB342 (Light Green)", "#039BE5 (Light Blue)", "#FB8C00 (Orange)"] }
+            // A. CORE IDENTITY
+            { id: "c_name", label: "CHARACTER NAME", desc: "Nama lengkap karakter.", options: ["AI DECIDES", "Alex Mercer", "Luna Valerius", "Kael", "Sarah", "Jin Sakai", "Elias Thorne", "Maya Lin"] },
+            { id: "c_nick", label: "NICKNAME", desc: "Nama panggilan.", options: ["AI DECIDES", "Lex", "Lu", "K", "Sari", "Jin", "Eli", "May"] },
+            { id: "c_age", label: "AGE", desc: "Usia karakter.", options: ["AI DECIDES", "19", "24", "28", "35", "42", "50", "65"] },
+            { id: "c_gender", label: "GENDER", desc: "Jenis kelamin.", options: ["AI DECIDES", "Male", "Female", "Androgynous", "Non-binary", "Masculine-presenting", "Feminine-presenting", "Unknown"] },
+            { id: "c_eth", label: "ETHNICITY / APPEARANCE", desc: "Penampilan ras/etnis.", options: ["AI DECIDES", "Asian", "Caucasian", "African Descent", "Hispanic / Latino", "Middle Eastern", "Mixed Heritage", "Nordic"] },
+            { id: "c_nat", label: "NATIONALITY", desc: "Kewarganegaraan.", options: ["AI DECIDES", "Indonesian", "Japanese", "American", "British", "Korean", "French", "Brazilian"] },
+            { id: "c_orig", label: "CULTURAL BACKGROUND", desc: "Latar belakang budaya.", options: ["AI DECIDES", "Urban City", "Traditional Village", "Nomadic", "High-society", "Working-class", "Military upbringing", "Academic family"] },
+            { id: "c_occ", label: "OCCUPATION", desc: "Pekerjaan.", options: ["AI DECIDES", "Tech Reviewer", "Fashion Model", "Detective", "Student", "Barista", "Hacker", "Freelance Artist"] },
+            { id: "c_role", label: "SOCIAL ROLE", desc: "Peran di masyarakat.", options: ["AI DECIDES", "The Leader", "The Observer", "The Rebel", "The Mentor", "The Jester", "The Caregiver", "The Outsider"] },
+            { id: "c_arch", label: "CHARACTER ARCHETYPE", desc: "Arketipe dasar.", options: ["AI DECIDES", "Hero", "Anti-Hero", "Sage", "Trickster", "Innocent", "Explorer", "Creator"] },
+            { id: "c_concept", label: "CORE CONCEPT", desc: "Inti cerita karakter.", isTextarea: true, options: ["AI DECIDES", "Seorang hacker jenius yang sinis.", "Detektif eksentrik namun cerdas.", "Kesatria modern yang jujur.", "Ilmuwan gila tapi ramah.", "Gadis misterius penyimpan rahasia.", "Kreator konten yang selalu antusias.", "Pekerja kantoran yang diam-diam adalah ninja."] },
+            
+            // B. PHYSICAL DNA
+            { id: "c_height", label: "HEIGHT", desc: "Tinggi badan.", options: ["AI DECIDES", "155 cm", "165 cm", "170 cm", "178 cm", "185 cm", "192 cm", "Very Tall"] },
+            { id: "c_weight", label: "WEIGHT", desc: "Berat badan (Opsional).", options: ["AI DECIDES", "50 kg", "65 kg", "75 kg", "85 kg", "100 kg", "Lightweight", "Heavyweight"] },
+            { id: "c_build", label: "BODY BUILD", desc: "Bentuk tubuh.", options: ["AI DECIDES", "SLIM", "AVERAGE", "ATHLETIC", "STOCKY", "HEAVY", "MUSCULAR", "LANKY"] },
+            { id: "c_prop", label: "BODY PROPORTION", desc: "Proporsi tubuh.", options: ["AI DECIDES", "Long legs, short torso", "Balanced", "Long torso, short legs", "Broad upper body", "Curvy", "Petite", "Elongated limbs"] },
+            { id: "c_shoulder", label: "SHOULDER WIDTH", desc: "Lebar bahu.", options: ["AI DECIDES", "SEMPIT (Narrow)", "SEDANG (Average)", "LEBAR (Broad)", "Sloping", "Square", "Tense", "Relaxed"] },
+            { id: "c_post", label: "POSTURE", desc: "Postur tubuh.", options: ["AI DECIDES", "TEGAK (Straight)", "SANTAI (Relaxed)", "MEMBUNGKUK (Slouched)", "Stiff", "Confident", "Defensive", "Graceful"] },
+            { id: "c_age_app", label: "AGE APPEARANCE", desc: "Terlihat seperti usia...", options: ["AI DECIDES", "Terlihat 18 tahun", "Terlihat 25 tahun", "Terlihat 30 tahun", "Terlihat 40 tahun", "Terlihat 50 tahun", "Terlihat jauh lebih muda", "Terlihat sangat tua"] },
+            { id: "c_trait", label: "DISTINCTIVE TRAIT", desc: "Ciri fisik khusus tubuh.", options: ["AI DECIDES", "Bahu asimetris", "Tangan sangat besar", "Jari-jari panjang", "Satu kaki sedikit pincang", "Postur kaku seperti robot", "Leher panjang", "Lengan dipenuhi tato"] },
+
+            // C. FACIAL DNA
+            { id: "c_face", label: "FACE SHAPE", desc: "Bentuk wajah.", options: ["AI DECIDES", "OVAL", "SQUARE", "ROUND", "HEART", "DIAMOND", "TRIANGLE", "OBLONG"] },
+            { id: "c_jaw", label: "JAW SHAPE", desc: "Bentuk rahang.", options: ["AI DECIDES", "Rahang tegas & tajam", "Rahang bulat", "Rahang kotak", "Rahang sempit", "Rahang V-shape", "Rahang asimetris", "Rahang lembut"] },
+            { id: "c_fore", label: "FOREHEAD", desc: "Bentuk dahi.", options: ["AI DECIDES", "Lebar", "Sempit", "Tinggi", "Rata", "Menonjol", "Tertutup poni", "Lebar & tinggi"] },
+            { id: "c_cheek", label: "CHEEK STRUCTURE", desc: "Tulang pipi.", options: ["AI DECIDES", "Tulang pipi tinggi (High cheekbones)", "Pipi tembam (Chubby)", "Pipi tirus (Hollow)", "Tulang pipi rata", "Tulang pipi menonjol", "Pipi bulat", "Tulang pipi tegas"] },
+            { id: "c_eye_shp", label: "EYE SHAPE", desc: "Bentuk mata.", options: ["AI DECIDES", "Almond", "Monolid", "Round", "Hooded", "Upturned", "Downturned", "Deep-set"] },
+            { id: "c_eye_col", label: "EYE COLOR", desc: "Warna mata.", options: ["AI DECIDES", "Dark Brown", "Hazel", "Light Blue", "Emerald Green", "Grey", "Amber", "Heterochromia (Beda warna)"] },
+            { id: "c_brow", label: "EYEBROW SHAPE", desc: "Bentuk alis.", options: ["AI DECIDES", "Tebal & lurus", "Melengkung tajam (Arched)", "Tipis", "Menyambung (Unibrow)", "Berantakan", "Turun di ujung", "Dicukur sebagian"] },
+            { id: "c_nose", label: "NOSE SHAPE", desc: "Bentuk hidung.", options: ["AI DECIDES", "Mancung lurus (Straight)", "Pesek (Button)", "Aquiline (Bengkok)", "Lebar (Broad)", "Snub", "Pointed", "Asimetris / Pernah patah"] },
+            { id: "c_lip", label: "LIP SHAPE", desc: "Bentuk bibir.", options: ["AI DECIDES", "Tebal penuh (Full)", "Tipis rata (Thin)", "Bibir atas lebih tebal", "Bibir bawah lebih tebal", "Cupid's bow tajam", "Lebar", "Mungil"] },
+            { id: "c_chin", label: "CHIN", desc: "Bentuk dagu.", options: ["AI DECIDES", "Dagu terbelah (Cleft chin)", "Dagu runcing (Pointed)", "Dagu kotak (Square)", "Dagu ganda (Double chin)", "Dagu pendek", "Dagu menonjol", "Dagu bulat"] },
+            { id: "c_ear", label: "EAR SHAPE", desc: "Bentuk telinga.", options: ["AI DECIDES", "Kecil menempel", "Lebar (Caplang)", "Telinga peri (Pointed)", "Telinga berkerut (Cauliflower)", "Besar", "Lobus panjang", "Lobus menempel"] },
+            { id: "c_skin_tn", label: "SKIN TONE", desc: "Warna kulit.", options: ["AI DECIDES", "Pale White", "Fair", "Medium / Olive", "Tan / Sawo Matang", "Brown", "Dark Brown", "Ebony Black"] },
+            { id: "c_skin_un", label: "SKIN UNDERTONE", desc: "Undertone kulit.", options: ["AI DECIDES", "WARM (Kuning/Emas)", "COOL (Pink/Biru)", "NEUTRAL", "Olive", "Peachy", "Sallow", "Reddish"] },
+            { id: "c_skin_tx", label: "SKIN TEXTURE", desc: "Tekstur kulit wajah.", options: ["AI DECIDES", "NATURAL", "ROUGH", "SMOOTH / FLAWLESS", "Freckled (Bintik-bintik)", "Wrinkled (Berkerut)", "Acne-prone", "Oily / Glowing"] },
+            { id: "c_f_hair", label: "FACIAL HAIR", desc: "Bulu wajah (Kumis/Jenggot).", options: ["AI DECIDES", "NONE (Bersih)", "MUSTACHE (Kumis tipis)", "FULL BEARD (Jenggot lebat)", "Goatee", "Stubble (Brewok tipis 3 hari)", "Sideburns", "Soul Patch"] },
+            { id: "c_f_mark", label: "DISTINCTIVE FACIAL MARK", desc: "Tanda di wajah.", options: ["AI DECIDES", "NONE", "Bekas luka vertikal di mata", "Tahi lalat di bawah bibir", "Banyak bintik hitam (Freckles)", "Bekas luka bakar di pipi", "Tato kecil di dahi", "Lesung pipit dalam"] },
+
+            // D. HAIR DNA
+            { id: "c_h_col", label: "HAIR COLOR", desc: "Warna rambut.", options: ["AI DECIDES", "Jet Black", "Dark Brown", "Blonde", "Fiery Red", "Ash Grey", "Neon Blue", "Platinum White"] },
+            { id: "c_h_sty", label: "HAIR STYLE", desc: "Gaya rambut.", options: ["AI DECIDES", "Messy fringe", "Slicked back", "Ponytail", "Buzz cut (Botak)", "Bob cut", "Undercut", "Braids / Dreadlocks"] },
+            { id: "c_h_len", label: "HAIR LENGTH", desc: "Panjang rambut.", options: ["AI DECIDES", "Very Short", "Short", "Shoulder Length", "Mid-back", "Very Long", "Asymmetrical", "Bald"] },
+            { id: "c_h_tex", label: "HAIR TEXTURE", desc: "Tekstur rambut.", options: ["AI DECIDES", "LURUS (Straight)", "WAVY (Bergelombang)", "CURLY (Keriting)", "Kinky / Coily", "Fine & Thin", "Thick & Coarse", "Frizzy"] },
+            { id: "c_hline", label: "HAIRLINE", desc: "Batas rambut.", options: ["AI DECIDES", "Lurus rata", "Widow's peak", "M-shaped (Mulai botak)", "Tinggi", "Rendah", "Asimetris", "Tertutup poni"] },
+            { id: "c_h_det", label: "SIGNATURE HAIR DETAIL", desc: "Detail khas rambut.", options: ["AI DECIDES", "Satu helai rambut berdiri (Ahoge)", "Ujung rambut di-bleach (Frosted tips)", "Highlight warna merah di poni", "Jepit rambut selalu di kiri", "Dua helai panjang di depan telinga", "Rambut dikuncir asal-asalan", "Sisi kanan dicukur habis"] },
+
+            // E. WARDROBE DNA
+            { id: "c_w_head", label: "HEADWEAR", desc: "Topi/aksesoris kepala.", options: ["AI DECIDES", "NONE", "Topi baseball hitam dibalik", "Beanie rajut", "Topi fedora", "Headband olahraga", "Helm full-face", "Pita rambut besar"] },
+            { id: "c_w_eye", label: "EYEWEAR", desc: "Kacamata.", options: ["AI DECIDES", "NONE", "Kacamata baca frame bulat", "Kacamata hitam (Aviator)", "Kacamata tebal kotak", "Cyberpunk visor", "Kacamata safety", "Monocle"] },
+            { id: "c_w_top", label: "TOP (PAKAIAN ATAS)", desc: "Baju lapis pertama.", options: ["AI DECIDES", "Kaos polos putih oversized", "Kemeja flanel merah kotak", "Turtleneck hitam ketat", "Tanktop olahraga", "Kemeja kerah formal", "Kaos band vintage", "Baju zirah ringan"] },
+            { id: "c_w_out", label: "OUTERWEAR", desc: "Jaket / Jas.", options: ["AI DECIDES", "NONE", "Jaket kulit hitam", "Jas kantoran slim-fit", "Hoodie kebesaran", "Jas lab putih", "Mantel panjang (Trench coat)", "Rompi taktikal"] },
+            { id: "c_w_bot", label: "BOTTOM (BAWAHAN)", desc: "Celana / Rok.", options: ["AI DECIDES", "Celana jeans biru belel", "Celana cargo banyak kantong", "Celana bahan formal hitam", "Rok lipit pendek", "Celana pendek olahraga", "Celana kulit ketat", "Celana kulot lebar"] },
+            { id: "c_w_foot", label: "FOOTWEAR", desc: "Alas kaki.", options: ["AI DECIDES", "Sneakers putih klasik", "Sepatu boots kulit tebal", "Sepatu pantofel hitam mengkilap", "Sandal jepit", "Sepatu hak tinggi (Heels)", "Sepatu lari neon", "Sepatu roda"] },
+            { id: "c_w_acc", label: "ACCESSORIES", desc: "Aksesoris pakaian.", options: ["AI DECIDES", "NONE", "Jam tangan digital besar", "Kalung rantai perak", "Sarung tangan kulit tanpa jari", "Ikat pinggang dengan gesper tengkorak", "Syal merah tebal", "Banyak cincin di jari"] },
+            { id: "c_w_det", label: "SIGNATURE CLOTHING DETAIL", desc: "Detail khas di pakaian.", options: ["AI DECIDES", "Lengan baju kiri selalu digulung", "Kerah selalu dinaikkan (Popped collar)", "Pin senyum berdarah di dada", "Satu kancing baju selalu terbuka", "Tali sepatu beda warna", "Bercak noda oli di celana", "Resleting jaket selalu setengah"] },
+            { id: "c_w_col1", label: "PRIMARY OUTFIT COLOR", desc: "Warna utama baju.", options: ["AI DECIDES", "Black", "White", "Navy Blue", "Crimson Red", "Olive Green", "Mustard Yellow", "Grey"] },
+            { id: "c_w_col2", label: "SECONDARY OUTFIT COLOR", desc: "Warna kedua baju.", options: ["AI DECIDES", "White", "Grey", "Brown", "Black", "Red", "Blue", "Gold"] },
+            { id: "c_w_col3", label: "ACCENT OUTFIT COLOR", desc: "Warna aksen baju.", options: ["AI DECIDES", "Neon Green", "Hot Pink", "Cyan", "Gold", "Silver", "Orange", "Purple"] },
+
+            // F. SIGNATURE OBJECT DNA
+            { id: "c_p_pri", label: "PRIMARY SIGNATURE PROP", desc: "Properti/benda utama.", options: ["AI DECIDES", "Smartphone berstiker banyak", "Kamera analog tua", "Buku catatan kulit", "Gelas kopi kertas", "Pedang katana", "Lollipop", "Skateboard"] },
+            { id: "c_p_sec", label: "SECONDARY PROPS", desc: "Properti pendukung.", options: ["AI DECIDES", "Earphone kabel kusut", "Kunci mobil klasik", "Kacamata cadangan", "Korek api Zippo", "Botol minum logam", "Kalkulator saku", "Payung transparan"] },
+            { id: "c_p_tool", label: "SIGNATURE TOOL", desc: "Alat bantu kerja/aksi.", options: ["AI DECIDES", "Laptop tebal (Toughbook)", "Palu mekanik", "Senter kecil (Penlight)", "Tongkat kayu", "Kuas lukis", "Gitar akustik", "Microphone vintage"] },
+            { id: "c_p_ges", label: "GESTURE WITH PROP", desc: "Gaya khas memegang prop.", options: ["AI DECIDES", "Memutar-mutar pena di jari", "Mengetuk-ngetuk layar HP", "Menggigit ujung kacamata", "Memeluk skateboard di dada", "Melempar dan menangkap kunci mobil", "Menyelipkan buku di bawah ketiak", "Meniup asap dari cangkir kopi"] },
+
+            // G. PERSONALITY DNA
+            { id: "c_pe_core", label: "CORE PERSONALITY", desc: "Inti kepribadian.", options: ["AI DECIDES", "Cerdas tapi pemalas", "Sangat optimis & naif", "Dingin, logis & tanpa emosi", "Kasar tapi berhati emas", "Penakut tapi selalu beruntung", "Sangat narsis & manipulatif", "Setia & protektif"] },
+            { id: "c_pe_ener", label: "ENERGY", desc: "Aura / Tingkat energi.", options: ["AI DECIDES", "Hyperactive & Chaotic", "Tenang (Low Energy)", "Gugup & Cemas", "Intimidating (Mengancam)", "Cozy & Hangat", "Fokus & Tajam", "Malas & Mengantuk"] },
+            { id: "c_pe_temp", label: "TEMPERAMENT", desc: "Sumbu emosi.", options: ["AI DECIDES", "Sumbu pendek (Mudah marah)", "Sangat sabar", "Melankolis (Mudah sedih)", "Sarkastik (Selalu menyindir)", "Placid (Sulit ditebak perasaannya)", "Flamboyan", "Moody (Berubah-ubah)"] },
+            { id: "c_pe_dom", label: "DOMINANT EMOTION", desc: "Emosi yang paling sering terlihat.", options: ["AI DECIDES", "Bosan (Bored)", "Senang (Joyful)", "Marah (Irritated)", "Cemas (Anxious)", "Percaya Diri (Smug)", "Sedih (Melancholic)", "Terkejut (Surprised)"] },
+            { id: "c_pe_sec", label: "SECONDARY EMOTIONS", desc: "Emosi pendukung.", options: ["AI DECIDES", "Rasa bersalah", "Kekaguman (Awe)", "Kekecewaan", "Harapan (Hope)", "Kecemburuan (Envy)", "Kasih sayang", "Ketakutan"] },
+            { id: "c_pe_hum", label: "HUMOR STYLE", desc: "Gaya bercanda.", options: ["AI DECIDES", "DRY / Deadpan (Datar)", "ABSURD / Surreal", "SLAPSTICK (Fisik)", "DARK (Kelam)", "Sarcastic (Menyindir)", "Puns (Bermain kata)", "Tidak punya selera humor"] },
+            { id: "c_pe_conf", label: "CONFIDENCE LEVEL", desc: "Tingkat percaya diri.", options: ["AI DECIDES", "LOW (Minder)", "MEDIUM (Normal)", "HIGH (Sangat Pede)", "Arrogant (Sombong)", "Fake Confidence (Pura-pura pede)", "Fluctuating (Naik turun)", "Unshakeable (Tidak goyah)"] },
+            { id: "c_pe_soc", label: "SOCIAL BEHAVIOR", desc: "Cara bergaul.", options: ["AI DECIDES", "Introvert, suka menyendiri", "Ekstrovert, pusat perhatian", "Ambivert, bergaul seperlunya", "Awkward (Canggung)", "Charming (Mempesona banyak orang)", "Aggressive (Suka memulai konflik)", "Passive-Aggressive"] },
+            { id: "c_pe_val", label: "CORE VALUES", desc: "Nilai yang dipegang teguh.", options: ["AI DECIDES", "Kejujuran di atas segalanya", "Keluarga/Teman adalah nomor satu", "Uang/Kesuksesan adalah segalanya", "Kebebasan tanpa batas", "Keadilan dan balas dendam", "Ilmu pengetahuan dan logika", "Ketenangan dan kedamaian"] },
+            { id: "c_pe_flaw", label: "CHARACTER FLAW", desc: "Kekurangan sifat.", options: ["AI DECIDES", "Terlalu mudah percaya orang", "Sangat egois", "Cepat mengambil kesimpulan (Ceroboh)", "Pendendam", "Suka berbohong untuk hal kecil", "Tidak peka terhadap perasaan orang", "Pemalas parah"] },
+            { id: "c_pe_str", label: "CHARACTER STRENGTH", desc: "Kekuatan sifat.", options: ["AI DECIDES", "Pemecah masalah yang jenius", "Sangat empati dan pendengar yang baik", "Tidak pernah menyerah (Gigih)", "Sangat jago bernegosiasi", "Berani mengambil risiko mati", "Tetap tenang di bawah tekanan", "Sangat teliti"] },
+
+            // H. COGNITIVE DNA
+            { id: "c_cg_wview", label: "WORLDVIEW", desc: "Pandangan terhadap dunia.", options: ["AI DECIDES", "Dunia ini indah dan penuh harapan", "Dunia ini rusak dan tidak bisa diselamatkan", "Dunia adalah tempat bermain (Game)", "Dunia adalah transaksi bisnis", "Dunia penuh misteri yang harus dipecahkan", "Dunia ini absurd", "Dunia adalah ujian penderitaan"] },
+            { id: "c_cg_prob", label: "PROBLEM-SOLVING STYLE", desc: "Cara memecahkan masalah.", options: ["AI DECIDES", "LOGIS (Data & Fakta)", "ABSURD (Solusi tidak masuk akal tapi berhasil)", "PRAKTIS (Langsung bertindak)", "EMOSIONAL (Menggunakan perasaan)", "KREATIF (Berpikir di luar nalar)", "Minta bantuan orang lain", "Menghindari masalah"] },
+            { id: "c_cg_dec", label: "DECISION-MAKING STYLE", desc: "Cara mengambil keputusan.", options: ["AI DECIDES", "Sangat lambat dan overthinking", "Spontan dan impulsif", "Menunggu instruksi orang lain", "Melempar koin / untung-untungan", "Menganalisa semua risiko (Kalkulatif)", "Mengikuti kata hati (Intuisi)", "Memilih opsi paling aman"] },
+            { id: "c_cg_phil", label: "CORE PHILOSOPHY", desc: "Filosofi hidup.", options: ["AI DECIDES", "Bekerja cerdas, bukan keras", "Lakukan sekarang, pikirkan nanti", "Jangan pernah berhutang budi", "Semua orang pada akhirnya akan pergi", "Jika bukan aku, lalu siapa?", "Jalani hari ini seolah hari terakhir", "Tidak ada yang gratis di dunia ini"] },
+            { id: "c_cg_bel", label: "WHAT THE CHARACTER BELIEVES", desc: "Keyakinan utama.", options: ["AI DECIDES", "Teknologi akan menyelamatkan umat manusia", "Sihir/Hal gaib itu nyata", "Cinta sejati itu mitos", "Uang bisa membeli kebahagiaan", "Setiap orang berhak mendapat kesempatan kedua", "Kerja keras pasti membuahkan hasil", "Pemerintah selalu berbohong"] },
+            { id: "c_cg_dis", label: "WHAT THEY DISLIKE", desc: "Hal yang dibenci.", options: ["AI DECIDES", "Orang bodoh yang sok tahu", "Keterlambatan (Tidak on-time)", "Sayuran", "Tempat ramai dan berisik", "Aturan yang kaku", "Orang yang menangis", "Kekalahan"] },
+            { id: "c_cg_care", label: "WHAT THEY CARE ABOUT", desc: "Hal yang sangat dipedulikan.", options: ["AI DECIDES", "Koleksi mainan langkanya", "Adik perempuannya", "Ranking / Statistik", "Kopi di pagi hari", "Mobil antik miliknya", "Hewan peliharaan", "Reputasi dan Nama Baik"] },
+
+            // I. BEHAVIOR DNA
+            { id: "c_bh_post", label: "DEFAULT POSTURE", desc: "Postur default.", options: ["AI DECIDES", "Bersandar ke dinding sambil menyilangkan tangan", "Duduk tegak kaku di ujung kursi", "Membungkuk melihat lantai", "Berdiri bertumpu pada satu kaki", "Tangan selalu di dalam saku celana", "Membusungkan dada", "Duduk malas (Manspreading)"] },
+            { id: "c_bh_walk", label: "WALKING STYLE", desc: "Gaya berjalan.", options: ["AI DECIDES", "Berjalan cepat dengan langkah panjang", "Berjalan santai diseret (Sluggish)", "Langkah ringan hampir tanpa suara", "Berjalan melompat-lompat kecil", "Berjalan kaku militer", "Berjalan seperti model (Catwalk)", "Berjalan gontai seperti mabuk"] },
+            { id: "c_bh_hnd", label: "HAND GESTURE", desc: "Gestur tangan saat bicara.", options: ["AI DECIDES", "Banyak menggerakkan tangan (Ekspresif)", "Tangan diam di samping badan", "Sering menunjuk-nunjuk", "Menyentuh ujung dagu terus", "Mengepalkan tangan saat antusias", "Memutar-mutar jari (Gelisah)", "Tangan selalu terlipat di dada"] },
+            { id: "c_bh_head", label: "HEAD MOVEMENT", desc: "Gerakan kepala.", options: ["AI DECIDES", "Sering memiringkan kepala saat bingung", "Sering mengangguk cepat", "Menunduk saat bicara", "Kepala selalu mendongak (Sombong)", "Menggeleng pelan saat tidak setuju", "Kepala diam kaku", "Sering menoleh ke belakang (Paranoia)"] },
+            { id: "c_bh_eye", label: "EYE BEHAVIOR", desc: "Tatapan mata.", options: ["AI DECIDES", "Selalu menjaga kontak mata tajam (Intimidasi)", "Sering menghindari kontak mata (Pemalu)", "Mata sering melirik ke atas (Berpikir)", "Banyak berkedip (Gugup)", "Jarang berkedip (Fokus/Psikopat)", "Tatapan kosong ke awang-awang", "Sering memutar bola mata (Rolling eyes)"] },
+            { id: "c_bh_react", label: "REACTION PATTERN", desc: "Cara bereaksi spontan.", options: ["AI DECIDES", "Reaksi lambat (Delay)", "Reaksi berlebihan (Latah/Loncat)", "Freeze (Diam mematung)", "Langsung menyerang/bertahan", "Tertawa canggung", "Menutup muka dengan tangan", "Selalu mundur satu langkah"] },
+            { id: "c_bh_thnk", label: "THINKING GESTURE", desc: "Gestur saat berpikir.", options: ["AI DECIDES", "Menggigit ibu jari", "Menggaruk belakang kepala", "Mengetuk kening dengan telunjuk", "Menatap langit-langit", "Mengunyah permen karet lebih cepat", "Memutar-mutar ujung rambut", "Berjalan mondar-mandir"] },
+            { id: "c_bh_nerv", label: "NERVOUS HABIT", desc: "Kebiasaan saat gugup.", options: ["AI DECIDES", "Menggigit kuku", "Menggoyangkan kaki (Foot tapping)", "Menarik-narik kerah baju", "Membersihkan kacamata berulang kali", "Berdehem terus-menerus", "Berkeringat dingin dan mengusap dahi", "Bicara sangat cepat"] },
+            { id: "c_bh_sig", label: "SIGNATURE MOVEMENT", desc: "Gerakan paling khas.", options: ["AI DECIDES", "Merapikan rambut ke belakang telinga", "Menjentikkan jari (Snap fingers) sebelum aksi", "Mengedipkan sebelah mata (Wink) sambil tersenyum", "Meniup poni yang jatuh ke mata", "Menggosok hidung dengan punggung tangan", "Menepuk pundak orang dengan keras", "Mengeluarkan suara 'Tsk' dengan lidah"] },
+
+            // J. VOICE DNA
+            { id: "c_v_gen", label: "VOICE GENDER", desc: "Gender suara.", options: ["AI DECIDES", "MALE", "FEMALE", "ANDROGYNOUS", "Masculine Female", "Feminine Male", "Robotic", "Childlike"] },
+            { id: "c_v_age", label: "VOICE AGE", desc: "Terdengar seperti usia.", options: ["AI DECIDES", "Terdengar 15 tahun (Remaja)", "Terdengar 25 tahun (Dewasa muda)", "Terdengar 40 tahun (Matang)", "Terdengar 60 tahun (Tua)", "Suara kekanak-kanakan", "Suara sangat tua dan serak", "Ageless (Tidak menua)"] },
+            { id: "c_v_pitch", label: "PITCH", desc: "Tinggi nada suara.", options: ["AI DECIDES", "LOW (Bass/Berat)", "MEDIUM (Normal)", "HIGH (Melengking/Sopran)", "Very Low (Sub-bass)", "Very High", "Fluctuating (Sering pecah/fals)", "Monotone Pitch"] },
+            { id: "c_v_timbre", label: "TIMBRE", desc: "Warna suara.", options: ["AI DECIDES", "DEEP / WARM (Dalam & Hangat)", "NASAL (Sengau)", "ROUGH / GRAVELLY (Kasar/Serak)", "SOFT / MELLOW (Lembut)", "PIERCING (Tajam/Melengking)", "HOLLOW (Menggema)", "METALLIC (Seperti robot)"] },
+            { id: "c_v_reso", label: "RESONANCE", desc: "Resonansi suara.", options: ["AI DECIDES", "CHEST (Suara dada berat)", "THROAT (Suara tenggorokan/Ngeden)", "HEAD (Suara kepala/Falsetto)", "MIXED (Campuran)", "Nasal Cavity", "Mask (Suara di depan wajah)", "Lungs (Dalam)"] },
+            { id: "c_v_tex", label: "TEXTURE", desc: "Tekstur vokal.", options: ["AI DECIDES", "SMOOTH (Halus)", "RASPY (Serak basah)", "DRY (Kering)", "BREATHY (Banyak hembusan napas)", "CLEAN (Jernih)", "GRITTY (Berpasir)", "GURGLING (Berlendir)"] },
+            { id: "c_v_tempo", label: "SPEAKING TEMPO", desc: "Kecepatan bicara.", options: ["AI DECIDES", "SLOW (Lambat & Berpikir)", "MEDIUM (Normal)", "FAST (Cepat & Menggebu-gebu)", "RAPID-FIRE (Sangat cepat tanpa jeda)", "DRAWL (Sangat lambat ditarik-tarik)", "Irregular (Cepat lambat tak menentu)", "Stuttering (Terbata-bata)"] },
+            { id: "c_v_vol", label: "VOLUME", desc: "Kerasnya suara.", options: ["AI DECIDES", "SOFT (Berbisik/Kecil)", "MEDIUM (Normal)", "LOUD (Keras/Berteriak)", "BOOMING (Sangat menggelegar)", "MUMBLING (Bergumam tidak jelas)", "Dynamic (Naik turun drastis)", "Fading (Mengecil di akhir kalimat)"] },
+            { id: "c_v_artic", label: "ARTICULATION", desc: "Kejelasan pengucapan.", options: ["AI DECIDES", "SHARP (Sangat jelas/Enunciated)", "RELAXED (Santai)", "CASUAL (Malas/Mumbling)", "SLURRED (Cadel/Mabuk)", "CRISP (Tajam per suku kata)", "LISP (Cadel S/R)", "MUMBLED (Bergumam)"] },
+            { id: "c_v_acc", label: "ACCENT", desc: "Aksen bicara.", options: ["AI DECIDES", "Aksen Jakarta Selatan (Jaksel)", "Aksen Medok Jawa", "Aksen British Posh", "Aksen American Southern", "Aksen Anime Japanese (Broken Eng)", "Aksen Robotik", "Tidak ada aksen (Standard)"] },
+            { id: "c_v_voc", label: "VOCABULARY", desc: "Kosakata yang digunakan.", options: ["AI DECIDES", "FORMAL (Baku & Akademis)", "CASUAL (Santai sehari-hari)", "SLANG (Penuh bahasa gaul/Internet)", "POETIC (Puitis/Metafora)", "VULGAR (Penuh makian)", "JARGON (Bahasa teknis IT/Sains)", "CHILDISH (Kosakata anak-anak)"] },
+            { id: "c_v_slen", label: "SENTENCE LENGTH", desc: "Panjang kalimat.", options: ["AI DECIDES", "SHORT (Singkat & Padat)", "MEDIUM (Normal)", "LONG (Bertele-tele/Rambling)", "One-word answers (Hanya 1 kata)", "Run-on sentences (Tidak ada titik koma)", "Fragmented (Terpotong-potong)", "Perfectly structured"] },
+            { id: "c_v_pause", label: "PAUSE PATTERN", desc: "Pola jeda bicara.", options: ["AI DECIDES", "Jeda lama sebelum menjawab (Mikir dulu)", "Bicara terus tanpa jeda napas", "Sering pakai 'Ehmm' atau 'Uuuh'", "Jeda dramatis di tengah kalimat", "Menyelela ucapan orang lain", "Jeda pendek terengah-engah", "Jeda tepat layaknya news anchor"] },
+            { id: "c_v_laugh", label: "LAUGH STYLE", desc: "Gaya tertawa.", options: ["AI DECIDES", "Tertawa terbahak-bahak (Belly laugh)", "Kikik pelan (Chuckle/Giggle)", "Tertawa sinis (Smirk/Snort)", "Tertawa tanpa suara (Silent laugh)", "Tertawa aneh/Maniacal", "Hanya senyum, jarang tertawa", "Tertawa canggung (Awkward)"] },
+            { id: "c_v_emo_rng", label: "EMOTIONAL VOICE RANGE", desc: "Rentang emosi vokal.", options: ["AI DECIDES", "NARROW (Monoton, tidak berekspresi)", "MEDIUM (Wajar)", "WIDE (Sangat teatrikal/ekspresif)", "Extreme (Dari bisikan ke teriakan instan)", "Deadpan (Emosi apapun suaranya sama)", "Always Happy (Suara selalu riang)", "Always Sad (Suara selalu merintih)"] },
+            { id: "c_v_sig", label: "SIGNATURE VOCAL TRAIT", desc: "Ciri khas vokal.", options: ["AI DECIDES", "Vocal fry di akhir kalimat (Suara kretek)", "Suka berdehem sebelum bicara", "Suara bergetar saat berbohong", "Sering bernyanyi kecil (Humming)", "Selalu mendesah (Sighing) sebelum jawab", "Berdecak lidah (Tsk)", "Menirukan suara benda (Sound effects)"] },
+
+            // K. SPEECH DNA
+            { id: "c_s_lang", label: "LANGUAGE", desc: "Bahasa utama.", options: ["AI DECIDES", "Bahasa Indonesia", "Bahasa Inggris", "Campuran Indo-Inggris (Singlish/Jaksel)", "Bahasa Jepang", "Bahasa Isyarat", "Bahasa Gaul", "Bahasa Pemrograman (Candaan IT)"] },
+            { id: "c_s_dial", label: "DIALECT", desc: "Dialek lokal.", options: ["AI DECIDES", "Dialek Jakarta", "Dialek Surabaya", "Dialek Medan", "Dialek Sunda", "Dialek Brooklyn", "Dialek Texan", "Dialek Anime"] },
+            { id: "c_s_vlvl", label: "VOCABULARY LEVEL", desc: "Tingkat kecerdasan bahasa.", options: ["AI DECIDES", "Sangat tinggi (Genius/Professor)", "Rata-rata (Orang biasa)", "Rendah (Sering salah sebut kata)", "Anak jalanan", "Internet chronically online", "Sastra klasik", "Corporate buzzwords"] },
+            { id: "c_s_slfreq", label: "SLANG FREQUENCY", desc: "Seberapa sering pakai bahasa gaul.", options: ["AI DECIDES", "LOW (Jarang/Tidak pernah)", "MEDIUM (Kadang-kadang)", "HIGH (Hampir di setiap kalimat)", "Hanya pakai slang retro (Tahun 90an)", "Hanya pakai slang Gen Z / Alpha", "Membuat slang sendiri", "Menggunakan slang dengan salah konteks"] },
+            { id: "c_s_spat", label: "SENTENCE PATTERN", desc: "Pola penyusunan kalimat.", options: ["AI DECIDES", "Selalu bertanya di akhir (Kan? Ya?)", "Selalu memulai dengan 'Jadi gini...'", "Kalimat pasif", "Bicara dengan sudut pandang orang ke-3", "Selalu menyisipkan fakta acak", "Sering tidak menyelesaikan kalimat", "To the point (Tanpa basa-basi)"] },
+            { id: "c_s_fav_w", label: "FAVORITE WORDS", desc: "Kata yang sering diulang.", options: ["AI DECIDES", "'Literally', 'Jujurly', 'Basically'", "'Bro', 'Dude', 'Men'", "'Anjay', 'Gila', 'Keren'", "'Menurut datanya...', 'Hipotesisku...'", "'Eh', 'Mmm', 'Ya gitu'", "'Sumpah', 'Demi apa'", "'Absolutely', 'Indeed'"] },
+            { id: "c_s_no_w", label: "WORDS NEVER USED", desc: "Kata pantangan.", options: ["AI DECIDES", "Tidak pernah mengumpat/kasar", "Tidak pernah bilang 'Tolong' atau 'Maaf'", "Tidak pernah pakai bahasa Inggris", "Tidak pernah pakai kata 'Mustahil'", "Tidak pernah memanggil nama asli orang", "Tidak pernah bilang 'Aku' (Selalu 'Gue')", "Tidak pernah pakai kata gaul"] },
+            { id: "c_s_open", label: "TYPICAL OPENING", desc: "Cara membuka percakapan.", options: ["AI DECIDES", "'Halo guys, balik lagi sama gue...'", "'Apa kabar dunia?'", "'Dengar ya, gue cuma bilang sekali...'", "'(Menghela napas)... Oke, mari kita mulai.'", "'Yo, bro!'", "'Menurut perhitunganku...'", "Langsung bicara tanpa menyapa"] },
+            { id: "c_s_close", label: "TYPICAL CLOSING", desc: "Cara menutup percakapan.", options: ["AI DECIDES", "'Jangan lupa like & subscribe, bye!'", "'Udah ah, gue capek.'", "'Sampai jumpa di misi selanjutnya.'", "'May the logic be with you.'", "'Ya udahlah ya, gitu aja.'", "Pergi begitu saja tanpa pamit", "'Stay awesome!'"] },
+            { id: "c_s_catch", label: "CATCHPHRASE", desc: "Jargon utama.", options: ["AI DECIDES", "'Tunggu, biar aku yang urus.'", "'Wah, gila sih ini...'", "'Menurut perhitunganku, tamat.'", "'Bisa santai sedikit nggak?'", "'Menarik... mari coba.'", "'Gue bilang juga apa.'", "'Not my problem.'"] },
+            { id: "c_s_h_mech", label: "HUMOR MECHANISM", desc: "Mekanisme melucu.", options: ["AI DECIDES", "Sarkasme tingkat tinggi", "Bercanda saat situasi krisis (Coping mech)", "Self-deprecating (Menghina diri sendiri)", "Dad jokes (Tebak-tebakan garing)", "Meniru suara/gaya orang lain", "Muka datar tapi ngomong hal konyol", "Tidak sengaja melucu (Clumsy)"] },
+
+            // L. EMOTIONAL DNA
+            { id: "c_e_neu", label: "EMOTION: NEUTRAL", desc: "Ekspresi saat diam/netral.", options: ["AI DECIDES", "Wajah datar tanpa emosi (Resting b-face)", "Sedikit tersenyum ramah", "Mata setengah tertutup (Mengantuk)", "Terlihat seperti sedang melamun", "Alis sedikit berkerut (Fokus)", "Rahang mengeras waspada", "Terlihat bosan ekstrim"] },
+            { id: "c_e_hap", label: "EMOTION: HAPPY", desc: "Ekspresi saat senang.", options: ["AI DECIDES", "Tersenyum lebar hingga mata menyipit", "Senyum tipis misterius (Smirk)", "Tertawa lepas sampai memegang perut", "Hanya sudut bibir yang naik sedikit", "Melompat kecil kegirangan", "Tersipu malu (Blushing)", "Mata berbinar-binar cerah"] },
+            { id: "c_e_sad", label: "EMOTION: SAD", desc: "Ekspresi saat sedih.", options: ["AI DECIDES", "Menangis diam-diam, air mata jatuh", "Menunduk menyembunyikan wajah", "Bibir gemetar dan mata merah", "Wajah datar tapi mata kosong/redup", "Menangis meraung-raung (Comical)", "Menggigit bibir bawah menahan tangis", "Tersenyum getir/palsu"] },
+            { id: "c_e_ang", label: "EMOTION: ANGRY", desc: "Ekspresi saat marah.", options: ["AI DECIDES", "Mata melotot tajam & urat leher terlihat", "Tersenyum sinis (Lebih menakutkan)", "Mengernyitkan dahi & gigi gemeretak", "Melempar barang di dekatnya", "Muka memerah padam", "Menjadi sangat diam & tatapan dingin", "Berteriak histeris"] },
+            { id: "c_e_thnk", label: "EMOTION: THINKING", desc: "Ekspresi saat berpikir.", options: ["AI DECIDES", "Menyipitkan mata & memiringkan kepala", "Menggigit jari & menatap lantai", "Mata melirik ke atas kanan", "Alis menyatu tegang", "Mengetukkan jari ke dagu", "Memejamkan mata meresapi", "Wajah terlihat seperti komputer loading"] },
+            { id: "c_e_conf", label: "EMOTION: CONFUSED", desc: "Ekspresi saat bingung.", options: ["AI DECIDES", "Satu alis terangkat (The Rock)", "Mata berkedip cepat & mulut sedikit terbuka", "Menggaruk kepala yang tidak gatal", "Memiringkan kepala seperti anak anjing", "Mata melotot kosong bingung", "Tersenyum canggung ke arah kamera", "Bibir manyun maju ke depan"] },
+            { id: "c_e_surp", label: "EMOTION: SURPRISED", desc: "Ekspresi saat terkejut.", options: ["AI DECIDES", "Mata terbelalak & mulut menganga lebar", "Melompat mundur ketakutan", "Menutup mulut dengan kedua tangan", "Kacamata melorot / menjatuhkan barang", "Alis naik tinggi hingga hampir hilang", "Hanya tersentak kaget kecil", "Freeze (Membeku di tempat)"] },
+            { id: "c_e_calm", label: "EMOTION: CALM", desc: "Ekspresi saat tenang/damai.", options: ["AI DECIDES", "Mata terpejam dengan senyum simpul", "Menatap kejauhan dengan tatapan lembut", "Postur rileks, bahu turun, napas panjang", "Wajah bersinar damai (Zen mode)", "Minum teh/kopi dengan elegan", "Mengelus peliharaan/benda kesayangan", "Tersenyum hangat ke arah lawan bicara"] },
+
+            // M. BRAND DNA
+            { id: "c_b_pri", label: "PRIMARY BRAND COLOR", desc: "Warna utama brand.", options: ["AI DECIDES", "Cyberpunk Neon Blue", "Tech Silver", "Minimalist White", "Aggressive Red", "Eco Green", "Luxury Gold", "Dark Charcoal"] },
+            { id: "c_b_sec", label: "SECONDARY BRAND COLOR", desc: "Warna pendukung brand.", options: ["AI DECIDES", "Deep Black", "Soft Grey", "Vibrant Orange", "Royal Purple", "Earthy Brown", "Pastel Pink", "Muted Teal"] },
+            { id: "c_b_acc", label: "ACCENT BRAND COLOR", desc: "Warna aksen brand.", options: ["AI DECIDES", "Hot Magenta", "Toxic Yellow", "Electric Cyan", "Blood Red", "Bright White", "Matte Gold", "Silver Chrome"] },
+            { id: "c_b_sym", label: "SIGNATURE SYMBOL", desc: "Simbol / Logo khas.", options: ["AI DECIDES", "Logo petir", "Simbol mata satu", "Tengkorak tersenyum", "Bunga teratai (Lotus)", "Inisial nama grafiti", "Bintang segi delapan", "Sayap patah"] },
+            { id: "c_b_phr", label: "SIGNATURE PHRASE", desc: "Slogan brand konten.", options: ["AI DECIDES", "'Tech Made Simple'", "'Stay Weird, Stay Wild'", "'Logic over Emotion'", "'Hack the Planet'", "'Beauty in Chaos'", "'Review Jujur No Endorse'", "'Discover the Unknown'"] },
+            { id: "c_b_pers", label: "BRAND PERSONALITY", desc: "Vibe brand keseluruhan.", options: ["AI DECIDES", "Modern & Profesional", "Rebellious & Edgy", "Cozy, Warm & Welcoming", "Mysterious & Dark", "Comedic & Absurd", "High-Tech & Futuristic", "Vintage & Nostalgic"] },
+            { id: "c_b_mood", label: "VISUAL MOOD", desc: "Suasana visual foto/video.", options: ["AI DECIDES", "High Contrast Cinematic", "Bright, Clean & Airy", "Moody, Dark & Gritty", "Neon Cyberpunk Night", "Warm Vintage Retro", "Minimalist Studio", "Chaotic Handheld Cam"] },
+            { id: "c_b_silh", label: "RECOGNIZABLE SILHOUETTE", desc: "Bentuk bayangan (Siluet) jika dilihat gelap.", options: ["AI DECIDES", "Rambut runcing dengan jaket kebesaran", "Topi fedora dan jas panjang", "Rambut kuncir kuda dengan pedang", "Botak dengan kacamata bulat", "Rambut keriting besar (Afro)", "Hoodie tertutup dengan tas ransel", "Siluet ramping dengan sepatu hak tinggi"] },
+
+            // N. ENVIRONMENT DNA
+            { id: "c_en_pri", label: "PRIMARY ENVIRONMENT", desc: "Lokasi utama karakter.", options: ["AI DECIDES", "Kamar tidur dengan lampu RGB", "Gudang terbengkalai (Markas)", "Studio rekaman podcast minimalis", "Kedai kopi pinggir jalan", "Laboratorium canggih", "Jalanan kota neon malam hari", "Perpustakaan tua berdebu"] },
+            { id: "c_en_sec", label: "SECONDARY ENVIRONMENT", desc: "Lokasi kedua karakter.", options: ["AI DECIDES", "Rooftop gedung pencakar langit", "Di dalam mobil sport/van", "Taman kota saat musim gugur", "Gang sempit penuh grafiti", "Lobi kantor modern", "Hutan pinus berkabut", "Supermarket 24 Jam"] },
+            { id: "c_en_time", label: "TIME OF DAY", desc: "Waktu default.", options: ["AI DECIDES", "Midnight (Tengah Malam)", "Golden Hour (Sore Hari)", "Early Morning (Pagi Cerah)", "Overcast Afternoon (Siang Mendung)", "Neon Night (Malam Kota)", "Blue Hour (Subuh/Senja)", "No Time (Studio tertutup)"] },
+            { id: "c_en_ligh", label: "LIGHTING", desc: "Pencahayaan lingkungan.", options: ["AI DECIDES", "Cyberpunk Neon (Biru/Pink)", "Warm Desk Lamp (Lampu meja hangat)", "Harsh Sunlight (Matahari terik)", "Soft Studio Softbox (Merata)", "Moody Shadows (Banyak bayangan gelap)", "Fluorescent (Lampu neon putih kantor)", "Firelight (Cahaya api berkedip)"] },
+            { id: "c_en_atm", label: "ATMOSPHERE", desc: "Atmosfer tempat.", options: ["AI DECIDES", "Cozy & Relaxing (Nyaman)", "Tense & Dangerous (Mencekam)", "Busy & Chaotic (Sibuk/Berantakan)", "Sterile & Clean (Sangat bersih/Dingin)", "Mysterious & Foggy (Misterius/Berkabut)", "Nostalgic & Melancholic", "Energetic & Loud"] },
+            { id: "c_en_col", label: "ENVIRONMENTAL COLORS", desc: "Warna dominan ruangan/lokasi.", options: ["AI DECIDES", "Dominan Biru dan Ungu Neon", "Dominan Coklat Kayu dan Warm Yellow", "Monokrom Putih dan Abu-abu", "Dominan Hijau Gelap dan Hitam", "Warna-warni Pastel Cerah", "Sepia Kuno", "Hitam dan Merah Darah"] },
+            { id: "c_en_snd", label: "ENVIRONMENT SOUND IDENTITY", desc: "Suara latar ciri khas (Audio visual).", options: ["AI DECIDES", "Suara keyboard mekanik & kipas PC", "Suara rintik hujan & musik lofi", "Suara sirine polisi kota & mobil melintas", "Suara angin & dedaunan", "Keheningan total (Dead silence)", "Suara mesin kopi & keramaian kafe", "Suara musik rock sayup-sayup"] },
+
+            // O. CONTENT DNA
+            { id: "c_co_niche", label: "CONTENT NICHE", desc: "Fokus topik konten.", options: ["AI DECIDES", "Technology & Gadget Review", "Comedy Skits & Parody", "Fashion & Streetwear", "True Crime & Horror Storytelling", "Gaming & Esports Commentary", "Fitness & Lifestyle", "Philosophical / Deep Talks"] },
+            { id: "c_co_aud", label: "TARGET AUDIENCE", desc: "Target penonton.", options: ["AI DECIDES", "Gen Z & Alpha (13-24 tahun)", "Tech Enthusiasts & Geeks", "Millennials (25-40 tahun)", "Pekerja Kantoran / Hustlers", "Pecinta Fashion & Sneakerhead", "Gamer Hardcore", "Umum / Semua Umur"] },
+            { id: "c_co_purp", label: "CONTENT PURPOSE", desc: "Tujuan video.", options: ["AI DECIDES", "ENTERTAINMENT (Hiburan murni)", "EDUCATION (Memberi wawasan/tips)", "STORYTELLING (Bercerita/Narasi)", "SELLING (Promosi / Affiliate)", "MOTIVATION (Menginspirasi)", "DEBATE / COMMENTARY (Opini/Kritik)", "VLOGGING (Daily life)"] },
+            { id: "c_co_func", label: "CHARACTER FUNCTION", desc: "Fungsi karakter di konten.", options: ["AI DECIDES", "The Expert (Memberi penjelasan valid)", "The Clumsy Reviewer (Sering mengacau)", "The Narrator (Pencerita misteri)", "The Hater (Suka mengkritik pedas)", "The Enthusiast (Selalu kagum/excited)", "The Guinea Pig (Korban eksperimen)", "The Silent Protagonist (Tidak banyak bicara)"] },
+            { id: "c_co_rel", label: "AUDIENCE RELATIONSHIP", desc: "Hubungan dengan penonton.", options: ["AI DECIDES", "Kakak/Abang (Mentor santai)", "Teman nongkrong (Bestie)", "Guru/Dosen (Sangat formal/tegas)", "Comedian (Penghibur)", "Idola (Tak tersentuh/Cool)", "Orang aneh di internet (Weirdo)", "Rival (Suka menantang penonton)"] },
+            { id: "c_co_theme", label: "RECURRING THEME", desc: "Tema yang selalu diulang.", options: ["AI DECIDES", "'Gadget ini kemahalan, mending rakit PC'", "'Semua baju hitam adalah baju terbaik'", "'Kopi adalah bahan bakar kehidupan'", "'Jangan percaya omongan perusahaan besar'", "'Setiap masalah ada solusi lucunya'", "'Hal mistis selalu bisa dijelaskan secara logis'", "'Kegagalan hari ini adalah bahan tertawaan besok'"] },
+            
+            // P. NEGATIVE TRAITS
+            { id: "c_neg", label: "NEGATIVE TRAITS", desc: "Hal yang TIDAK BOLEH ada di hasil (Negative Prompt).", isTextarea: true, options: ["AI DECIDES", "Anime, cartoon, 3D render, bad anatomy", "Smiling, happy, bright colors (Untuk karakter dark)", "Messy hair, dirty clothes (Untuk karakter rapi)", "Tattoos, piercings, scars (Untuk karakter polos)", "Eyeglasses, sunglasses, hats", "Beard, mustache, facial hair", "Fantasy armor, swords, magic (Untuk karakter modern)"] }
         ];
 
         // ==========================================
         // 2. DATA FORM FIELD (OUTFIT SCRATCH)
         // ==========================================
         const outfitFields = [
-            { id: "out_concept", label: "KONSEP OUTFIT KESELURUHAN", desc: "Deskripsi singkat mengenai gaya pakaian yang diinginkan.", options: ["AI Decides (Biarkan AI yang menentukan)", "Urban Techwear Ninja", "Formal Mafia Suit", "Casual Vintage Skater", "Post-apocalyptic Survivor"] },
-            { id: "out_style", label: "KATEGORI STYLE (GAYA)", desc: "Kategori fashion utama dari outfit ini.", options: ["AI Decides (Biarkan AI yang menentukan)", "Streetwear / Urban", "Casual / Santai", "Formal / Business", "Futuristic / Cyberpunk"] },
-            { id: "out_impression", label: "KESAN PAKAIAN (IMPRESSION)", desc: "Aura atau perasaan yang terpancar dari pakaian.", options: ["AI Decides (Biarkan AI yang menentukan)", "Intimidating / Menakutkan", "Cool / Keren & Misterius", "Approachable / Ramah", "Chaotic / Berantakan"] },
-            { id: "out_upper", label: "PAKAIAN ATAS", desc: "Desain baju/jaket/lapisan atas karakter.", options: ["AI Decides (Biarkan AI yang menentukan)", "Jaket parka tebal dengan tudung besar", "Kaos polos oversized warna gelap", "Kemeja flanel kotak-kotak tidak dikancing", "Rompi anti peluru taktis"] },
-            { id: "out_lower", label: "PAKAIAN BAWAH", desc: "Desain celana/rok karakter.", options: ["AI Decides (Biarkan AI yang menentukan)", "Celana cargo dengan banyak kantong", "Jeans robek-robek (Ripped jeans)", "Celana bahan kain formal slim fit", "Celana pendek olahraga di atas lutut"] },
-            { id: "out_footwear", label: "ALAS KAKI", desc: "Sepatu, sendal, atau boots yang digunakan.", options: ["AI Decides (Biarkan AI yang menentukan)", "Sepatu sneakers high-top retro", "Sepatu boots kulit pantofel hitam", "Sepatu lari / running shoes modern", "Sepatu boots militer tebal (Combat boots)"] },
-            { id: "out_headwear", label: "AKSESORIS KEPALA", desc: "Topi, helm, atau beanie.", options: ["AI Decides (Biarkan AI yang menentukan)", "None (Tidak pakai aksesoris kepala)", "Topi baseball dibalik", "Beanie rajut menutupi telinga", "Topi fedora klasik"] },
-            { id: "out_eyewear", label: "KACAMATA", desc: "Kacamata baca, kacamata hitam, dsb.", options: ["AI Decides (Biarkan AI yang menentukan)", "None (Tidak pakai kacamata)", "Kacamata hitam (Sunglasses) gelap", "Kacamata baca frame bulat klasik", "Kacamata pelindung futuristik / goggles"] },
-            { id: "out_acc", label: "AKSESORIS TAMBAHAN", desc: "Perhiasan, tas, jam tangan, dll.", options: ["AI Decides (Biarkan AI yang menentukan)", "Jam tangan digital sport besar", "Tas selempang kecil (Sling bag)", "Kalung rantai tebal", "Sarung tangan kulit hitam"] },
-            { id: "out_signature", label: "ELEMEN KHAS (SIGNATURE)", desc: "Satu item mencolok yang jadi ciri khas karakter ini.", options: ["AI Decides (Biarkan AI yang menentukan)", "Syal panjang berwarna mencolok", "Ikat pinggang dengan gesper tengkorak", "Pin/Badge logo unik di dada kiri", "Satu lengan baju yang selalu digulung"] },
-            { id: "out_pref_colors", label: "WARNA UTAMA YANG DIINGINKAN", desc: "Palet warna yang dominan pada pakaian.", options: ["AI Decides (Biarkan AI yang menentukan)", "Dominan Hitam dengan aksen Merah", "Earth Tones (Coklat, Hijau Zaitun, Krem)", "Monokrom (Putih, Abu-abu, Hitam)", "Neon (Cyan cerah & Pink)"] },
-            { id: "out_avoid_colors", label: "WARNA PANTANGAN", desc: "Warna yang TIDAK BOLEH ada di outfit ini.", options: ["None (Tidak ada pantangan)", "Warna-warna cerah/neon", "Warna merah", "Warna pink/pastel", "Warna gelap"] },
-            { id: "out_material", label: "JENIS BAHAN MATERIAL", desc: "Kain yang dominan digunakan pada baju/celana.", options: ["AI Decides (Biarkan AI yang menentukan)", "Denim tebal & Kulit sintetis", "Katun ringan & Linen", "Kain parasut (Nylon) anti air", "Kain beludru mahal & Sutra"] },
-            { id: "out_wear", label: "TINGKAT KEUSANGAN (WEATHERING)", desc: "Seberapa bersih atau kotor/rusak pakaian tersebut.", options: ["AI Decides (Biarkan AI yang menentukan)", "NEW (Sangat baru & bersih)", "SLIGHTLY USED (Sedikit lecek wajar)", "WORN (Pudar & jahitan mulai usang)", "HEAVILY WEATHERED (Kotor, penuh noda & robek)"] },
-            { id: "out_practical", label: "KEBUTUHAN PRAKTIS", desc: "Fungsi khusus pakaian. (Misal: Banyak saku).", options: ["AI Decides (Biarkan AI yang menentukan)", "Banyak kantong untuk menyimpan gadget", "Pakaian ringan untuk mobilitas tinggi", "Bahan tahan api dan goresan", "Desain hangat menahan badai salju"] },
-            { id: "out_col_pri", label: "WARNA PRIMER", desc: "Kode Hex/Nama Warna dasar yang mendominasi.", options: ["AI Decides (Biarkan AI yang menentukan)", "#1A1A1A (Hitam)", "#8B4513 (Coklat Kulit)", "#003366 (Biru Dongker)", "#F5F5DC (Beige/Krem)"] },
+            { id: "out_concept", label: "KONSEP OUTFIT", desc: "Deskripsi singkat mengenai gaya pakaian.", options: ["AI Decides (Biarkan AI yang menentukan)", "Urban Techwear Ninja", "Formal Mafia Suit", "Casual Vintage Skater", "Post-apocalyptic Survivor"] },
+            { id: "out_style", label: "KATEGORI STYLE", desc: "Kategori fashion utama dari outfit ini.", options: ["AI Decides (Biarkan AI yang menentukan)", "Streetwear / Urban", "Casual / Santai", "Formal / Business", "Futuristic / Cyberpunk"] },
+            { id: "out_impression", label: "KESAN PAKAIAN", desc: "Aura atau perasaan yang terpancar.", options: ["AI Decides (Biarkan AI yang menentukan)", "Intimidating / Menakutkan", "Cool / Keren & Misterius", "Approachable / Ramah", "Chaotic / Berantakan"] },
+            { id: "out_upper", label: "PAKAIAN ATAS", desc: "Desain baju/jaket/lapisan atas karakter.", options: ["AI Decides (Biarkan AI yang menentukan)", "Jaket parka tebal dengan tudung besar", "Kaos polos oversized warna gelap", "Kemeja flanel kotak-kotak", "Rompi anti peluru taktis"] },
+            { id: "out_lower", label: "PAKAIAN BAWAH", desc: "Desain celana/rok karakter.", options: ["AI Decides (Biarkan AI yang menentukan)", "Celana cargo dengan banyak kantong", "Jeans robek-robek", "Celana bahan kain formal", "Celana pendek olahraga"] },
+            { id: "out_footwear", label: "ALAS KAKI", desc: "Sepatu, sendal, atau boots yang digunakan.", options: ["AI Decides (Biarkan AI yang menentukan)", "Sepatu sneakers high-top retro", "Sepatu boots kulit pantofel", "Sepatu lari modern", "Sepatu boots militer tebal"] },
+            { id: "out_headwear", label: "AKSESORIS KEPALA", desc: "Topi, helm, atau beanie.", options: ["AI Decides (Biarkan AI yang menentukan)", "None (Tidak pakai aksesoris kepala)", "Topi baseball dibalik", "Beanie rajut", "Topi fedora klasik"] },
+            { id: "out_eyewear", label: "KACAMATA", desc: "Kacamata baca, kacamata hitam, dsb.", options: ["AI Decides (Biarkan AI yang menentukan)", "None (Tidak pakai kacamata)", "Kacamata hitam gelap", "Kacamata baca bulat", "Kacamata futuristik / goggles"] },
+            { id: "out_acc", label: "AKSESORIS TAMBAHAN", desc: "Perhiasan, tas, jam tangan, dll.", options: ["AI Decides (Biarkan AI yang menentukan)", "Jam tangan digital sport besar", "Tas selempang kecil", "Kalung rantai tebal", "Sarung tangan kulit hitam"] },
+            { id: "out_signature", label: "ELEMEN KHAS (SIGNATURE)", desc: "Satu item mencolok khas karakter ini.", options: ["AI Decides (Biarkan AI yang menentukan)", "Syal panjang berwarna mencolok", "Ikat pinggang dengan gesper tengkorak", "Pin logo unik di dada", "Satu lengan baju digulung"] },
+            { id: "out_pref_colors", label: "WARNA UTAMA", desc: "Palet warna yang dominan pada pakaian.", options: ["AI Decides (Biarkan AI yang menentukan)", "Dominan Hitam dengan aksen Merah", "Earth Tones (Coklat, Hijau Zaitun)", "Monokrom (Putih, Abu-abu, Hitam)", "Neon (Cyan cerah & Pink)"] },
+            { id: "out_avoid_colors", label: "WARNA PANTANGAN", desc: "Warna yang TIDAK BOLEH ada di outfit.", options: ["None (Tidak ada pantangan)", "Warna-warna cerah/neon", "Warna merah", "Warna pink/pastel", "Warna gelap"] },
+            { id: "out_material", label: "JENIS BAHAN MATERIAL", desc: "Kain yang dominan digunakan.", options: ["AI Decides (Biarkan AI yang menentukan)", "Denim tebal & Kulit sintetis", "Katun ringan & Linen", "Kain parasut anti air", "Kain beludru mahal & Sutra"] },
+            { id: "out_wear", label: "TINGKAT KEUSANGAN", desc: "Seberapa bersih atau kotor pakaian tersebut.", options: ["AI Decides (Biarkan AI yang menentukan)", "NEW (Sangat baru & bersih)", "SLIGHTLY USED (Sedikit lecek wajar)", "WORN (Pudar & jahitan usang)", "HEAVILY WEATHERED (Kotor & robek)"] },
+            { id: "out_practical", label: "KEBUTUHAN PRAKTIS", desc: "Fungsi khusus pakaian (Banyak saku, dll).", options: ["AI Decides (Biarkan AI yang menentukan)", "Banyak kantong untuk gadget", "Pakaian ringan untuk mobilitas", "Bahan tahan api", "Desain menahan salju"] },
+            { id: "out_col_pri", label: "WARNA PRIMER", desc: "Kode Hex/Nama Warna dasar dominan.", options: ["AI Decides (Biarkan AI yang menentukan)", "#1A1A1A (Hitam)", "#8B4513 (Coklat Kulit)", "#003366 (Biru Dongker)", "#F5F5DC (Beige/Krem)"] },
             { id: "out_col_sec", label: "WARNA SEKUNDER", desc: "Warna pendukung urutan kedua.", options: ["AI Decides (Biarkan AI yang menentukan)", "#555555 (Abu-abu Gelap)", "#556B2F (Hijau Zaitun)", "#B22222 (Merah Bata)", "#E6E6FA (Lavender)"] },
-            { id: "out_col_acc", label: "WARNA AKSEN", desc: "Warna terang/mencolok untuk logo atau detail.", options: ["AI Decides (Biarkan AI yang menentukan)", "#FF4500 (Oranye Neon)", "#00FF00 (Hijau Neon)", "#FFD700 (Emas)", "#FF00FF (Magenta)"] },
-            { id: "out_col_neu", label: "WARNA NETRAL", desc: "Warna penyeimbang (biasanya kaos dalam/sepatu).", options: ["AI Decides (Biarkan AI yang menentukan)", "#FFFFFF (Putih Murni)", "#D3D3D3 (Abu-abu Terang)", "#000000 (Hitam Murni)", "#A9A9A9 (Abu-abu Gelap)"] },
-            { id: "out_col_mat", label: "WARNA MATERIAL ALAMI", desc: "Warna bahan kulit tas, sepatu, besi resleting, dll.", options: ["AI Decides (Biarkan AI yang menentukan)", "Silver metal & Brown leather", "Matte black metal & Black leather", "Gold brass & Light tan leather", "Rusted iron & Faded canvas"] },
-            { id: "out_feel", label: "PERASAAN YANG DITIMBULKAN", desc: "Emosi saat orang melihat outfit karakter ini.", options: ["AI Decides (Biarkan AI yang menentukan)", "Terasa mengancam dan tidak ramah", "Terasa profesional, rapi, dan bisa diandalkan", "Terasa santai, cuek, dan bebas", "Terasa kuno namun elegan penuh sejarah"] }
+            { id: "out_col_acc", label: "WARNA AKSEN", desc: "Warna terang/mencolok untuk detail.", options: ["AI Decides (Biarkan AI yang menentukan)", "#FF4500 (Oranye Neon)", "#00FF00 (Hijau Neon)", "#FFD700 (Emas)", "#FF00FF (Magenta)"] },
+            { id: "out_col_neu", label: "WARNA NETRAL", desc: "Warna penyeimbang.", options: ["AI Decides (Biarkan AI yang menentukan)", "#FFFFFF (Putih Murni)", "#D3D3D3 (Abu-abu Terang)", "#000000 (Hitam Murni)", "#A9A9A9 (Abu-abu Gelap)"] },
+            { id: "out_col_mat", label: "WARNA MATERIAL ALAMI", desc: "Warna bahan kulit tas, sepatu, besi, dll.", options: ["AI Decides (Biarkan AI yang menentukan)", "Silver metal & Brown leather", "Matte black metal & Black leather", "Gold brass & Light tan leather", "Rusted iron & Faded canvas"] },
+            { id: "out_feel", label: "PERASAAN / FEELING", desc: "Emosi saat orang melihat outfit karakter ini.", options: ["AI Decides (Biarkan AI yang menentukan)", "Terasa mengancam dan tidak ramah", "Terasa profesional dan bisa diandalkan", "Terasa santai dan bebas", "Terasa elegan penuh sejarah"] }
         ];
 
         // ==========================================
@@ -435,7 +536,7 @@
         ];
 
         // ==========================================
-        // 4. DATA FORM FIELD (PRODUCT / OBJECT) - BARU
+        // 4. DATA FORM FIELD (PRODUCT / OBJECT)
         // ==========================================
         const productFields = [
             { id: "prod_name", label: "NAMA PRODUK / OBJEK", desc: "Nama spesifik dari objek/produk.", options: ["AI DECIDES", "Cyberpunk Smartwatch", "Tactical Backpack", "Minimalist Coffee Maker", "Futuristic Sneakers", "Vintage Film Camera", "Advanced Skincare Serum"] },
@@ -482,7 +583,7 @@
             { id: "prod_bg", label: "BACKGROUND LINGKUNGAN", desc: "Warna latar untuk DNA Sheet.", options: ["AI DECIDES", "WHITE", "LIGHT GRAY", "NEUTRAL"] },
             // Produksi & Teknis Ekstra
             { id: "prod_scale", label: "SKALA FOTOGRAFI", desc: "Kesan ukuran pada foto.", options: ["AI DECIDES", "REAL WORLD", "MINIATURE", "OVERSIZED"] },
-            { id: "prod_mfg", label: "METODE MANUFAKTUR", desc: "Cara objek ini dibuat (mempengaruhi visual tepi).", options: ["AI DECIDES", "INJECTION MOLDED", "CNC", "HANDMADE", "3D PRINTED", "SEWN", "FORGED"] },
+            { id: "prod_mfg", label: "METODE MANUFAKTUR", desc: "Cara objek ini dibuat.", options: ["AI DECIDES", "INJECTION MOLDED", "CNC", "HANDMADE", "3D PRINTED", "SEWN", "FORGED"] },
             { id: "prod_assm", label: "METODE PERAKITAN", desc: "Bagaimana bagian-bagiannya disatukan.", options: ["AI DECIDES", "Disatukan dengan baut L (Allen screws)", "Direkatkan tanpa jahitan (Seamless bonded)", "Dijahit tangan dengan benang tebal", "Sistem klik (Snap-fit)", "Dipaku keling (Riveted)", "Terbuat dari 1 bongkahan utuh (Unibody)"] },
             { id: "prod_dur", label: "KETAHANAN YANG DIHARAPKAN", desc: "Fungsi ketahanan fisik.", options: ["AI DECIDES", "Tahan benturan keras (Shockproof)", "Mudah pecah (Fragile)", "Tahan gores (Anti-scratch)", "Bisa dilipat ratusan kali", "Tahan tekanan air dalam", "Tahan karat seumur hidup"] },
             { id: "prod_water", label: "KETAHANAN AIR", desc: "Spesifikasi anti-air.", options: ["AI DECIDES", "NONE", "SPLASH RESISTANT", "WATER RESISTANT", "WATERPROOF"] },
@@ -491,26 +592,26 @@
         ];
 
         // ==========================================
-        // 5. DATA FORM FIELD (STORYBOARD) - SEKARANG STEP 5
+        // 5. DATA FORM FIELD (STORYBOARD)
         // ==========================================
         const storyFields = [
-            { id: "sb_scene_num", label: "NOMOR SCENE", desc: "Urutan scene dalam video.", options: ["AI DECIDES", "Scene 1", "Scene 2", "Scene 3", "Scene 4", "Scene 5", "Scene 6", "Scene 7", "Scene 8", "Scene 9", "Scene 10"] },
-            { id: "sb_prod_name", label: "NAMA PRODUK", desc: "Nama produk atau objek yang dipromosikan.", options: ["AI DECIDES", "Skincare Serum", "Tech Gadget", "Fashion Apparel", "Food & Beverage", "Fitness Equipment", "Home Appliance", "Cosmetic Makeup", "Shoes/Sneakers", "Bag/Backpack", "Book/Course"] },
-            { id: "sb_prod_benefit", label: "MANFAAT PRODUK", desc: "Keunggulan atau manfaat utama produk.", options: ["AI DECIDES", "Mencerahkan kulit dalam 7 hari", "Baterai tahan seharian", "Bahan premium anti kusut", "Rasa enak & bebas gula", "Mudah digunakan pemula", "Hemat listrik & ramah lingkungan", "Melindungi dari sinar UV", "Nyaman dipakai seharian penuh", "Kapasitas besar & ringan", "Meningkatkan produktivitas"] },
+            { id: "sb_scene_num", label: "NOMOR SCENE", desc: "Urutan scene dalam video.", options: ["AI DECIDES", "Scene 1", "Scene 2", "Scene 3", "Scene 4", "Scene 5", "Scene 6", "Scene 7"] },
+            { id: "sb_prod_name", label: "NAMA PRODUK", desc: "Nama produk atau objek yang dipromosikan.", options: ["AI DECIDES", "Skincare Serum", "Tech Gadget", "Fashion Apparel", "Food & Beverage", "Fitness Equipment", "Home Appliance", "Cosmetic Makeup"] },
+            { id: "sb_prod_benefit", label: "MANFAAT PRODUK", desc: "Keunggulan atau manfaat utama produk.", options: ["AI DECIDES", "Mencerahkan kulit dalam 7 hari", "Baterai tahan seharian", "Bahan premium anti kusut", "Rasa enak & bebas gula", "Mudah digunakan pemula", "Hemat listrik & ramah lingkungan", "Melindungi dari sinar UV"] },
             { id: "sb_vid_dur", label: "TOTAL DURASI VIDEO", desc: "Total durasi keseluruhan video.", options: ["AI DECIDES", "10 seconds", "15 seconds", "20 seconds", "30 seconds", "45 seconds", "60 seconds", "90 seconds"] },
             { id: "sb_scene_dur", label: "DURASI SCENE", desc: "Berapa lama scene ini berlangsung.", options: ["AI DECIDES", "2 seconds", "3 seconds", "5 seconds", "7 seconds", "10 seconds", "15 seconds", "20 seconds"] },
-            { id: "sb_vid_style", label: "GAYA VIDEO", desc: "Format atau genre video.", options: ["AI DECIDES", "UGC (User Generated Content)", "Storytelling", "Product Review", "Lifestyle Showcase", "Fashion Editorial", "Demonstration / How-to", "Unboxing", "Comedy / Skit", "Testimonial", "Cinematic Commercial"] },
-            { id: "sb_objective", label: "TUJUAN SCENE", desc: "Fungsi scene ini dalam keseluruhan video.", options: ["AI DECIDES", "Hook / Menarik Perhatian", "Problem / Menunjukkan Masalah", "Curiosity / Membuat Penasaran", "Discovery / Menemukan Solusi", "Reveal / Menampilkan Produk", "Proof / Pembuktian Kualitas", "Result / Menunjukkan Hasil", "Desire / Membangun Keinginan", "CTA / Call to Action"] },
-            { id: "sb_beat", label: "ALUR CERITA (STORY BEAT)", desc: "Apa yang terjadi pada scene ini secara berurutan.", options: ["AI DECIDES", "Karakter terlihat frustrasi lalu menemukan produk.", "Karakter tersenyum sambil menunjukkan produk ke kamera.", "Kamera mendekat melihat detail produk secara dekat.", "Karakter mendemonstrasikan cara menggunakan produk.", "Menampilkan perbandingan sebelum dan sesudah pakai.", "Karakter berbicara dengan antusias menjelaskan manfaat.", "Karakter santai menikmati hasil dari produk.", "Transisi dinamis menunjukkan berbagai sudut produk.", "Karakter menunjuk teks promo atau fitur utama.", "Scene penutup dengan logo dan ajakan bertindak."], isTextarea: true },
-            { id: "sb_special", label: "ARAHAN KHUSUS", desc: "Ide kreatif, latar, atau interaksi spesifik.", options: ["AI DECIDES", "Fokus macro pada tekstur/material produk.", "Pencahayaan berubah drastis menjadi lebih terang.", "Karakter melihat ke arah layar dengan tatapan kaget.", "Slow-motion saat produk digunakan.", "Angle kamera diambil dari sudut bawah (low angle).", "Latar belakang dibuat sedikit blur (bokeh).", "Ada efek angin yang menerpa rambut karakter.", "Karakter berinteraksi dengan environment sekitar.", "Produk diletakkan estetik di atas meja.", "Gunakan pencahayaan neon yang dramatis."], isTextarea: true },
-            { id: "sb_char_act", label: "AKSI KARAKTER (Opsional)", desc: "Gerakan utama karakter.", options: ["AI DECIDES", "Berbicara langsung ke arah lensa.", "Memegang wajah atau kepala karena pusing/bingung.", "Tersenyum lebar dan mengangguk puas.", "Berjalan mendekat ke arah kamera.", "Mengusap atau memakai produk di kulit.", "Mengetik atau menggunakan gadget.", "Mengangkat produk sejajar dengan wajah.", "Melakukan gestur tangan kaget (mindblown).", "Meminum atau memakan produk.", "Menunjuk ke arah tombol/bawah layar."] },
-            { id: "sb_prod_int", label: "INTERAKSI PRODUK (Opsional)", desc: "Bagaimana karakter menyentuh produk.", options: ["AI DECIDES", "Memegang produk dengan kedua tangan.", "Membuka tutup/kemasan produk.", "Menekan pump atau menyemprotkan produk.", "Mengusap tekstur produk dengan jari.", "Meletakkan produk di depan kamera.", "Mengangkat produk ke udara.", "Memakai produk ke tubuh.", "Menunjuk ke arah logo di produk.", "Menuangkan isi produk.", "Tidak ada interaksi (produk diam)."] },
-            { id: "sb_emotion", label: "KONDISI EMOSI (Opsional)", desc: "Perasaan yang ditampilkan karakter.", options: ["AI DECIDES", "Antusias & Sangat Gembira", "Frustrasi & Lelah", "Penasaran & Berpikir", "Terkejut & Mindblown", "Tenang & Percaya Diri", "Sedih & Kecewa", "Lucu & Ekspresif", "Serius & Profesional", "Ragu & Tidak Yakin", "Puas & Lega"] },
-            { id: "sb_camera", label: "PREFERENSI KAMERA (Opsional)", desc: "Angle dan pergerakan kamera.", options: ["AI DECIDES", "Extreme Close-up", "Close-up", "Medium Shot", "Medium Full Shot", "Wide / Long Shot", "POV (Point of View)", "Over the Shoulder", "Low Angle (Dari bawah)", "High Angle (Dari atas)", "Handheld Shaky Vlog Style"] },
-            { id: "sb_dialogue", label: "DIALOG (Maks 20 Kata - Opsional)", desc: "Apa yang diucapkan karakter.", options: ["AI DECIDES", "Sering ngalamin masalah ini? Aku punya solusinya!", "Akhirnya nemu produk yang beneran ngaruh di aku.", "Gila sih, kalian wajib banget cobain ini sekarang.", "Coba lihat deh perbedaannya, nyata banget kan?", "Jangan sampai nyesel karena kehabisan promonya!", "Ini rahasia aku bisa tetap tampil percaya diri.", "Cara pakainya gampang banget, tinggal usap gini aja.", "Hasilnya beneran di luar ekspektasi aku!", "Buat kalian yang sibuk, ini lifehack banget.", "Buruan klik link di bawah sebelum kehabisan!"] },
-            { id: "sb_panel_count", label: "JUMLAH PANEL", desc: "Berapa frame gambar dalam storyboard ini.", options: ["AI DECIDES", "2", "3", "4", "5", "6", "7", "8", "9", "10"] },
-            { id: "sb_vis_style", label: "GAYA VISUAL", desc: "Nuansa seni/fotografi dari storyboard.", options: ["AI DECIDES", "Realistic UGC commercial photography", "Cinematic documentary realism", "Bright, clean, and modern studio look", "Moody, dramatic, high-contrast lighting", "Vintage, retro film aesthetic", "Casual smartphone vlog footage", "Ultra-realistic macro product photography", "Vibrant, pop-art inspired commercial", "Soft, dreamy, pastel aesthetic", "Minimalist and elegant composition"] },
-            { id: "sb_cta", label: "CALL TO ACTION / CTA (Opsional)", desc: "Kalimat ajakan bertindak di akhir.", options: ["AI DECIDES", "Klik link di bio untuk beli!", "Dapatkan diskon 50% hari ini.", "Komen 'MAU' untuk link pembelian.", "Jangan lupa save dan share video ini.", "Checkout di keranjang kuning sekarang.", "Subscribe untuk tips lainnya.", "Kunjungi website kami untuk detailnya.", "Beli sekarang sebelum kehabisan!", "Gunakan kode promo FLASH20.", "Buktikan sendiri hasilnya sekarang!"] }
+            { id: "sb_vid_style", label: "GAYA VIDEO", desc: "Format atau genre video.", options: ["AI DECIDES", "UGC (User Generated Content)", "Storytelling", "Product Review", "Lifestyle Showcase", "Fashion Editorial", "Demonstration / How-to", "Unboxing"] },
+            { id: "sb_objective", label: "TUJUAN SCENE", desc: "Fungsi scene ini dalam keseluruhan video.", options: ["AI DECIDES", "Hook / Menarik Perhatian", "Problem / Menunjukkan Masalah", "Curiosity / Membuat Penasaran", "Discovery / Menemukan Solusi", "Reveal / Menampilkan Produk", "Proof / Pembuktian Kualitas", "Result / Menunjukkan Hasil"] },
+            { id: "sb_beat", label: "ALUR CERITA (STORY BEAT)", desc: "Apa yang terjadi pada scene ini secara berurutan.", options: ["AI DECIDES", "Karakter terlihat frustrasi lalu menemukan produk.", "Karakter tersenyum sambil menunjukkan produk ke kamera.", "Kamera mendekat melihat detail produk secara dekat.", "Karakter mendemonstrasikan cara menggunakan produk.", "Menampilkan perbandingan sebelum dan sesudah pakai.", "Karakter berbicara dengan antusias menjelaskan manfaat.", "Karakter santai menikmati hasil dari produk."], isTextarea: true },
+            { id: "sb_special", label: "ARAHAN KHUSUS", desc: "Ide kreatif, latar, atau interaksi spesifik.", options: ["AI DECIDES", "Fokus macro pada tekstur/material produk.", "Pencahayaan berubah drastis menjadi lebih terang.", "Karakter melihat ke arah layar dengan tatapan kaget.", "Slow-motion saat produk digunakan.", "Angle kamera diambil dari sudut bawah (low angle).", "Latar belakang dibuat sedikit blur (bokeh).", "Ada efek angin yang menerpa rambut karakter."], isTextarea: true },
+            { id: "sb_char_act", label: "AKSI KARAKTER (Opsional)", desc: "Gerakan utama karakter.", options: ["AI DECIDES", "Berbicara langsung ke arah lensa.", "Memegang wajah atau kepala karena pusing/bingung.", "Tersenyum lebar dan mengangguk puas.", "Berjalan mendekat ke arah kamera.", "Mengusap atau memakai produk di kulit.", "Mengetik atau menggunakan gadget.", "Mengangkat produk sejajar dengan wajah."] },
+            { id: "sb_prod_int", label: "INTERAKSI PRODUK (Opsional)", desc: "Bagaimana karakter menyentuh produk.", options: ["AI DECIDES", "Memegang produk dengan kedua tangan.", "Membuka tutup/kemasan produk.", "Menekan pump atau menyemprotkan produk.", "Mengusap tekstur produk dengan jari.", "Meletakkan produk di depan kamera.", "Mengangkat produk ke udara.", "Memakai produk ke tubuh."] },
+            { id: "sb_emotion", label: "KONDISI EMOSI (Opsional)", desc: "Perasaan yang ditampilkan karakter.", options: ["AI DECIDES", "Antusias & Sangat Gembira", "Frustrasi & Lelah", "Penasaran & Berpikir", "Terkejut & Mindblown", "Tenang & Percaya Diri", "Sedih & Kecewa", "Lucu & Ekspresif"] },
+            { id: "sb_camera", label: "PREFERENSI KAMERA (Opsional)", desc: "Angle dan pergerakan kamera.", options: ["AI DECIDES", "Extreme Close-up", "Close-up", "Medium Shot", "Medium Full Shot", "Wide / Long Shot", "POV (Point of View)", "Over the Shoulder"] },
+            { id: "sb_dialogue", label: "DIALOG (Maks 20 Kata - Opsional)", desc: "Apa yang diucapkan karakter.", options: ["AI DECIDES", "Sering ngalamin masalah ini? Aku punya solusinya!", "Akhirnya nemu produk yang beneran ngaruh di aku.", "Gila sih, kalian wajib banget cobain ini sekarang.", "Coba lihat deh perbedaannya, nyata banget kan?", "Jangan sampai nyesel karena kehabisan promonya!", "Ini rahasia aku bisa tetap tampil percaya diri.", "Cara pakainya gampang banget, tinggal usap gini aja."] },
+            { id: "sb_panel_count", label: "JUMLAH PANEL", desc: "Berapa frame gambar dalam storyboard ini.", options: ["AI DECIDES", "2", "3", "4", "5", "6", "7", "8"] },
+            { id: "sb_vis_style", label: "GAYA VISUAL", desc: "Nuansa seni/fotografi dari storyboard.", options: ["AI DECIDES", "Realistic UGC commercial photography", "Cinematic documentary realism", "Bright, clean, and modern studio look", "Moody, dramatic, high-contrast lighting", "Vintage, retro film aesthetic", "Casual smartphone vlog footage", "Ultra-realistic macro product photography"] },
+            { id: "sb_cta", label: "CALL TO ACTION / CTA (Opsional)", desc: "Kalimat ajakan bertindak di akhir.", options: ["AI DECIDES", "Klik link di bio untuk beli!", "Dapatkan diskon 50% hari ini.", "Komen 'MAU' untuk link pembelian.", "Jangan lupa save dan share video ini.", "Checkout di keranjang kuning sekarang.", "Subscribe untuk tips lainnya.", "Kunjungi website kami untuk detailnya."] }
         ];
 
         // ==========================================
@@ -629,7 +730,7 @@
                         input.className = 'w-full bg-slate-900 border border-blue-500 rounded-lg p-2.5 text-white mt-2 hidden focus:outline-none text-sm';
                         input.placeholder = "Ketik di sini...";
                         input.oninput = () => {
-                            if(field.id === 'nama') syncAutoName();
+                            if(field.id === 'c_name') syncAutoName();
                             saveToLocal();
                         };
                         div.appendChild(input);
@@ -639,7 +740,7 @@
             });
             
             if(containerId === 'charForm') {
-                document.getElementById('sel_nama').addEventListener('change', () => { syncAutoName(); saveToLocal(); });
+                document.getElementById('sel_c_name').addEventListener('change', () => { syncAutoName(); saveToLocal(); });
             }
         }
 
@@ -652,13 +753,13 @@
                 customInput.classList.add('hidden');
                 customInput.value = ''; 
             }
-            if(fieldId === 'nama') syncAutoName();
+            if(fieldId === 'c_name') syncAutoName();
             saveToLocal();
         }
 
         function syncAutoName() {
-            const selVal = document.getElementById('sel_nama')?.value;
-            const custVal = document.getElementById('cust_nama')?.value;
+            const selVal = document.getElementById('sel_c_name')?.value;
+            const custVal = document.getElementById('cust_c_name')?.value;
             const autoInput = document.getElementById('nama_auto');
             if(!autoInput) return;
             
@@ -668,101 +769,454 @@
         }
 
         // ==========================================
-        // 7. PROMPT GENERATORS
+        // 7. PROMPT GENERATORS (WITH FALLBACK TO 'AI DECIDES')
         // ==========================================
         function getVal(fieldId) {
-            if(fieldId === 'nama_auto') return document.getElementById('nama_auto')?.value;
             const sel = document.getElementById(`sel_${fieldId}`);
-            if(!sel) return '';
-            return (sel.value === 'Lainnya') ? document.getElementById(`cust_${fieldId}`).value : sel.value;
+            if(!sel || sel.value === '') return 'AI DECIDES';
+            return (sel.value === 'Lainnya') ? (document.getElementById(`cust_${fieldId}`).value || 'AI DECIDES') : sel.value;
         }
 
         function generatePromptChar() {
-            if(!getVal('nama')) { alert("Isi NAMA KARAKTER terlebih dahulu."); return; }
-            const template = `MASTER PROMPT — PROFESSIONAL CHARACTER SHEET 9:16
-Create a professional 9:16 vertical character sheet for a recurring social-media character. The character must be designed as a strong, memorable, reusable character brand with extremely consistent identity across every view, pose, expression, and reference image.
+            const template = `MASTER PROMPT — CHARACTER DNA + PROFESSIONAL CHARACTER SHEET 9:16
+You are a Character Creation Director and Visual Identity System.
+Your task is to transform the supplied Character DNA Registry into one definitive, highly recognizable, reusable character and generate a professional 9:16 vertical character sheet.
+The character will be used repeatedly for long-term social-media content.
+The most important objective is:
+IDENTITY CONSISTENCY OVER EVERYTHING ELSE.
+The character must look, behave, and feel like the exact same person across all future visual references.
+01 — CHARACTER DNA REGISTRY
+Treat the following information as the character's immutable master DNA.
+Do not reinterpret, replace, or randomly modify these values.
 
-CHARACTER INFORMATION
-Character Name: ${getVal('nama') || '[KOSONG]'}
-Content/Niche: ${getVal('topik') || '[KOSONG]'}
-Target Audience: ${getVal('audience') || '[KOSONG]'}
-Character Role: ${getVal('peran') || '[KOSONG]'}
+A. CORE IDENTITY DNA
+Character Name: ${getVal('c_name')}
+Nickname: ${getVal('c_nick')}
+Age: ${getVal('c_age')}
+Gender: ${getVal('c_gender')}
+Ethnicity / Regional Appearance: ${getVal('c_eth')}
+Nationality: ${getVal('c_nat')}
+Origin / Cultural Background: ${getVal('c_orig')}
+Occupation: ${getVal('c_occ')}
+Social Role: ${getVal('c_role')}
+Character Archetype: ${getVal('c_arch')}
 Core Concept:
-${getVal('konsep') || '[KOSONG]'}
-Personality:
-${getVal('kepribadian') || '[KOSONG]'}
-Energy:
-${getVal('energy') || '[KOSONG]'}
-Speaking Style:
-${getVal('gaya_bicara') || '[KOSONG]'}
-Signature Traits:
-${getVal('ciri_khas') || '[KOSONG]'}
-Signature Catchphrase:
-"${getVal('kalimat_khas') || '[KOSONG]'}"
+${getVal('c_concept')}
 
-IDENTITY LOCK
-Create one definitive character identity and maintain it throughout the entire sheet.
-Automatically establish and lock:
-age, gender presentation, ethnicity / regional appearance, facial structure, jaw shape, nose shape, eye shape, eyebrow shape, lip shape, skin tone, natural skin texture, hair style, hair color, facial hair if applicable, body proportions, body build, height impression, distinctive facial characteristics
+02 — PHYSICAL DNA
+These parameters define the character's permanent physical identity.
+Height: ${getVal('c_height')}
+Weight: ${getVal('c_weight')}
+Body Build: ${getVal('c_build')}
+Body Proportion: ${getVal('c_prop')}
+Shoulder Width: ${getVal('c_shoulder')}
+Posture: ${getVal('c_post')}
+Age Appearance: ${getVal('c_age_app')}
+Physical Distinctive Trait: ${getVal('c_trait')}
 
-The character must look like the exact same person in every image panel.
-Do not create multiple interpretations of the character.
-Do not change facial proportions between panels.
-Do not change hairstyle, skin tone, age, body proportions, signature accessories.
-Do not change outfit design unless explicitly requested.
+PHYSICAL CONSISTENCY RULE
+Maintain the same:
 
-VISUAL IDENTITY
-Primary Identity Color: ${getVal('warna_utama') || '[KOSONG]'}
-Secondary Colors: ${getVal('warna_sekunder') || '[KOSONG]'}
-Accent Color: ${getVal('warna_aksen') || '[KOSONG]'}
-Signature Outfit: ${getVal('outfit') || '[KOSONG]'}
-Signature Accessories: ${getVal('aksesori') || '[KOSONG]'}
-Signature Props: ${getVal('properti') || '[KOSONG]'}
+height impression
+body proportions
+shoulder width
+torso-to-leg ratio
+body build
+posture characteristics
+apparent age
+across every panel.
+Do not make the character thinner, heavier, taller, shorter, younger, or older between panels.
 
-CHARACTER PERSONALITY VISUALIZATION
-Dominant personality: ${getVal('kepribadian_dom') || '[KOSONG]'}
-Dominant expression: ${getVal('ekspresi_dom') || '[KOSONG]'}
-Body language: ${getVal('bahasa_tubuh') || '[KOSONG]'}
-Typical attitude: ${getVal('sikap') || '[KOSONG]'}
+03 — FACIAL DNA
+Face Shape: ${getVal('c_face')}
+Jaw Shape: ${getVal('c_jaw')}
+Forehead: ${getVal('c_fore')}
+Cheek Structure: ${getVal('c_cheek')}
+Eye Shape: ${getVal('c_eye_shp')}
+Eye Color: ${getVal('c_eye_col')}
+Eyebrow Shape: ${getVal('c_brow')}
+Nose Shape: ${getVal('c_nose')}
+Lip Shape: ${getVal('c_lip')}
+Chin: ${getVal('c_chin')}
+Ear Shape: ${getVal('c_ear')}
+Skin Tone: ${getVal('c_skin_tn')}
+Skin Undertone: ${getVal('c_skin_un')}
+Skin Texture: ${getVal('c_skin_tx')}
+Facial Hair: ${getVal('c_f_hair')}
+Distinctive Facial Mark: ${getVal('c_f_mark')}
 
-CHARACTER SHEET LAYOUT
-Create a professional character design sheet in a 9:16 vertical composition on a clean white studio background.
+FACE LOCK
+The face is the character's highest-priority identity anchor.
+Maintain identical:
 
-SECTION 1 — CHARACTER TITLE
-Display: ${getVal('nama_auto') || '[KOSONG]'}
-Include a short descriptor: ${getVal('deskripsi_singkat') || '[KOSONG]'}
-Include the signature catchphrase: "${getVal('catchphrase') || '[KOSONG]'}"
+eye spacing
+eye shape
+nose structure
+mouth proportions
+jawline
+cheek structure
+eyebrow shape
+skin tone
+facial hair
+distinctive marks
+Only facial expression may change.
+Never redesign the face.
 
-SECTION 2 — FULL BODY REFERENCE
-Show the exact same character in: Full front view, Side profile, Back view, 3/4 view
+04 — HAIR DNA
+Hair Color: ${getVal('c_h_col')}
+Hair Style: ${getVal('c_h_sty')}
+Hair Length: ${getVal('c_h_len')}
+Hair Texture: ${getVal('c_h_tex')}
+Hairline: ${getVal('c_hline')}
+Signature Hair Detail: ${getVal('c_h_det')}
+Hair must remain consistent in every panel.
 
-SECTION 3 — FACIAL EXPRESSION SHEET
-smiling expression, sad expression, angry expression, thinking expression, calm expression
+05 — WARDROBE DNA
+Primary Outfit
+Headwear: ${getVal('c_w_head')}
+Eyewear: ${getVal('c_w_eye')}
+Top: ${getVal('c_w_top')}
+Outerwear: ${getVal('c_w_out')}
+Bottom: ${getVal('c_w_bot')}
+Footwear: ${getVal('c_w_foot')}
+Accessories: ${getVal('c_w_acc')}
+Signature Clothing Detail: ${getVal('c_w_det')}
 
-SECTION 4 — SIGNATURE POSE
-Signature action: ${getVal('sig_action') || '[KOSONG]'}
+Outfit Color DNA
+Primary Color: ${getVal('c_w_col1')}
+Secondary Color: ${getVal('c_w_col2')}
+Accent Color: ${getVal('c_w_col3')}
+The outfit must remain visually identical across the character sheet.
+Do not introduce random fashion changes.
 
-SECTION 5 — OUTFIT & ACCESSORY DETAILS
-Show close-up reference panels of: headwear, hairstyle, eyewear, clothing, accessories, footwear, distinctive character details.
+06 — SIGNATURE OBJECT DNA
+Primary Signature Prop: ${getVal('c_p_pri')}
+Secondary Props: ${getVal('c_p_sec')}
+Signature Tool: ${getVal('c_p_tool')}
+Signature Gesture With Prop: ${getVal('c_p_ges')}
+Every recurring prop must maintain consistent:
 
-SECTION 6 — SIGNATURE PROPS
-Main Prop: ${getVal('properti_utama') || '[KOSONG]'}
-Secondary Props: ${getVal('properti_tambahan') || '[KOSONG]'}
+shape
+size
+color
+material
+design language
 
-SECTION 7 — COLOR PALETTE
-- ${getVal('color1') || '[KOSONG]'}
-- ${getVal('color2') || '[KOSONG]'}
-- ${getVal('color3') || '[KOSONG]'}
-- ${getVal('color4') || '[KOSONG]'}
+07 — PERSONALITY DNA
+Core Personality: ${getVal('c_pe_core')}
+Energy: ${getVal('c_pe_ener')}
+Temperament: ${getVal('c_pe_temp')}
+Dominant Emotion: ${getVal('c_pe_dom')}
+Secondary Emotions: ${getVal('c_pe_sec')}
+Humor Style: ${getVal('c_pe_hum')}
+Confidence Level: ${getVal('c_pe_conf')}
+Social Behavior: ${getVal('c_pe_soc')}
+Core Values: ${getVal('c_pe_val')}
+Character Flaw: ${getVal('c_pe_flaw')}
+Character Strength: ${getVal('c_pe_str')}
 
-PHOTOGRAPHY & RENDERING STYLE
-Ultra-realistic professional character photography. Realistic human anatomy. Professional studio photoshoot. White background.
+08 — COGNITIVE DNA
+This defines how the character thinks.
+Worldview: ${getVal('c_cg_wview')}
+Problem-Solving Style: ${getVal('c_cg_prob')}
+Decision-Making Style: ${getVal('c_cg_dec')}
+Core Philosophy: ${getVal('c_cg_phil')}
+What The Character Believes: ${getVal('c_cg_bel')}
+What The Character Dislikes: ${getVal('c_cg_dis')}
+What The Character Cares About: ${getVal('c_cg_care')}
+The character's behavior must always emerge naturally from this cognitive DNA.
 
-CONSISTENCY RULE
-ALL PANELS MUST REPRESENT ONE IDENTICAL CHARACTER. Never redesign the character between panels.
+09 — BEHAVIOR DNA
+Default Posture: ${getVal('c_bh_post')}
+Walking Style: ${getVal('c_bh_walk')}
+Hand Gesture: ${getVal('c_bh_hnd')}
+Head Movement: ${getVal('c_bh_head')}
+Eye Behavior: ${getVal('c_bh_eye')}
+Reaction Pattern: ${getVal('c_bh_react')}
+Thinking Gesture: ${getVal('c_bh_thnk')}
+Nervous Habit: ${getVal('c_bh_nerv')}
+Signature Movement: ${getVal('c_bh_sig')}
+These behaviors should make the character recognizable even without dialogue.
 
-FINAL QUALITY TARGET
-Professional Character Sheet, Vertical 9:16, Ultra realistic, High detail, High identity consistency.`;
+10 — VOICE DNA
+This section defines the character's permanent vocal identity.
+Voice Gender: ${getVal('c_v_gen')}
+Voice Age: ${getVal('c_v_age')}
+Pitch: ${getVal('c_v_pitch')}
+Timbre: ${getVal('c_v_timbre')}
+Resonance: ${getVal('c_v_reso')}
+Texture: ${getVal('c_v_tex')}
+Speaking Tempo: ${getVal('c_v_tempo')}
+Volume: ${getVal('c_v_vol')}
+Articulation: ${getVal('c_v_artic')}
+Accent: ${getVal('c_v_acc')}
+Vocabulary: ${getVal('c_v_voc')}
+Sentence Length: ${getVal('c_v_slen')}
+Pause Pattern: ${getVal('c_v_pause')}
+Laugh Style: ${getVal('c_v_laugh')}
+Emotional Voice Range: ${getVal('c_v_emo_rng')}
+Signature Vocal Trait: ${getVal('c_v_sig')}
+
+VOICE CONSISTENCY RULE
+The voice must always sound like the same person.
+Do not randomly change:
+
+pitch
+apparent age
+accent
+timbre
+speaking tempo
+articulation
+vocal energy
+The voice should remain recognizable even when the character's emotional state changes.
+
+11 — SPEECH DNA
+Language: ${getVal('c_s_lang')}
+Dialect: ${getVal('c_s_dial')}
+Vocabulary Level: ${getVal('c_s_vlvl')}
+Slang Frequency: ${getVal('c_s_slfreq')}
+Sentence Pattern: ${getVal('c_s_spat')}
+Favorite Words: ${getVal('c_s_fav_w')}
+Words The Character Never Uses: ${getVal('c_s_no_w')}
+Typical Opening: ${getVal('c_s_open')}
+Typical Closing: ${getVal('c_s_close')}
+Catchphrase: ${getVal('c_s_catch')}
+Humor Mechanism: ${getVal('c_s_h_mech')}
+The character must sound verbally consistent.
+
+12 — EMOTIONAL DNA
+Define how the character visually expresses emotions.
+
+Neutral
+${getVal('c_e_neu')}
+
+Happy
+${getVal('c_e_hap')}
+
+Sad
+${getVal('c_e_sad')}
+
+Angry
+${getVal('c_e_ang')}
+
+Thinking
+${getVal('c_e_thnk')}
+
+Confused
+${getVal('c_e_conf')}
+
+Surprised
+${getVal('c_e_surp')}
+
+Calm
+${getVal('c_e_calm')}
+
+Expressions may change, but the underlying facial identity must never change.
+
+13 — BRAND DNA
+Primary Brand Color: ${getVal('c_b_pri')}
+Secondary Brand Color: ${getVal('c_b_sec')}
+Accent Color: ${getVal('c_b_acc')}
+Signature Symbol: ${getVal('c_b_sym')}
+Signature Phrase: ${getVal('c_b_phr')}
+Brand Personality: ${getVal('c_b_pers')}
+Visual Mood: ${getVal('c_b_mood')}
+Recognizable Silhouette: ${getVal('c_b_silh')}
+The character must remain identifiable from:
+
+silhouette
+color palette
+signature accessory
+signature prop
+facial identity
+body language
+
+14 — ENVIRONMENT DNA
+Primary Environment: ${getVal('c_en_pri')}
+Secondary Environment: ${getVal('c_en_sec')}
+Time of Day: ${getVal('c_en_time')}
+Lighting: ${getVal('c_en_ligh')}
+Atmosphere: ${getVal('c_en_atm')}
+Environmental Colors: ${getVal('c_en_col')}
+Environmental Sound Identity: ${getVal('c_en_snd')}
+The environment must support the character but must never overpower the character's identity.
+
+15 — CONTENT DNA
+Content Niche: ${getVal('c_co_niche')}
+Target Audience: ${getVal('c_co_aud')}
+Content Purpose: ${getVal('c_co_purp')}
+Character Function: ${getVal('c_co_func')}
+Audience Relationship: ${getVal('c_co_rel')}
+Recurring Theme: ${getVal('c_co_theme')}
+
+16 — DNA PRIORITY SYSTEM
+When instructions conflict, follow this priority hierarchy:
+
+PRIORITY 1 — FACE DNA
+Never change the character's fundamental face.
+
+PRIORITY 2 — PHYSICAL DNA
+Never change body proportions, apparent age, height impression, or build.
+
+PRIORITY 3 — WARDROBE DNA
+Never change signature outfit without explicit instruction.
+
+PRIORITY 4 — SIGNATURE DNA
+Maintain signature accessories, props, gestures, and silhouette.
+
+PRIORITY 5 — VOICE DNA
+Maintain vocal identity.
+
+PRIORITY 6 — PERSONALITY DNA
+Maintain consistent behavior and emotional logic.
+
+PRIORITY 7 — BRAND DNA
+Maintain color, symbolism, and recognizable visual language.
+
+PRIORITY 8 — ENVIRONMENT
+Environment may change when requested, but the character must remain unchanged.
+
+17 — CHARACTER SHEET GENERATION
+Using the complete Character DNA Registry above, generate a:
+PROFESSIONAL CHARACTER SHEET — VERTICAL 9:16
+The sheet must include:
+
+A. FULL BODY REFERENCE
+front view
+side view
+back view
+3/4 view
+B. EXPRESSION SHEET
+smiling
+sad
+angry
+thinking
+calm
+C. SIGNATURE POSE
+One highly recognizable pose based on the character's Signature Movement DNA.
+
+D. OUTFIT DETAIL
+Close-up details of:
+
+headwear
+face
+hair
+eyewear
+clothing
+accessories
+footwear
+E. PROP REFERENCE
+Show all important signature props.
+
+F. COLOR PALETTE
+Display official brand colors.
+
+G. IDENTITY CARD
+Display only essential character information:
+
+name
+age
+occupation
+height
+core personality
+signature trait
+catchphrase
+
+18 — VISUAL STYLE
+Use:
+Ultra-realistic professional photography
+Realistic human anatomy
+Realistic skin texture
+Natural skin imperfections
+Natural facial asymmetry
+Realistic hair strands
+Realistic fabric texture
+Professional studio lighting
+Clean white background
+High detail
+High-resolution photographic quality
+Natural shadows
+Premium character-development photography
+The character must look like a real person, not a CGI model.
+
+19 — CONSISTENCY ENGINE
+Treat the Character DNA Registry as a permanent single source of truth.
+ALL PANELS MUST REPRESENT:
+ONE PERSON.
+Not similar people.
+Not variations.
+Not alternate interpretations.
+Exactly one character.
+Maintain:
+
+identical face
+identical facial proportions
+identical skin tone
+identical hair
+identical body proportions
+identical apparent age
+identical height impression
+identical build
+identical outfit
+identical accessories
+identical signature props
+identical brand colors
+identical personality
+identical behavioral identity
+Only change:
+
+camera angle
+pose
+facial expression
+permitted action
+
+20 — NEGATIVE DNA
+The following characteristics must NEVER appear unless explicitly requested:
+${getVal('c_neg')}
+Examples:
+
+different hairstyle
+different face
+younger appearance
+older appearance
+different ethnicity
+different body build
+random outfit
+random accessories
+different signature prop
+glamour-model appearance
+generic influencer appearance
+plastic skin
+excessive beauty retouching
+cartoon appearance
+anime appearance
+fantasy appearance
+CGI appearance
+inconsistent proportions
+distorted anatomy
+inconsistent lighting
+random color changes
+
+21 — FINAL OUTPUT STANDARD
+Create one polished:
+PROFESSIONAL CHARACTER MASTER SHEET
+Format:
+9:16 vertical
+Quality:
+Ultra realistic
+Background:
+Clean white studio
+Content:
+Full body + multiple angles + facial expressions + signature pose + outfit details + props + color palette + identity information
+The final result must function as the MASTER VISUAL REFERENCE for this character.
+Every future image generated from this character should use this Character DNA Registry as its identity reference.
+The character must be immediately recognizable after repeated exposure.
+DO NOT IMPROVISE THE CHARACTER'S DNA.
+DO NOT RANDOMIZE THE CHARACTER'S IDENTITY.
+DO NOT REINVENT THE CHARACTER.
+PRESERVE THE DNA.
+
+BUAT GAMBAR KARAKTER SHEETNNYA BESERTA DATA DNA KARAKTER LENGKAPNYA TERMASUK VOICE DNA.`;
 
             document.getElementById('promptCharText').value = template;
             document.getElementById('resultCharSection').classList.remove('hidden');
@@ -770,6 +1224,9 @@ Professional Character Sheet, Vertical 9:16, Ultra realistic, High detail, High 
             saveToLocal();
         }
 
+        // ==========================================
+        // OTHER PROMPT GENERATORS
+        // ==========================================
         function generatePromptOutfit() {
             const template = `# MASTER PROMPT — OUTFIT DNA GENERATOR FROM SCRATCH 9:16
 
@@ -787,36 +1244,36 @@ Do NOT redesign the character. The purpose of this generation is to design the C
 # USER OUTFIT BRIEF
 Design the outfit from scratch based on the following user instructions:
 
-**Overall outfit concept:** ${getVal('out_concept') || '[KOSONG]'}
-**Desired style:** ${getVal('out_style') || '[KOSONG]'}
-**Desired impression:** ${getVal('out_impression') || '[KOSONG]'}
+**Overall outfit concept:** ${getVal('out_concept')}
+**Desired style:** ${getVal('out_style')}
+**Desired impression:** ${getVal('out_impression')}
 
-**Upper-body direction:** ${getVal('out_upper') || '[KOSONG]'}
-**Lower-body direction:** ${getVal('out_lower') || '[KOSONG]'}
-**Footwear direction:** ${getVal('out_footwear') || '[KOSONG]'}
-**Headwear direction:** ${getVal('out_headwear') || '[KOSONG]'}
-**Eyewear direction:** ${getVal('out_eyewear') || '[KOSONG]'}
-**Accessory direction:** ${getVal('out_acc') || '[KOSONG]'}
+**Upper-body direction:** ${getVal('out_upper')}
+**Lower-body direction:** ${getVal('out_lower')}
+**Footwear direction:** ${getVal('out_footwear')}
+**Headwear direction:** ${getVal('out_headwear')}
+**Eyewear direction:** ${getVal('out_eyewear')}
+**Accessory direction:** ${getVal('out_acc')}
 
-**Signature clothing element:** ${getVal('out_signature') || '[KOSONG]'}
+**Signature clothing element:** ${getVal('out_signature')}
 
-**Preferred colors:** ${getVal('out_pref_colors') || '[KOSONG]'}
-**Colors to avoid:** ${getVal('out_avoid_colors') || 'NONE'}
-**Material preference:** ${getVal('out_material') || '[KOSONG]'}
-**Level of wear/weathering:** ${getVal('out_wear') || '[KOSONG]'}
-**Practical requirements:** ${getVal('out_practical') || '[KOSONG]'}
+**Preferred colors:** ${getVal('out_pref_colors')}
+**Colors to avoid:** ${getVal('out_avoid_colors')}
+**Material preference:** ${getVal('out_material')}
+**Level of wear/weathering:** ${getVal('out_wear')}
+**Practical requirements:** ${getVal('out_practical')}
 
 ---
 # COLOR DNA
-**Primary Color:** ${getVal('out_col_pri') || 'AI decides'}
-**Secondary Color:** ${getVal('out_col_sec') || 'AI decides'}
-**Accent Color:** ${getVal('out_col_acc') || 'AI decides'}
-**Neutral Color:** ${getVal('out_col_neu') || 'AI decides'}
-**Material/Wear Color:** ${getVal('out_col_mat') || 'AI decides'}
+**Primary Color:** ${getVal('out_col_pri')}
+**Secondary Color:** ${getVal('out_col_sec')}
+**Accent Color:** ${getVal('out_col_acc')}
+**Neutral Color:** ${getVal('out_col_neu')}
+**Material/Wear Color:** ${getVal('out_col_mat')}
 
 ---
 # DESIGN LANGUAGE
-The final outfit should feel: **${getVal('out_feel') || 'AI decides'}**
+The final outfit should feel: **${getVal('out_feel')}**
 The final wardrobe should feel like it naturally evolved from the character's life rather than being randomly selected fashion pieces.
 
 ---
@@ -917,41 +1374,41 @@ Use intelligent environmental design decisions based on the provided parameters.
 ENVIRONMENT BRIEF
 Design the environment according to these user-controlled parameters:
 Primary Location:
-${getVal('env_location') || 'AI DECIDES'}
+${getVal('env_location')}
 Specific Setting:
-${getVal('env_setting') || 'AI DECIDES'}
+${getVal('env_setting')}
 Geographical Context:
-${getVal('env_geo') || 'AI DECIDES'}
+${getVal('env_geo')}
 Time of Day:
-${getVal('env_time') || 'AI DECIDES'}
+${getVal('env_time')}
 Weather:
-${getVal('env_weather') || 'AI DECIDES'}
+${getVal('env_weather')}
 Climate / Seasonal Condition:
-${getVal('env_climate') || 'AI DECIDES'}
+${getVal('env_climate')}
 Environment Density:
-${getVal('env_density') || 'AI DECIDES'}
+${getVal('env_density')}
 Architecture Style:
-${getVal('env_architecture') || 'AI DECIDES'}
+${getVal('env_architecture')}
 Ground Surface:
-${getVal('env_ground') || 'AI DECIDES'}
+${getVal('env_ground')}
 Lighting Source:
-${getVal('env_light_src') || 'AI DECIDES'}
+${getVal('env_light_src')}
 Lighting Mood:
-${getVal('env_light_mood') || 'AI DECIDES'}
+${getVal('env_light_mood')}
 Atmosphere:
-${getVal('env_atmosphere') || 'AI DECIDES'}
+${getVal('env_atmosphere')}
 Camera Language:
-${getVal('env_cam_lang') || 'AI DECIDES'}
+${getVal('env_cam_lang')}
 Camera Stability:
-${getVal('env_cam_stab') || 'AI DECIDES'}
+${getVal('env_cam_stab')}
 Background Activity:
-${getVal('env_bg_activity') || 'AI DECIDES'}
+${getVal('env_bg_activity')}
 Environmental Signature:
-${getVal('env_sig_element') || 'AI DECIDES'}
+${getVal('env_sig_element')}
 Preferred Color Atmosphere:
-${getVal('env_color_pal') || 'AI DECIDES'}
+${getVal('env_color_pal')}
 Environmental Feeling:
-${getVal('env_feel') || 'AI DECIDES'}
+${getVal('env_feel')}
 DESIGN FROM SCRATCH
 When a parameter is marked:
 AI DECIDES
@@ -1089,16 +1546,16 @@ Avoid contradictory lighting.
 LIGHTING DNA
 Create a repeatable environmental lighting system.
 Define:
-Key Light: ${getVal('env_key_light') || 'AI DECIDES'}
-Fill / Ambient Light: ${getVal('env_fill_light') || 'AI DECIDES'}
-Practical Lights: ${getVal('env_prac_light') || 'AI DECIDES'}
-Color Temperature: ${getVal('env_temp') || 'AI DECIDES'}
-Shadow Character: ${getVal('env_shadow') || 'AI DECIDES'}
-Reflection Behavior: ${getVal('env_reflection') || 'AI DECIDES'}
+Key Light: ${getVal('env_key_light')}
+Fill / Ambient Light: ${getVal('env_fill_light')}
+Practical Lights: ${getVal('env_prac_light')}
+Color Temperature: ${getVal('env_temp')}
+Shadow Character: ${getVal('env_shadow')}
+Reflection Behavior: ${getVal('env_reflection')}
 The lighting must physically interact with all environmental surfaces.
 ATMOSPHERE DNA
 Define the emotional and visual atmosphere:
-${getVal('env_feel') || 'AI DECIDES'}
+${getVal('env_feel')}
 The atmosphere should emerge naturally from:
 
 location
@@ -1170,12 +1627,12 @@ surrounding objects
 The character must never look pasted into the environment.
 ENVIRONMENT COLOR DNA
 Create a coherent environment palette.
-Primary Color: ${getVal('env_col_pri') || 'AI DECIDES'}
-Secondary Color: ${getVal('env_col_sec') || 'AI DECIDES'}
-Accent Color: ${getVal('env_col_acc') || 'AI DECIDES'}
-Neutral Color: ${getVal('env_col_neu') || 'AI DECIDES'}
-Lighting Color: ${getVal('env_col_light') || 'AI DECIDES'}
-Atmospheric Color: ${getVal('env_col_atm') || 'AI DECIDES'}
+Primary Color: ${getVal('env_col_pri')}
+Secondary Color: ${getVal('env_col_sec')}
+Accent Color: ${getVal('env_col_acc')}
+Neutral Color: ${getVal('env_col_neu')}
+Lighting Color: ${getVal('env_col_light')}
+Atmospheric Color: ${getVal('env_col_atm')}
 The environment palette should complement the character and outfit without simply copying their colors.
 MATERIAL DNA
 Define the dominant environmental materials:
@@ -1426,37 +1883,37 @@ AI interpretation of unspecified details
 Never override an explicit user parameter merely because the reference image shows something different.
 OBJECT / PRODUCT BRIEF
 Object / Product Name:
-${getVal('prod_name') || 'AI DECIDES'}
+${getVal('prod_name')}
 Object / Product Category:
-${getVal('prod_cat') || 'AI DECIDES'}
+${getVal('prod_cat')}
 Primary Purpose:
-${getVal('prod_purpose') || 'AI DECIDES'}
+${getVal('prod_purpose')}
 Design Direction:
-${getVal('prod_direction') || 'AI DECIDES'}
+${getVal('prod_direction')}
 Design Style:
-${getVal('prod_style') || 'AI DECIDES'}
+${getVal('prod_style')}
 Visual Character:
-${getVal('prod_char') || 'AI DECIDES'}
+${getVal('prod_char')}
 Intended Use:
-${getVal('prod_use') || 'AI DECIDES'}
+${getVal('prod_use')}
 Target User:
-${getVal('prod_user') || 'AI DECIDES'}
+${getVal('prod_user')}
 PHYSICAL DIMENSIONS
 Define the physical dimensions precisely when provided.
 Overall Length:
-${getVal('prod_len') || 'AI DECIDES'}
+${getVal('prod_len')}
 Overall Width:
-${getVal('prod_width') || 'AI DECIDES'}
+${getVal('prod_width')}
 Overall Height:
-${getVal('prod_height') || 'AI DECIDES'}
+${getVal('prod_height')}
 Thickness:
-${getVal('prod_thick') || 'AI DECIDES'}
+${getVal('prod_thick')}
 Diameter:
-${getVal('prod_diam') || 'AI DECIDES'}
+${getVal('prod_diam')}
 Weight:
-${getVal('prod_weight') || 'AI DECIDES'}
+${getVal('prod_weight')}
 Scale Relationship:
-${getVal('prod_scale_rel') || 'AI DECIDES'}
+${getVal('prod_scale_rel')}
 If the user provides only some dimensions, preserve those dimensions exactly and intelligently infer the remaining proportions.
 Do NOT alter explicitly specified measurements.
 GEOMETRY DNA
@@ -1538,41 +1995,41 @@ Materials must behave realistically under studio lighting.
 SURFACE FINISH DNA
 Define:
 Primary Finish:
-${getVal('prod_fin_pri') || 'AI DECIDES'}
+${getVal('prod_fin_pri')}
 Secondary Finish:
-${getVal('prod_fin_sec') || 'AI DECIDES'}
+${getVal('prod_fin_sec')}
 Surface Texture:
-${getVal('prod_tex') || 'AI DECIDES'}
+${getVal('prod_tex')}
 Reflectivity:
-${getVal('prod_ref') || 'AI DECIDES'}
+${getVal('prod_ref')}
 Micro Imperfections:
-${getVal('prod_imp') || 'AI DECIDES'}
+${getVal('prod_imp')}
 The surface should look physically manufactured rather than digitally generated.
 COLOR DNA
 Primary Color:
-${getVal('prod_col_pri') || 'AI DECIDES'}
+${getVal('prod_col_pri')}
 Secondary Color:
-${getVal('prod_col_sec') || 'AI DECIDES'}
+${getVal('prod_col_sec')}
 Accent Color:
-${getVal('prod_col_acc') || 'AI DECIDES'}
+${getVal('prod_col_acc')}
 Neutral Color:
-${getVal('prod_col_neu') || 'AI DECIDES'}
+${getVal('prod_col_neu')}
 Material Color Variation:
-${getVal('prod_col_var') || 'AI DECIDES'}
+${getVal('prod_col_var')}
 If a reference image is provided, derive unspecified colors from the reference.
 If the user explicitly specifies a color, that color takes priority.
 GRAPHIC / MARKING DNA
 Define:
 Logo:
-${getVal('prod_logo') || 'AI DECIDES'}
+${getVal('prod_logo')}
 Text / Label:
-${getVal('prod_text') || 'NONE'}
+${getVal('prod_text')}
 Pattern:
-${getVal('prod_pattern') || 'AI DECIDES'}
+${getVal('prod_pattern')}
 Graphic Placement:
-${getVal('prod_graphic') || 'AI DECIDES'}
+${getVal('prod_graphic')}
 Serial / Identification Marking:
-${getVal('prod_serial') || 'NONE'}
+${getVal('prod_serial')}
 Do not invent random logos, brand names, labels, or text.
 If text is specified, reproduce it accurately and consistently.
 FUNCTIONAL DNA
@@ -1606,7 +2063,7 @@ ergonomic proportions
 The object must look realistically usable.
 CONDITION DNA
 Object Condition:
-${getVal('prod_cond') || 'AI DECIDES'}
+${getVal('prod_cond')}
 Define realistic:
 
 scratches
@@ -1779,31 +2236,31 @@ unrealistic materials
 lifestyle photography
 CAMERA & PRESENTATION
 Camera Height:
-${getVal('prod_cam_h') || 'AI DECIDES'}
+${getVal('prod_cam_h')}
 Lens Character:
-${getVal('prod_lens') || 'AI DECIDES'}
+${getVal('prod_lens')}
 Perspective:
-${getVal('prod_persp') || 'AI DECIDES'}
+${getVal('prod_persp')}
 Lighting:
-${getVal('prod_light') || 'AI DECIDES'}
+${getVal('prod_light')}
 Background:
-${getVal('prod_bg') || 'AI DECIDES'}
+${getVal('prod_bg')}
 Maintain consistent camera logic across all object views.
 OPTIONAL TECHNICAL PARAMETERS
 Scale:
-${getVal('prod_scale') || 'AI DECIDES'}
+${getVal('prod_scale')}
 Manufacturing Method:
-${getVal('prod_mfg') || 'AI DECIDES'}
+${getVal('prod_mfg')}
 Assembly Method:
-${getVal('prod_assm') || 'AI DECIDES'}
+${getVal('prod_assm')}
 Intended Durability:
-${getVal('prod_dur') || 'AI DECIDES'}
+${getVal('prod_dur')}
 Water Resistance:
-${getVal('prod_water') || 'AI DECIDES'}
+${getVal('prod_water')}
 Temperature Resistance:
-${getVal('prod_temp') || 'AI DECIDES'}
+${getVal('prod_temp')}
 Special Functional Requirement:
-${getVal('prod_spec') || 'NONE'}
+${getVal('prod_spec')}
 Only visualize technical properties that are compatible with the object's actual design.
 USER PARAMETER PRIORITY
 Explicit user parameters always override AI assumptions.
@@ -2050,55 +2507,55 @@ USER SCENE PARAMETERS
 ==================================================
 
 SCENE NUMBER:
-${getVal('sb_scene_num') || '[Enter scene number]'}
+${getVal('sb_scene_num')}
 
 PRODUCT NAME:
-${getVal('sb_prod_name') || '[Enter product name]'}
+${getVal('sb_prod_name')}
 
 PRODUCT BENEFIT:
-${getVal('sb_prod_benefit') || '[Enter the main product advantage]'}
+${getVal('sb_prod_benefit')}
 
 TOTAL VIDEO DURATION:
-${getVal('sb_vid_dur') || '[10 / 20 / 30 seconds]'}
+${getVal('sb_vid_dur')}
 
 SCENE DURATION:
-${getVal('sb_scene_dur') || '[Default: approximately 10 seconds]'}
+${getVal('sb_scene_dur')}
 
 VIDEO STYLE:
-${getVal('sb_vid_style') || '[UGC / Storytelling / Review / Lifestyle / Fashion / Demonstration / Other]'}
+${getVal('sb_vid_style')}
 
 SCENE OBJECTIVE:
-${getVal('sb_objective') || '[Hook / Problem / Curiosity / Discovery / Reveal / Proof / Result / Desire / CTA / Other]'}
+${getVal('sb_objective')}
 
 STORY BEAT:
-${getVal('sb_beat') || '[Describe what happens in this scene and how it progresses the overall story]'}
+${getVal('sb_beat')}
 
 SPECIAL SCENE DIRECTION:
-${getVal('sb_special') || '[Describe any specific scene, action, situation, location, interaction, or creative idea you want]'}
+${getVal('sb_special')}
 
 CHARACTER ACTION:
-${getVal('sb_char_act') || '[Optional]'}
+${getVal('sb_char_act')}
 
 PRODUCT INTERACTION:
-${getVal('sb_prod_int') || '[Optional]'}
+${getVal('sb_prod_int')}
 
 EMOTIONAL STATE:
-${getVal('sb_emotion') || '[Optional]'}
+${getVal('sb_emotion')}
 
 CAMERA PREFERENCE:
-${getVal('sb_camera') || '[Optional]'}
+${getVal('sb_camera')}
 
 DIALOGUE:
-${getVal('sb_dialogue') || '[Optional — maximum 18–20 words]'}
+${getVal('sb_dialogue')}
 
 PANEL COUNT:
-${getVal('sb_panel_count') || '[Default: 5]'}
+${getVal('sb_panel_count')}
 
 VISUAL STYLE:
-${getVal('sb_vis_style') || '[Default: realistic UGC commercial photography]'}
+${getVal('sb_vis_style')}
 
 CTA:
-${getVal('sb_cta') || '[Optional]'}
+${getVal('sb_cta')}
 
 
 ==================================================
@@ -2874,8 +3331,8 @@ DO NOT PRESERVE THE ORIGINAL CLOTHING FROM THE CHARACTER SHEET.
             data['showProductRes'] = !document.getElementById('resultProductSection').classList.contains('hidden');
             data['showStoryRes'] = !document.getElementById('resultStorySection').classList.contains('hidden');
 
-            // Gunakan key V5 agar tidak tumpang tindih dengan versi sebelumnya
-            localStorage.setItem('promptGenDataV5', JSON.stringify(data));
+            // Menggunakan Storage Key V6 untuk mengatasi perubahan drastis
+            localStorage.setItem('promptGenDataV6', JSON.stringify(data));
         }
 
         function saveStateToLocal() {
@@ -2889,18 +3346,18 @@ DO NOT PRESERVE THE ORIGINAL CLOTHING FROM THE CHARACTER SHEET.
                 tab: activeTab,
                 outfitMode: document.getElementById('modeOutfitRef').classList.contains('hidden') ? 'scr' : 'ref'
             };
-            localStorage.setItem('promptGenStateV5', JSON.stringify(state));
+            localStorage.setItem('promptGenStateV6', JSON.stringify(state));
         }
 
         function loadFromLocal() {
-            const savedState = localStorage.getItem('promptGenStateV5');
+            const savedState = localStorage.getItem('promptGenStateV6');
             if(savedState) {
                 const s = JSON.parse(savedState);
                 switchMainTab(s.tab);
                 switchOutfitMode(s.outfitMode);
             }
 
-            const saved = localStorage.getItem('promptGenDataV5');
+            const saved = localStorage.getItem('promptGenDataV6');
             if (saved) {
                 const data = JSON.parse(saved);
                 
@@ -2943,8 +3400,8 @@ DO NOT PRESERVE THE ORIGINAL CLOTHING FROM THE CHARACTER SHEET.
 
         function resetData() {
             if(confirm("Yakin ingin menghapus SEMUA data dan memulai dari awal?")) {
-                localStorage.removeItem('promptGenDataV5');
-                localStorage.removeItem('promptGenStateV5');
+                localStorage.removeItem('promptGenDataV6');
+                localStorage.removeItem('promptGenStateV6');
                 location.reload();
             }
         }
