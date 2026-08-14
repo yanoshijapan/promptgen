@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BAGEN - DNA sheet generator</title>
+    <title>BaGen - DNA sheet generator</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome -->
@@ -42,7 +42,7 @@
                     <i class="fa-solid fa-rotate-left"></i> <span class="hidden sm:inline">Mulai dari Awal</span>
                 </button>
                 <button onclick="toggleModal('aiModal')" class="px-3 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition-all text-sm font-semibold flex items-center gap-2 shadow-lg shadow-blue-500/30">
-                    <i class="fa-solid fa-robot"></i> <span class="hidden sm:inline">Buka AI</span>
+                    <i class="fa-solid fa-robot"></i> <span class="hidden sm:inline">Buka Flow</span>
                 </button>
             </div>
         </div>
@@ -80,7 +80,6 @@
         <!-- ============================== -->
         <div id="sectionChar" class="fade-in block">
             
-            <!-- Character Mode Toggle -->
             <div class="flex bg-slate-800 p-1 rounded-lg w-full md:w-fit mx-auto mb-8 shadow-lg border border-slate-700">
                 <button id="btnCharRef" onclick="switchCharMode('ref')" class="flex-1 md:px-8 py-2.5 rounded-md font-semibold transition-all bg-blue-600 text-white shadow">Dari Referensi Gambar</button>
                 <button id="btnCharScr" onclick="switchCharMode('scr')" class="flex-1 md:px-8 py-2.5 rounded-md font-semibold transition-all text-slate-400 hover:text-white">Dari Nol (Tanpa Referensi)</button>
@@ -173,11 +172,13 @@
         <!-- SECTION 2: OUTFIT DNA          -->
         <!-- ============================== -->
         <div id="sectionOutfit" class="fade-in hidden">
+            <!-- Outfit Mode Toggle -->
             <div class="flex bg-slate-800 p-1 rounded-lg w-full md:w-fit mx-auto mb-8 shadow-lg border border-slate-700">
                 <button id="btnOutRef" onclick="switchOutfitMode('ref')" class="flex-1 md:px-8 py-2.5 rounded-md font-semibold transition-all bg-blue-600 text-white shadow">Dari Referensi Gambar</button>
                 <button id="btnOutScr" onclick="switchOutfitMode('scr')" class="flex-1 md:px-8 py-2.5 rounded-md font-semibold transition-all text-slate-400 hover:text-white">Dari Nol (Tanpa Referensi)</button>
             </div>
 
+            <!-- MODE A: DARI REFERENSI -->
             <div id="modeOutfitRef" class="block fade-in">
                 <div class="bg-blue-900/30 border border-blue-500/30 rounded-xl p-6 mb-6">
                     <h3 class="text-lg font-bold text-blue-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
@@ -198,11 +199,12 @@
                 </div>
             </div>
 
+            <!-- MODE B: DARI NOL (SCRATCH) -->
             <div id="modeOutfitScr" class="hidden fade-in">
                 <div class="bg-indigo-900/30 border border-indigo-500/30 rounded-xl p-6 mb-6">
                     <h3 class="text-lg font-bold text-indigo-400 mb-2"><i class="fa-solid fa-circle-info mr-2"></i> Cara Penggunaan</h3>
                     <p class="text-slate-300 leading-relaxed text-sm">
-                        Buka ChatGPT lalu masukan gambar character DNA yang sudah dibuat, isi kolom di bawah ini lalu klik buat prompt.<br><br>
+                        Buka ChatGPT lalu masukan gambar character DNA yang sudah dibuat dari step 1, isi kolom di bawah ini lalu klik buat prompt.<br><br>
                         Lalu copy dan paste prompt yang sudah jadi untuk generate outfit DNA sheet.
                     </p>
                 </div>
@@ -240,6 +242,13 @@
         <!-- SECTION 3: ENVIRONMENT DNA     -->
         <!-- ============================== -->
         <div id="sectionEnv" class="fade-in hidden">
+						<div class="bg-cyan-900/30 border border-cyan-500/30 rounded-xl p-6 mb-6">
+                    <h3 class="text-lg font-bold text-cyan-400 mb-2"><i class="fa-solid fa-image-portrait mr-2"></i> Cara Penggunaan</h3>
+                    <p class="text-slate-300 leading-relaxed text-sm">
+                        Langkah ini digunakan jika Anda <strong>ingin membuat latar tempat</strong> untuk karakter.<br>
+                        Isi parameter di bawah, buat prompt, lalu <strong>copy prompt ke chatGPT tanpa menyertakan referensi gambar apapun.</strong>
+                    </p>
+            </div>		
             <div class="glass-panel rounded-xl p-6 shadow-2xl mb-8 border border-slate-700/50">
                 <div class="flex justify-between items-center mb-6 border-b border-slate-700 pb-4">
                     <h2 class="text-xl font-bold text-white"><i class="fa-solid fa-mountain-city text-amber-500 mr-2"></i> Environment Parameter</h2>
@@ -333,10 +342,10 @@
     <div id="aiModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] hidden flex-col items-center justify-center p-4 fade-in">
         <div class="w-full max-w-5xl h-[85vh] bg-slate-800 rounded-xl overflow-hidden flex flex-col border border-slate-600 shadow-2xl">
             <div class="p-3 bg-slate-900 flex justify-between items-center border-b border-slate-700">
-                <span class="font-bold text-blue-400"><i class="fa-solid fa-robot mr-2"></i> AI Assistant</span>
+                <span class="font-bold text-blue-400"><i class="fa-solid fa-robot mr-2"></i> Buat Video</span>
                 <button onclick="toggleModal('aiModal')" class="text-slate-400 hover:text-red-500 text-xl px-2"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <iframe src="https://duckduckgo.com/?q=DuckDuckGo+AI+Chat&ia=chat" class="w-full h-full border-none bg-white"></iframe>
+            <iframe src="https://labs.google/fx/tools/flow/" class="w-full h-full border-none bg-white"></iframe>
         </div>
     </div>
 
@@ -836,7 +845,7 @@
                         input.className = 'w-full bg-slate-900 border border-blue-500 rounded-lg p-2.5 text-white mt-2 hidden focus:outline-none text-sm';
                         input.placeholder = "Ketik di sini...";
                         input.oninput = () => {
-                            if(field.id === 'cs_name') syncAutoName();
+                            if(field.id === 'cs_name' || field.id === 'cr_name') syncAutoName();
                             saveToLocal();
                         };
                         div.appendChild(input);
@@ -859,23 +868,17 @@
                 customInput.classList.add('hidden');
                 customInput.value = ''; 
             }
-            if(fieldId === 'cs_name') syncAutoName();
+            if(fieldId === 'cs_name' || fieldId === 'cr_name') syncAutoName();
             saveToLocal();
         }
 
         function syncAutoName() {
-            const selVal = document.getElementById('sel_cs_name')?.value;
-            const custVal = document.getElementById('cust_cs_name')?.value;
-            const autoInput = document.getElementById('cs_nama_auto'); // Hanya untuk scratch jika di config ada
-            if(!autoInput) return;
-            
-            if (selVal === 'Lainnya' && custVal) autoInput.value = custVal;
-            else if (selVal !== 'Lainnya' && selVal !== '') autoInput.value = selVal;
-            else autoInput.value = '(Akan terisi otomatis)';
+            // (Auto name feature bisa disesuaikan kalau ada field auto)
+            saveToLocal();
         }
 
         // ==========================================
-        // 7. PROMPT GENERATORS
+        // 7. PROMPT GENERATORS (WITH FALLBACK TO 'AI DECIDES')
         // ==========================================
         function getVal(fieldId) {
             const sel = document.getElementById(`sel_${fieldId}`);
@@ -1814,7 +1817,9 @@ H. SIGNATURE DETAIL
 ---
 # FINAL OUTPUT
 Generate ONE cohesive professional **9:16 OUTFIT DNA SHEET**.
-The resulting Outfit DNA Sheet becomes the permanent MASTER WARDROBE REFERENCE for this character.`;
+The resulting Outfit DNA Sheet becomes the permanent MASTER WARDROBE REFERENCE for this character.
+
+BUAT GAMBAR DNA OUTFIT LENGKAP DENGAN DETAIL DATA DNA KARAKTER LENGKAPNYA TERMASUK VOICE DNA.`;
 
             document.getElementById('promptOutScrText').value = template;
             document.getElementById('resultOutScrSection').classList.remove('hidden');
@@ -2317,7 +2322,9 @@ Future visual generations should be able to combine:
 CHARACTER DNA + OUTFIT DNA + ENVIRONMENT DNA
 while allowing controlled changes to:
 POSE + ACTION + CAMERA + TIME + WEATHER + CROWD + BACKGROUND ACTIVITY
-without losing visual consistency.`;
+without losing visual consistency.
+
+BUAT GAMBAR DNA SHEET LENGKAPNYA.`;
 
             document.getElementById('promptEnvText').value = template;
             document.getElementById('resultEnvSection').classList.remove('hidden');
@@ -3793,18 +3800,73 @@ GENERATE THE STORYBOARD IMAGE FOR THE SPECIFIED SCENE NOW.`;
             saveToLocal();
         }
 
+        // FUNGSI INI TELAH DIKEMBALIKAN UTUH 100% SESUAI PERMINTAAN (TANPA TITIK-TITIK)
         function setupOutfitRefStaticPrompt() {
             document.getElementById('promptOutRefText').value = `MASTER PROMPT — OUTFIT REPLACEMENT & OUTFIT DNA SHEET 9:16
+
 Create a professional, ultra-realistic OUTFIT DNA SHEET for an established recurring character.
+
 The uploaded images consist of:
-ONE CHARACTER SHEET — this is the identity reference.
-MULTIPLE OUTFIT REFERENCE IMAGES — these are the clothing design references.
+1. ONE CHARACTER SHEET — this is the identity reference.
+2. MULTIPLE OUTFIT REFERENCE IMAGES — these are the clothing design references.
+
 CRITICAL INSTRUCTION
 COMPLETELY REPLACE THE CHARACTER'S ORIGINAL OUTFIT WITH THE OUTFIT DESIGNS FROM THE UPLOADED OUTFIT REFERENCE IMAGES.
 The clothing shown in the original Character Sheet is NOT the target outfit.
 The original Character Sheet is used ONLY to preserve the character's: face, facial identity, body identity, skin tone, age, hairstyle, hair color, facial hair, body proportions, ethnicity, physical characteristics.
 DO NOT PRESERVE THE ORIGINAL CLOTHING FROM THE CHARACTER SHEET.
-... (Dan seterusnya sesuai template standar yang tersimpan sebelumnya) ...`;
+
+---
+# OUTFIT REFERENCE SYNTHESIS
+Analyze the provided Outfit Reference Images.
+Extract and synthesize the following elements into ONE cohesive outfit:
+- Upper body garments (shirts, jackets, coats)
+- Lower body garments (pants, skirts, shorts)
+- Footwear (shoes, boots, sneakers)
+- Headwear or Eyewear (if present in the references)
+- Accessories (jewelry, bags, belts, watches)
+- Colors, patterns, and materials
+- Silhouettes, fit, and layering
+
+If the outfit references depict different items (e.g., one image for a shirt, one for pants, one for shoes), combine them seamlessly into a single, unified wardrobe.
+Do NOT blindly copy the body, face, or pose of the people in the outfit reference images. ONLY extract the clothing.
+
+---
+# CHARACTER IDENTITY PRESERVATION
+Integrate the synthesized outfit onto the exact character from the Character Sheet.
+The final image MUST look like the EXACT SAME PERSON from the Character Sheet, but wearing the NEW synthesized outfit.
+Maintain identical:
+- Face shape and features
+- Hairstyle and hair color
+- Skin tone
+- Body proportions and build
+
+---
+# OUTFIT DNA SHEET COMPOSITION
+Create ONE professional 9:16 vertical Outfit DNA Sheet. Use a clean white or light neutral studio background. Include:
+A. FULL OUTFIT — FRONT VIEW (Character wearing the new outfit)
+B. FULL OUTFIT — 3/4 VIEW
+C. FULL OUTFIT — SIDE VIEW
+D. OUTFIT COMPONENT BOARD (Breakdown of individual clothing items)
+E. MATERIAL DETAIL BOARD (Close-ups of fabric, texture, stitching)
+F. COLOR DNA BOARD (Extracted color palette from the outfit)
+G. ACCESSORY BOARD (Close-ups of shoes, belts, jewelry)
+H. SIGNATURE DETAIL (Close-up of the most distinct clothing feature)
+
+---
+# PHOTOGRAPHY & VISUAL STYLE
+- Ultra-realistic professional fashion/character photography.
+- Realistic fabric drape and physics.
+- Accurate lighting and natural shadows.
+- Cinematic and documentary realism.
+- High-resolution photographic quality.
+
+---
+# FINAL OUTPUT
+Generate ONE cohesive, professional 9:16 OUTFIT DNA SHEET.
+The final result must serve as the permanent MASTER WARDROBE REFERENCE for this character.
+
+BUAT GAMBAR DNA OUTFIT LENGKAP DENGAN DETAIL DATA DNA KARAKTER LENGKAPNYA TERMASUK VOICE DNA.`;
         }
 
         // ==========================================
@@ -3862,7 +3924,7 @@ DO NOT PRESERVE THE ORIGINAL CLOTHING FROM THE CHARACTER SHEET.
             data['showProductRes'] = !document.getElementById('resultProductSection').classList.contains('hidden');
             data['showStoryRes'] = !document.getElementById('resultStorySection').classList.contains('hidden');
 
-            localStorage.setItem('promptGenDataV7', JSON.stringify(data));
+            localStorage.setItem('promptGenDataV8', JSON.stringify(data));
         }
 
         function saveStateToLocal() {
@@ -3877,11 +3939,11 @@ DO NOT PRESERVE THE ORIGINAL CLOTHING FROM THE CHARACTER SHEET.
                 charMode: document.getElementById('modeCharRef').classList.contains('hidden') ? 'scr' : 'ref',
                 outfitMode: document.getElementById('modeOutfitRef').classList.contains('hidden') ? 'scr' : 'ref'
             };
-            localStorage.setItem('promptGenStateV7', JSON.stringify(state));
+            localStorage.setItem('promptGenStateV8', JSON.stringify(state));
         }
 
         function loadFromLocal() {
-            const savedState = localStorage.getItem('promptGenStateV7');
+            const savedState = localStorage.getItem('promptGenStateV8');
             if(savedState) {
                 const s = JSON.parse(savedState);
                 switchMainTab(s.tab);
@@ -3889,7 +3951,7 @@ DO NOT PRESERVE THE ORIGINAL CLOTHING FROM THE CHARACTER SHEET.
                 if(s.outfitMode) switchOutfitMode(s.outfitMode);
             }
 
-            const saved = localStorage.getItem('promptGenDataV7');
+            const saved = localStorage.getItem('promptGenDataV8');
             if (saved) {
                 const data = JSON.parse(saved);
                 
@@ -3932,8 +3994,8 @@ DO NOT PRESERVE THE ORIGINAL CLOTHING FROM THE CHARACTER SHEET.
 
         function resetData() {
             if(confirm("Yakin ingin menghapus SEMUA data dan memulai dari awal?")) {
-                localStorage.removeItem('promptGenDataV7');
-                localStorage.removeItem('promptGenStateV7');
+                localStorage.removeItem('promptGenDataV8');
+                localStorage.removeItem('promptGenStateV8');
                 location.reload();
             }
         }
